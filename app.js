@@ -1,0 +1,149 @@
+// const fs = require('fs');
+const path = require('path');
+const tourRouter = require('./routes/tourRoutes');
+const userRouter = require('./routes/userRoutes');
+const express = require('express');
+const morgan = require('morgan');
+const rateLimit = require('express-rate-limit');
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
+const hpp = require('hpp');
+const { xss } = require('express-xss-sanitizer');
+const AppError = require('./utils/appError');
+const globalErrorHandler = require('./controllers/errorController');
+const reviewRouter = require('./routes/reviewRoutes');
+const viewRouter = require('./routes/viewRoutes');
+// const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
+const app = express();
+
+// const corsOptions = {
+//   origin: `${process.env.LOCAL_HOST_CLIENT}`,
+//   methods: 'GET,POST,PUT,PATCH,DELETE,HEAD',
+//   credentials: true,
+//   optionsSuccessStatus: 200,
+// };
+
+// app.use(cors(corsOptions));
+
+app.set('view engine', 'pug');
+app.set('views', path.join(__dirname, 'views'));
+
+// Global First middleware
+
+// Serving static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Set security HTTP headers
+app.use(helmet()); // Apply all default Helmet protections first
+
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        'https://api.mapbox.com',
+        'https://cdn.jsdelivr.net',
+        'blob:',
+      ],
+      workerSrc: ["'self'", 'blob:'],
+      styleSrc: [
+        "'self'",
+        'https://api.mapbox.com',
+        'https://fonts.googleapis.com',
+        "'unsafe-inline'",
+      ],
+      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+      imgSrc: ["'self'", 'data:', 'https://api.mapbox.com'],
+      connectSrc: [
+        "'self'",
+        'https://api.mapbox.com',
+        'https://events.mapbox.com',
+        'https://cdn.jsdelivr.net',
+        'http://localhost:3000/v1/users/login',
+      ],
+    },
+  })
+);
+
+// app.use((req, res, next) => {
+//   res.setHeader(
+//     'Content-Security-Policy',
+//     "default-src 'self'; script-src 'self' https://api.mapbox.com blob:; worker-src 'self' blob:; style-src 'self' https://api.mapbox.com https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://api.mapbox.com; connect-src 'self' https://api.mapbox.com https://events.mapbox.com"
+//   );
+//   next();
+// });
+
+//Development logging
+if (process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'));
+}
+
+// Limit request from same API
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many request from this IP, please try again in an hour',
+});
+
+app.use('/api', limiter);
+
+// Body parser, reading data from body into req.body
+app.use(
+  express.json({
+    limit: '10kb',
+  })
+);
+// Cookie parser, parsing of cookie from the client into req.cookies
+app.use(cookieParser());
+
+// Data sanitization against NoSql QUERY Injection
+app.use(mongoSanitize());
+
+// Data sanitization against xss attack
+app.use(xss());
+
+// Prevent parameter pollution
+app.use(
+  hpp({
+    whitelist: [
+      'duration',
+      'ratingssQuantity',
+      'ratingsAverage',
+      'maxGroupSize',
+      'difficulty',
+      'price',
+    ],
+  })
+);
+
+// Test middleware
+app.use((req, res, next) => {
+  // console.log('Hello from the middleware 😀');
+  // console.log(req.headers)
+  // console.log(req.cookies);
+  next();
+});
+
+app.use((req, res, next) => {
+  req.requestTime = new Date().toISOString();
+  // console.log(req.headers);
+  next();
+});
+
+// ROUTES
+app.use('/', viewRouter);
+
+app.use('/api/v1/tours', tourRouter);
+app.use('/api/v1/users', userRouter);
+app.use('/api/v1/reviews', reviewRouter);
+
+app.all('*', (req, res, next) => {
+  next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
+});
+
+app.use(globalErrorHandler);
+
+module.exports = app;
