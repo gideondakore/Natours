@@ -18,7 +18,7 @@
     "start": "NODE_ENV=development nodemon node server.js",
     "start:prod": "NODE_ENV=production nodemon node server.js",
     "debug": "NODE_ENV=development node --inspect server.js",
-    "watch:js": "parcel watch ./public/index.js --dist-dir ./public/dist --public-url ./ --no-cache"
+    "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/dist --no-cache"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
