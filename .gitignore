@@ -63,3 +63,5 @@ pnpm-lock.yaml
 .swp
 *.swo
 
+# Parcel cache
+.parcel-cache
