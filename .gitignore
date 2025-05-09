@@ -60,4 +60,4 @@ pnpm-lock.yaml
 
 # Editors
 .swp
-*.swo
+*.swoconfig.env
