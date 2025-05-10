@@ -44,6 +44,7 @@ app.use(
       defaultSrc: ["'self'"],
       scriptSrc: [
         "'self'",
+        "'unsafe-eval'",
         'https://api.mapbox.com',
         'https://cdn.jsdelivr.net',
         'blob:',
@@ -54,16 +55,24 @@ app.use(
         'https://api.mapbox.com',
         'https://fonts.googleapis.com',
         "'unsafe-inline'",
+        'https://cdn.jsdelivr.net',
       ],
-      fontSrc: ["'self'", 'https://fonts.gstatic.com'],
-      imgSrc: ["'self'", 'data:', 'https://api.mapbox.com'],
+      fontSrc: [
+        "'self'",
+        'https://fonts.gstatic.com',
+        'https://cdn.jsdelivr.net',
+      ],
+      imgSrc: ["'self'", 'data:', 'blob:', 'https://*.mapbox.com'],
       connectSrc: [
         "'self'",
         'https://api.mapbox.com',
         'https://events.mapbox.com',
         'https://cdn.jsdelivr.net',
         'http://localhost:3000/v1/users/login',
+        'ws://localhost:1234',
       ],
+      objectSrc: ["'none'"],
+      baseUri: ["'self'"],
     },
   })
 );
