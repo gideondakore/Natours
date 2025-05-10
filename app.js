@@ -13,19 +13,22 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const reviewRouter = require('./routes/reviewRoutes');
 const viewRouter = require('./routes/viewRoutes');
-// const cors = require('cors');
+const cors = require('cors');
 const cookieParser = require('cookie-parser');
 
 const app = express();
 
-// const corsOptions = {
-//   origin: `${process.env.LOCAL_HOST_CLIENT}`,
-//   methods: 'GET,POST,PUT,PATCH,DELETE,HEAD',
-//   credentials: true,
-//   optionsSuccessStatus: 200,
-// };
+const corsOptions = {
+  origin: [process.env.LOCAL_HOST_CLIENT],
+  methods: 'GET,POST,PUT,PATCH,DELETE,HEAD',
+  credentials: true,
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  optionsSuccessStatus: 200,
+  preflightContinue: false,
+  maxAge: process.env.NODE_ENV === 'production' ? 86400 : 300,
+};
 
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
@@ -52,9 +55,9 @@ app.use(
       workerSrc: ["'self'", 'blob:'],
       styleSrc: [
         "'self'",
+        "'unsafe-inline'",
         'https://api.mapbox.com',
         'https://fonts.googleapis.com',
-        "'unsafe-inline'",
         'https://cdn.jsdelivr.net',
       ],
       fontSrc: [
@@ -70,6 +73,7 @@ app.use(
         'https://cdn.jsdelivr.net',
         'http://localhost:3000/v1/users/login',
         'ws://localhost:1234',
+        'http://127.0.0.1:3000/api/v1/users/updateMe',
       ],
       objectSrc: ["'none'"],
       baseUri: ["'self'"],

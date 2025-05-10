@@ -50,21 +50,22 @@ exports.getAccount = (req, res) => {
   });
 };
 
-exports.updateUserData = catchAsync(async (req, res) => {
-  const updatedUser = await User.findByIdAndUpdate(
-    req.user.id,
-    {
-      name: req.body.name,
-      email: req.body.email,
-    },
-    {
-      new: true,
-      runValidators: true,
-    }
-  );
+// UPDATING EMAIL AND NAME USING HTML FORM 'action' and 'method' ATTRIBUTE (OLD WAY OF DOING IT)
+// exports.updateUserData = catchAsync(async (req, res) => {
+//   const updatedUser = await User.findByIdAndUpdate(
+//     req.user.id,
+//     {
+//       name: req.body.name,
+//       email: req.body.email,
+//     },
+//     {
+//       new: true,
+//       runValidators: true,
+//     }
+//   );
 
-  res.status(200).render('account', {
-    title: 'Your account',
-    user: updatedUser,
-  });
-});
+//   res.status(200).render('account', {
+//     title: 'Your account',
+//     user: updatedUser,
+//   });
+// });
