@@ -74,7 +74,7 @@ exports.login = catchAsync(async (req, res, next) => {
 });
 
 exports.logout = (req, res) => {
-  res.cookie('jwt', 'logout', {
+  res.cookie('jwt', '', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
@@ -98,6 +98,7 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
+    console.log('ERROR FROM HERE: TOKEN', ' === ', token);
     return next(
       new AppError('You are not logged in! Please log in to get access', 401)
     );
@@ -126,6 +127,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   //GRANT ACCESS TO PROTECTD ROUTE
   req.user = currentUser;
+  res.locals.user = currentUser;
   next();
 });
 

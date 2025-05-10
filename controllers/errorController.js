@@ -113,6 +113,8 @@ module.exports = (err, req, res, next) => {
   }
 
   if (process.env.NODE_ENV === 'development') {
+    // if (error.name === 'JsonWebTokenError') error = handleJWTError();
+    // if (error.name === 'TokenExpiredError') error = handleJWTExpiredError();
     sendErrorDev(err, req, res);
   } else if (process.env.NODE_ENV === 'production') {
     if (getPrototypeChain(error).includes('MongooseError'))

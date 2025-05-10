@@ -77,14 +77,6 @@ app.use(
   })
 );
 
-// app.use((req, res, next) => {
-//   res.setHeader(
-//     'Content-Security-Policy',
-//     "default-src 'self'; script-src 'self' https://api.mapbox.com blob:; worker-src 'self' blob:; style-src 'self' https://api.mapbox.com https://fonts.googleapis.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://api.mapbox.com; connect-src 'self' https://api.mapbox.com https://events.mapbox.com"
-//   );
-//   next();
-// });
-
 //Development logging
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -105,6 +97,10 @@ app.use(
     limit: '10kb',
   })
 );
+
+// Urlencoded parser (e.g., data from HTML form element) from the client
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+
 // Cookie parser, parsing of cookie from the client into req.cookies
 app.use(cookieParser());
 
