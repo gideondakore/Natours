@@ -60,12 +60,15 @@ const multerFilter = (req, file, cb) => {
 };
 
 const validateFileBuffer = async (file) => {
+  //validates both the file extension and actual content (magic numbers) to prevent spoofing or file upload attacks
   try {
     if (!file) throw new Error('Upload fail please try again');
 
     const fileType = await fileTypeFromBuffer(file.buffer);
     if (!fileType || !allowedMimeTypes.includes(fileType?.mime)) {
-      throw new Error('Invalid image content');
+      throw new Error(
+        `Invalid image content! Allowed: ${allowedExtensions.join(', ')}`
+      );
     }
 
     return;
