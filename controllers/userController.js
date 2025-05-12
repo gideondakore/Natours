@@ -28,9 +28,10 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj;
 };
 
+const multerStorage = multer.memoryStorage();
+
 const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
 const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
-const multerStorage = multer.memoryStorage();
 
 const multerFilter = (req, file, cb) => {
   try {
@@ -124,16 +125,6 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   const filteredBody = filterObj(req.body, 'name', 'email');
   if (req.file) filteredBody.photo = req.file.filename;
 
-  console.log(
-    'FILTEROBJ: ',
-    filteredBody,
-    ' : ',
-    req.file,
-    ' : ',
-    req.user.id,
-    ' : PHOTO: ',
-    req.file
-  );
   // 3) Update user document
   const updatedUser = await User.findByIdAndUpdate(req.user.id, filteredBody, {
     new: true,
