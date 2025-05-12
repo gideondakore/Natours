@@ -98,7 +98,6 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
 
   if (!token) {
-    console.log('ERROR FROM HERE: TOKEN', ' === ', token);
     return next(
       new AppError('You are not logged in! Please log in to get access', 401)
     );
@@ -164,7 +163,6 @@ exports.isLoggedIn = async (req, res, next) => {
 
 exports.restrictTo = (...roles) => {
   return (req, res, next) => {
-    // roles ["admin", "lead-guide"]. role="user"
     if (!roles.includes(req.user.role)) {
       return next(
         new AppError('You do not have a permission to perform this action', 403)

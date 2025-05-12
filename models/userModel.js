@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     validate: [validator.isEmail, 'Please provide a valid email'],
   },
 
-  photo: String,
+  photo: { type: String, default: 'default.jpg' },
 
   role: {
     type: String,
@@ -81,7 +81,7 @@ userSchema.pre('save', function (next) {
 });
 
 userSchema.pre(/^find/, function (next) {
-  // this point to the current query
+  // "this", point to the current query
   this.find({ active: { $ne: false } });
   next();
 });
