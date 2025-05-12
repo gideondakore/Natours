@@ -48,7 +48,9 @@ const multerFilter = (req, file, cb) => {
     if (!allowedExtensions.includes(ext)) {
       return cb(
         new AppError(
-          `Invalid extension! Allowed: ${allowedExtensions.join(', ')}`,
+          `Invalid extension! Allowed extensions: ${allowedExtensions.join(
+            ', '
+          )}`,
           400
         ),
         false
@@ -68,7 +70,9 @@ const validateFileBuffer = async (file) => {
     const fileType = await fileTypeFromBuffer(file.buffer);
     if (!fileType || !allowedMimeTypes.includes(fileType?.mime)) {
       throw new Error(
-        `Invalid image content! Allowed: ${allowedExtensions.join(', ')}`
+        `Invalid image content! Allowed extensions: ${allowedExtensions.join(
+          ', '
+        )}`
       );
     }
 
