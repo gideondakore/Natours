@@ -68,6 +68,7 @@ const validateFileBuffer = async (file) => {
     if (!file) throw new Error('Upload fail please try again');
 
     const fileType = await fileTypeFromBuffer(file.buffer);
+
     if (!fileType || !allowedMimeTypes.includes(fileType?.mime)) {
       throw new Error(
         `Invalid image content! Allowed extensions: ${allowedExtensions.join(
@@ -90,23 +91,19 @@ const upload = multer({
 exports.uploadUserPhoto = upload.single('photo');
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
-  try {
-    await validateFileBuffer(req.file);
+  await validateFileBuffer(req.file);
 
-    req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
+  req.file.filename = `user-${req.user.id}-${Date.now()}.jpeg`;
 
-    sharp(req.file.buffer)
-      .resize(500, 500)
-      .toFormat('jpeg')
-      .jpeg({
-        quality: 90,
-      })
-      .toFile(`public/img/users/${req.file.filename}`);
+  await sharp(req.file.buffer)
+    .resize(500, 500)
+    .toFormat('jpeg')
+    .jpeg({
+      quality: 90,
+    })
+    .toFile(`public/img/users/${req.file.filename}`);
 
-    next();
-  } catch (err) {
-    next(new AppError(err.message, 400));
-  }
+  next();
 });
 
 exports.getMe = (req, res, next) => {

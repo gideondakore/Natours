@@ -1,7 +1,130 @@
+const path = require('path');
+const multer = require('multer');
+const { fileTypeFromBuffer } = require('file-type');
+const sharp = require('sharp');
 const Tour = require('./../models/tourModel');
 const catchAsync = require('./../utils/catchAsync');
 const AppError = require('../utils/appError');
 const factory = require('./handlerFactory');
+
+const multerStorage = multer.memoryStorage();
+
+const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+
+const multerFilter = (req, file, cb) => {
+  try {
+    //1. Check MIME type (quick first check)
+    if (!file.mimetype.startsWith('image/')) {
+      return cb(
+        new AppError('Not an image! Please upload only images.', 400),
+        false
+      );
+    }
+
+    // 2. Validate file extension
+    const ext = path.extname(file.originalname).toLowerCase();
+    if (!allowedExtensions.includes(ext)) {
+      return cb(
+        new AppError(
+          `Invalid extension! Allowed extensions: ${allowedExtensions.join(
+            ', '
+          )}`,
+          400
+        ),
+        false
+      );
+    }
+    return cb(null, true);
+  } catch (err) {
+    cb(new AppError(err.message), false);
+  }
+};
+
+const validateFileBuffer = async (files, req) => {
+  //validates both the file extension and actual content (magic numbers) to prevent spoofing or file upload attacks
+  try {
+    await Promise.all(
+      [...files.imageCover, ...files.images].map(async (file) => {
+        if (!file.buffer) {
+          throw new Error(
+            `Fail verifying your image file "${
+              file.originalname
+            }" Note: Allow extensions are: ${allowedExtensions.join(
+              ', '
+            )}. Invalid file "${
+              file.originalname
+            }". please check and try again or upload a new image file`
+          );
+        }
+
+        let fileType = await fileTypeFromBuffer(file.buffer);
+
+        if (!fileType || !allowedMimeTypes.includes(fileType?.mime)) {
+          throw new Error(
+            `Invalid image file! Allowed extensions: ${allowedExtensions.join(
+              ', '
+            )}. The "${
+              file.originalname
+            }" is not a valid image. Please check and upload again or use a new image file`
+          );
+        }
+      })
+    );
+  } catch (err) {
+    throw new Error(err.message);
+  }
+};
+
+const upload = multer({
+  storage: multerStorage,
+  fileFilter: multerFilter,
+});
+
+exports.uploadTourImages = upload.fields([
+  { name: 'imageCover', maxCount: 1 },
+  { name: 'images', maxCount: 3 },
+]);
+
+// upload.single('image') req.file
+// upload.array('images', 5) req.files
+
+exports.resizeTourImages = catchAsync(async (req, res, next) => {
+  await validateFileBuffer(req.files, req);
+
+  if (!req?.files?.imageCover || !req?.files?.images) return next();
+
+  // console.log('Files: ', req.files);
+  // 1) Cover image
+  req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
+
+  await sharp(req.files.imageCover[0].buffer)
+    .resize(2000, 1333)
+    .toFormat('jpeg')
+    .jpeg({
+      quality: 90,
+    })
+    .toFile(`public/img/tours/${req.body.imageCover}`);
+
+  // 2) Images
+  req.body.images = [];
+  await Promise.all(
+    req.files.images.map(async (file, i) => {
+      const filename = `tour-${req.params.id}-${Date.now()}-${i + 1}.jpeg`;
+      await sharp(file.buffer)
+        .resize(2000, 1333)
+        .toFormat('jpeg')
+        .jpeg({
+          quality: 90,
+        })
+        .toFile(`public/img/tours/${filename}`);
+
+      req.body.images.push(filename);
+    })
+  );
+
+  next();
+});
 
 exports.aliasTopTours = (req, res, next) => {
   //limit=5&sort=price,-ratingsAverage
