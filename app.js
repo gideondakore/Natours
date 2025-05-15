@@ -12,6 +12,7 @@ const { xss } = require('express-xss-sanitizer');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const reviewRouter = require('./routes/reviewRoutes');
+const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -50,6 +51,7 @@ app.use(
         "'unsafe-eval'",
         'https://api.mapbox.com',
         'https://cdn.jsdelivr.net',
+        'https://js.stripe.com',
         'blob:',
       ],
       workerSrc: ["'self'", 'blob:'],
@@ -65,7 +67,13 @@ app.use(
         'https://fonts.gstatic.com',
         'https://cdn.jsdelivr.net',
       ],
-      imgSrc: ["'self'", 'data:', 'blob:', 'https://*.mapbox.com'],
+      imgSrc: [
+        "'self'",
+        'data:',
+        'blob:',
+        'https://*.mapbox.com',
+        'https://*.stripe.com',
+      ],
       connectSrc: [
         "'self'",
         'https://api.mapbox.com',
@@ -74,9 +82,13 @@ app.use(
         'http://localhost:3000/v1/users/login',
         'ws://localhost:1234',
         'http://127.0.0.1:3000/api/v1/users/updateMe',
+        'https://js.stripe.com/basil/stripe.js',
+        'https://api.stripe.com',
+        'https://checkout.stripe.com',
       ],
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
+      frameSrc: ["'self'", 'https://js.stripe.com', 'https://hooks.stripe.com'],
     },
   })
 );
@@ -148,6 +160,7 @@ app.use('/', viewRouter);
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/reviews', reviewRouter);
+app.use('/api/v1/bookings', bookingRouter);
 
 app.all('*', (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
