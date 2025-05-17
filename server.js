@@ -16,7 +16,12 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-mongoose.connect(DB).then(() => console.log('DB connection successful!'));
+mongoose
+  .connect(DB)
+  .then(() => console.log('DB connection successful!'))
+  .catch((err) => {
+    console.error(err.message);
+  });
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
@@ -37,6 +42,3 @@ process.on('SIGTERM', () => {
     console.log('💥 Process terminated!');
   });
 });
-
-// "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/js --public-url ./",
-//     "build:js": "npx parcel watch ./public/js/index.js --out-dir ./public/dist --out-file bundle.js"
