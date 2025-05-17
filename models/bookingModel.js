@@ -36,4 +36,5 @@ bookingSchema.pre(/^find/, function (next) {
     select: 'name',
   });
 });
+
 module.exports = Booking;
