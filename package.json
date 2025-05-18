@@ -9,7 +9,7 @@
   "browserslist": ">0.2%, not dead, not op_mini all, not chrome < 56, not safari < 15, not android < 56",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "NODE_ENV=production nodemon node server.js",
+    "start": "NODE_ENV=production node node server.js",
     "dev": "NODE_ENV=development nodemon node server.js",
     "debug": "NODE_ENV=development node --inspect server.js",
     "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/dist --public-url ./",
