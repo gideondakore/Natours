@@ -13,6 +13,7 @@
     "dev": "NODE_ENV=development nodemon node server.js",
     "debug": "NODE_ENV=development node --inspect server.js",
     "watch:js": "parcel watch ./public/js/index.js --dist-dir ./public/dist --public-url ./",
+    "build": "parcel build ./public/js/index.js --dist-dir ./public/dist --public-url ./ --no-source-maps --no-cache",
     "build:js": "parcel build ./public/js/index.js --dist-dir ./public/dist --public-url ./ --no-source-maps"
   },
   "dependencies": {
