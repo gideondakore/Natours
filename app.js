@@ -40,7 +40,11 @@ app.set('views', path.join(__dirname, 'views'));
 // Global First middleware
 
 // Serving static files
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  express.static(path.join(__dirname, 'public'), {
+    maxAge: '1d',
+  })
+);
 
 // Set security HTTP headers
 app.use(helmet()); // Apply all default Helmet protections first
