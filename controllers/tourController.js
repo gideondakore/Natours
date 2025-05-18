@@ -94,7 +94,6 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
 
   if (!req?.files?.imageCover || !req?.files?.images) return next();
 
-  // console.log('Files: ', req.files);
   // 1) Cover image
   req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
 
@@ -249,7 +248,6 @@ exports.getToursWithin = catchAsync(async (req, res, next) => {
     );
   }
 
-  // console.log(distance, lat, lng, unit);
   const tours = await Tour.find({
     startLocation: { $geoWithin: { $centerSphere: [[lng, lat], radius] } },
   });

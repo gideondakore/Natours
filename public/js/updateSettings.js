@@ -1,26 +1,45 @@
 /* eslint-disable */
-
-import axios from 'axios';
 import { showAlert } from './alerts.js';
 
-// type is either 'password' or 'data'
 export const updateSettings = async (data, type) => {
   try {
     const url =
       type === 'password'
-        ? 'http://localhost:3000/api/v1/users/updateMyPassword'
-        : 'http://localhost:3000/api/v1/users/updateMe';
+        ? '/api/v1/users/updateMyPassword'
+        : '/api/v1/users/updateMe';
 
-    const res = await axios({
+    // Create headers object
+    const headers = {};
+
+    // Only set Content-Type for JSON (password updates)
+    if (type === 'password') {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    // Prepare the request body
+    const body = type === 'password' ? JSON.stringify(data) : data;
+
+    const response = await fetch(url, {
       method: 'PATCH',
-      url,
-      data,
+      headers,
+      body,
+      credentials: 'include',
     });
 
-    if (res.data.status === 'success') {
+    const responseData = await response.json();
+
+    if (!response.ok) {
+      throw new Error(responseData.message || 'Update failed');
+    }
+
+    if (responseData.status === 'success') {
       showAlert('success', `${type.toUpperCase()} Data updated successfully`);
+      // Optional: Reload the page for photo updates to show changes
+      if (type === 'data') {
+        window.setTimeout(() => location.reload(), 1500);
+      }
     }
   } catch (err) {
-    showAlert('error', err.response.data.message);
+    showAlert('error', err.message);
   }
 };

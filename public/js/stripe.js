@@ -1,5 +1,4 @@
 /* eslint-disable */
-import axios from 'axios';
 import { showAlert } from './alerts.js';
 const bookBtn = document.getElementById('book-tour');
 
@@ -10,13 +9,23 @@ const stripe = Stripe(
 export const bookTour = async (tourId) => {
   try {
     // 1) Get checkout session from API
-    const session = await axios(
-      `http://localhost:3000/api/v1/bookings/checkout-session/${tourId}`
+    const response = await fetch(
+      `/api/v1/bookings/checkout-session/${tourId}`,
+      {
+        credentials: 'include',
+      }
     );
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to get checkout session');
+    }
+
+    const session = await response.json();
 
     // 2) Create checkout form + charge credit card
     await stripe.redirectToCheckout({
-      sessionId: session.data.session.id,
+      sessionId: session.session.id, // Note: Changed from session.data.session.id
     });
   } catch (err) {
     console.log(err);
@@ -24,6 +33,6 @@ export const bookTour = async (tourId) => {
       bookBtn.textContent = 'Book your tour now!';
     }
 
-    showAlert('error', err);
+    showAlert('error', err.message); // Changed to err.message
   }
 };

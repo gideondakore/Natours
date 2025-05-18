@@ -16,8 +16,11 @@ const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const app = express();
+
+app.use(compression());
 
 const corsOptions = {
   origin: [process.env.LOCAL_HOST_CLIENT],
@@ -41,6 +44,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Set security HTTP headers
 app.use(helmet()); // Apply all default Helmet protections first
+
+app.use(helmet.hsts({ maxAge: 31536000, includeSubDomains: true }));
 
 app.use(
   helmet.contentSecurityPolicy({
@@ -142,9 +147,6 @@ app.use(
 
 // Test middleware
 app.use((req, res, next) => {
-  // console.log('Hello from the middleware 😀');
-  // console.log(req.headers)
-  // console.log(req.cookies);
   next();
 });
 

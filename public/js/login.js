@@ -1,38 +1,52 @@
-/* eslint-disable */
-import axios from 'axios';
+/* eslint-disable */ /* eslint-disable */
 import { showAlert } from './alerts.js';
 
 export const login = async (email, password) => {
   try {
-    const res = await axios({
+    const response = await fetch('/api/v1/users/login', {
       method: 'POST',
-      url: 'http://localhost:3000/api/v1/users/login',
-      data: {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
         email,
         password,
-      },
+      }),
     });
 
-    if (res.data.status === 'success') {
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Login failed');
+    }
+
+    if (data.status === 'success') {
       showAlert('success', 'Logged in successfully');
       window.setTimeout(() => {
         location.assign('/');
       }, 1500);
     }
   } catch (err) {
-    showAlert('error', err.response.data.message);
+    showAlert('error', err.message);
   }
 };
 
 export const logout = async () => {
   try {
-    const res = await axios({
+    const response = await fetch('/api/v1/users/logout', {
       method: 'GET',
-      url: 'http://localhost:3000/api/v1/users/logout',
     });
 
-    //if (res.data.status === 'success') location.reload(true);
-    if (res.data.status === 'success') location.assign('/');
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Logout failed');
+    }
+
+    if (data.status === 'success') {
+      // if (res.data.status === 'success') location.reload(true);
+      location.assign('/');
+    }
   } catch (err) {
     showAlert('error', 'Error logging out! Try again.');
   }
