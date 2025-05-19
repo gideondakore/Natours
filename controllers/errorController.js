@@ -103,7 +103,6 @@ module.exports = (err, req, res, next) => {
   error.message = err.message;
 
   if (typeof err === 'string' || typeof err === 'number') {
-    // console.log('==========THIS SHOULD NOT RUN===============');
     error = {};
     error.statusCode = err.statusCode || 500;
     error.status = err.status || 'error';
