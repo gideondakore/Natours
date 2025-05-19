@@ -5,7 +5,7 @@ const bookingController = require('../controllers/bookingController');
 
 const router = express.Router();
 
-//authController.isLoggedIn,
+router.use(viewsController.alerts);
 router.get('/', authController.isLoggedIn, viewsController.getOverview); // Todo: Review whether 'authController.isLoggedIn' is necessary for now
 
 router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour); // Todo: Review whether 'authController.isLoggedIn' is necessary for now
