@@ -13,6 +13,7 @@ const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
 const reviewRouter = require('./routes/reviewRoutes');
 const bookingRouter = require('./routes/bookingRoutes');
+const bookingController = require('./controllers/bookingController');
 const viewRouter = require('./routes/viewRoutes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -119,6 +120,13 @@ const limiter = rateLimit({
 });
 
 app.use('/api', limiter);
+
+// Want the raw body for stripe to work
+app.use(
+  '/webhook-checkout',
+  express.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+);
 
 // Body parser, reading data from body into req.body
 app.use(
