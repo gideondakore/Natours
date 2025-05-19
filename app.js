@@ -21,9 +21,10 @@ const compression = require('compression');
 
 const app = express();
 
-// app.enable('trust proxy');
-
 app.use(compression());
+
+// app.set('trust proxy', true);
+app.set('trust proxy', process.env.NODE_ENV === 'production' ? 1 : false);
 
 const corsOptions = {
   origin: [process.env.LOCAL_HOST_CLIENT],
@@ -99,6 +100,7 @@ app.use(
         'https://js.stripe.com/basil/stripe.js',
         'https://api.stripe.com',
         'https://checkout.stripe.com',
+        'wss://consideration-candles-watched-recruitment.trycloudflare.com:1234/',
       ],
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
