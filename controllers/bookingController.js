@@ -64,7 +64,6 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 // });
 
 const createBookingCheckuout = async (session) => {
-  console.log('SESSEION: ', session);
   const tour = session.client_reference_id;
   const user = (await User.findOne({ email: session.customer_email })).id;
   const price = session.amount_total / 100;
@@ -83,7 +82,6 @@ exports.webhookCheckout = (req, res, next) => {
       process.env.WEBHOOK_SECRET
     );
   } catch (err) {
-    console.log('Error from stripe: ', err.message);
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
