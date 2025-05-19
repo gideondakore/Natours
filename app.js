@@ -100,7 +100,6 @@ app.use(
         'https://js.stripe.com/basil/stripe.js',
         'https://api.stripe.com',
         'https://checkout.stripe.com',
-        'wss://consideration-candles-watched-recruitment.trycloudflare.com:1234/',
       ],
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
