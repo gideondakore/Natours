@@ -227,11 +227,13 @@ Returns server status, uptime, and environment info.
 **Authentication:** Not required
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/health
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -254,6 +256,7 @@ Get all tours with optional filtering, sorting, and pagination.
 **Authentication:** Not required
 
 **Query Parameters:**
+
 - `duration[gte]` - Filter tours by minimum duration
 - `difficulty` - Filter by difficulty (easy, medium, difficult)
 - `price[lt]` - Filter by maximum price
@@ -263,6 +266,7 @@ Get all tours with optional filtering, sorting, and pagination.
 - `fields` - Select specific fields (e.g., `name,duration,price`)
 
 **Example Request:**
+
 ```bash
 # Get all tours
 curl http://localhost:3000/api/v1/tours
@@ -275,6 +279,7 @@ curl "http://localhost:3000/api/v1/tours?sort=price"
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -305,6 +310,7 @@ Get the top 5 cheapest tours (pre-filtered alias).
 **Authentication:** Not required
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/tours/top-5-cheap
 ```
@@ -320,11 +326,13 @@ Get a single tour by ID.
 **Authentication:** Not required
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/tours/5c88fa8cf4afda39709c2955
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -350,6 +358,7 @@ curl http://localhost:3000/api/v1/tours/5c88fa8cf4afda39709c2955
 ```
 
 **Error Response (404 Not Found):**
+
 ```json
 {
   "status": "fail",
@@ -366,12 +375,14 @@ Create a new tour.
 **Authentication:** Required (Admin or Lead Guide only)
 
 **Headers:**
+
 ```
 Authorization: Bearer <your_jwt_token>
 Content-Type: application/json
 ```
 
 **Request Body:**
+
 ```json
 {
   "name": "Test Tour",
@@ -385,6 +396,7 @@ Content-Type: application/json
 ```
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:3000/api/v1/tours \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
@@ -401,6 +413,7 @@ curl -X POST http://localhost:3000/api/v1/tours \
 ```
 
 **Response (201 Created):**
+
 ```json
 {
   "status": "success",
@@ -419,6 +432,7 @@ curl -X POST http://localhost:3000/api/v1/tours \
 ```
 
 **Error Response (401 Unauthorized):**
+
 ```json
 {
   "status": "fail",
@@ -435,12 +449,14 @@ Update an existing tour.
 **Authentication:** Required (Admin or Lead Guide only)
 
 **Headers:**
+
 ```
 Authorization: Bearer <your_jwt_token>
 Content-Type: application/json
 ```
 
 **Request:**
+
 ```bash
 curl -X PATCH http://localhost:3000/api/v1/tours/5c88fa8cf4afda39709c2955 \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
@@ -449,6 +465,7 @@ curl -X PATCH http://localhost:3000/api/v1/tours/5c88fa8cf4afda39709c2955 \
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -471,6 +488,7 @@ Delete a tour.
 **Authentication:** Required (Admin or Lead Guide only)
 
 **Request:**
+
 ```bash
 curl -X DELETE http://localhost:3000/api/v1/tours/5c88fa8cf4afda39709c2955 \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -488,11 +506,13 @@ Get tour statistics (aggregation).
 **Authentication:** Not required
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/tours/tours-stats
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -521,12 +541,14 @@ Get tour monthly plan for a specific year.
 **Authentication:** Required (Guide, Lead Guide, or Admin)
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/tours/monthly-plan/2021 \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -551,16 +573,19 @@ Get tours within a certain distance from a location.
 **Authentication:** Not required
 
 **Parameters:**
+
 - `distance` - Radius in specified unit
 - `latlng` - Latitude,longitude (e.g., 34.111745,-118.113491)
 - `unit` - Distance unit (mi or km)
 
 **Request:**
+
 ```bash
 curl "http://localhost:3000/api/v1/tours/tours-within/400/center/34.111745,-118.113491/unit/mi"
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -580,11 +605,13 @@ Calculate distances from a point to all tours.
 **Authentication:** Not required
 
 **Request:**
+
 ```bash
 curl "http://localhost:3000/api/v1/tours/distances/34.111745,-118.113491/unit/mi"
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -610,6 +637,7 @@ Create a new user account.
 **Authentication:** Not required
 
 **Request Body:**
+
 ```json
 {
   "name": "John Doe",
@@ -620,6 +648,7 @@ Create a new user account.
 ```
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:3000/api/v1/users/signup \
   -H "Content-Type: application/json" \
@@ -632,6 +661,7 @@ curl -X POST http://localhost:3000/api/v1/users/signup \
 ```
 
 **Response (201 Created):**
+
 ```json
 {
   "status": "success",
@@ -656,6 +686,7 @@ Login with email and password.
 **Authentication:** Not required
 
 **Request Body:**
+
 ```json
 {
   "email": "john@example.com",
@@ -664,6 +695,7 @@ Login with email and password.
 ```
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:3000/api/v1/users/login \
   -H "Content-Type: application/json" \
@@ -674,6 +706,7 @@ curl -X POST http://localhost:3000/api/v1/users/login \
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -689,6 +722,7 @@ curl -X POST http://localhost:3000/api/v1/users/login \
 ```
 
 **Error Response (401 Unauthorized):**
+
 ```json
 {
   "status": "fail",
@@ -705,11 +739,13 @@ Logout current user.
 **Authentication:** Not required
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/users/logout
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success"
@@ -725,6 +761,7 @@ Request password reset email.
 **Authentication:** Not required
 
 **Request Body:**
+
 ```json
 {
   "email": "john@example.com"
@@ -732,6 +769,7 @@ Request password reset email.
 ```
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:3000/api/v1/users/forgotPassword \
   -H "Content-Type: application/json" \
@@ -739,6 +777,7 @@ curl -X POST http://localhost:3000/api/v1/users/forgotPassword \
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -755,6 +794,7 @@ Reset password using token from email.
 **Authentication:** Not required
 
 **Request Body:**
+
 ```json
 {
   "password": "newpass1234",
@@ -763,6 +803,7 @@ Reset password using token from email.
 ```
 
 **Request:**
+
 ```bash
 curl -X PATCH http://localhost:3000/api/v1/users/resetPassword/abc123token \
   -H "Content-Type: application/json" \
@@ -781,12 +822,14 @@ Get current user profile.
 **Authentication:** Required
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/users/me \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -811,6 +854,7 @@ Update current user profile (name, email, photo).
 **Authentication:** Required
 
 **Request:**
+
 ```bash
 curl -X PATCH http://localhost:3000/api/v1/users/updateMe \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
@@ -827,6 +871,7 @@ Update current user password.
 **Authentication:** Required
 
 **Request Body:**
+
 ```json
 {
   "passwordCurrent": "pass1234",
@@ -836,6 +881,7 @@ Update current user password.
 ```
 
 **Request:**
+
 ```bash
 curl -X PATCH http://localhost:3000/api/v1/users/updateMyPassword \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
@@ -856,6 +902,7 @@ Deactivate current user account.
 **Authentication:** Required
 
 **Request:**
+
 ```bash
 curl -X DELETE http://localhost:3000/api/v1/users/deleteMe \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -872,6 +919,7 @@ Get all users.
 **Authentication:** Required (Admin only)
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/users \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -888,11 +936,13 @@ Get all reviews.
 **Authentication:** Not required
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/reviews
 ```
 
 **Response (200 OK):**
+
 ```json
 {
   "status": "success",
@@ -926,6 +976,7 @@ Create a new review.
 **Authentication:** Required
 
 **Request Body:**
+
 ```json
 {
   "review": "Great tour!",
@@ -935,6 +986,7 @@ Create a new review.
 ```
 
 **Request:**
+
 ```bash
 curl -X POST http://localhost:3000/api/v1/reviews \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..." \
@@ -955,6 +1007,7 @@ Get all reviews for a specific tour.
 **Authentication:** Not required
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/tours/5c88fa8cf4afda39709c2955/reviews
 ```
@@ -970,6 +1023,7 @@ Get all bookings.
 **Authentication:** Required (Admin or Lead Guide only)
 
 **Request:**
+
 ```bash
 curl http://localhost:3000/api/v1/bookings \
   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
@@ -984,6 +1038,7 @@ Create a new booking.
 **Authentication:** Required
 
 **Request Body:**
+
 ```json
 {
   "tour": "5c88fa8cf4afda39709c2955",
@@ -998,6 +1053,7 @@ Create a new booking.
 All errors follow this format:
 
 **Validation Error (400 Bad Request):**
+
 ```json
 {
   "status": "fail",
@@ -1006,6 +1062,7 @@ All errors follow this format:
 ```
 
 **Authentication Error (401 Unauthorized):**
+
 ```json
 {
   "status": "fail",
@@ -1014,6 +1071,7 @@ All errors follow this format:
 ```
 
 **Authorization Error (403 Forbidden):**
+
 ```json
 {
   "status": "fail",
@@ -1022,6 +1080,7 @@ All errors follow this format:
 ```
 
 **Not Found Error (404):**
+
 ```json
 {
   "status": "fail",
@@ -1030,6 +1089,7 @@ All errors follow this format:
 ```
 
 **Server Error (500):**
+
 ```json
 {
   "status": "error",

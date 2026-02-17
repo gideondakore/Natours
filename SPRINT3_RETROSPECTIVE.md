@@ -19,6 +19,7 @@ Sprint 3 proved that consistent velocity, good templates, and lessons learned co
 **Applied:** YES
 
 **Evidence:**
+
 - Pushed Sprint 3 changes to GitHub
 - Checked Actions tab before declaring completion
 - Build passed on first push
@@ -34,6 +35,7 @@ Sprint 3 proved that consistent velocity, good templates, and lessons learned co
 **Applied:** YES
 
 **Evidence:**
+
 - Wrote API documentation as I worked through endpoints
 - Updated README section by section, not all at end
 - Agile docs updated throughout sprint
@@ -49,6 +51,7 @@ Sprint 3 proved that consistent velocity, good templates, and lessons learned co
 **Applied:** YES - HEAVILY
 
 **Evidence:**
+
 - Created API documentation template structure
 - Reused CRUD test patterns
 - Copy-paste-modify approach for similar integration tests
@@ -64,12 +67,14 @@ Sprint 3 proved that consistent velocity, good templates, and lessons learned co
 ### 1. Template-Driven Documentation
 
 **What I Did:**
+
 - Created structure for first API endpoint (Health Check)
 - Included: description, auth requirements, request, response, curl example
 - Copy-pasted structure for 30+ endpoints
 - Only changed specific details
 
 **Why It Worked:**
+
 - Consistent format across all endpoints
 - No "what should I include?" decisions for each endpoint
 - Quality remained high because template was well-designed
@@ -83,12 +88,14 @@ Sprint 3 proved that consistent velocity, good templates, and lessons learned co
 ### 2. Integration Test Patterns
 
 **What I Did:**
+
 - Wrote first "Create" test with full setup
 - Established pattern: Arrange -> Act -> Assert
 - Created validTourData template
 - Reused pattern for 26 tests
 
 **Why It Worked:**
+
 - Clear structure made tests easy to write
 - Template data meant no thinking about what values to use
 - Pattern consistency made tests easy to understand
@@ -108,6 +115,7 @@ Sprint 3 proved that consistent velocity, good templates, and lessons learned co
 **Observation:** 12 points is the sweet spot. Room for quality, learning, and unexpected issues.
 
 **Why 12 Works:**
+
 - No rushing to finish stories
 - Time to apply best practices
 - Buffer for learning (like mongodb-memory-server)
@@ -179,20 +187,21 @@ Sprint 3 proved that consistent velocity, good templates, and lessons learned co
 
 ## Key Metrics Comparison: Sprint 1 vs 2 vs 3
 
-| Metric                        | Sprint 1 | Sprint 2 | Sprint 3 | Trend |
-| ----------------------------- | -------- | -------- | -------- | ----- |
-| Story Points Completed        | 16       | 12       | 12       | Stable|
-| Velocity Achievement          | 100%     | 100%     | 100%     | Perfect|
-| Tests Added                   | 18       | 26       | 26       | Stable|
-| Total Tests                   | 18       | 44       | 70       | Growing|
-| Debugging Time                | 2-3h     | 0h       | 1h       | Good  |
-| Major Issues                  | 3        | 0        | 1        | Good  |
-| CI/CD Verified Before Done    | No       | Yes      | Yes      | Great |
-| Documentation Written During  | No       | Yes      | Yes      | Great |
-| Template Usage                | No       | Some     | Heavy    | Great |
-| Confidence Level (1-10)       | 6        | 8        | 9        | Rising|
+| Metric                       | Sprint 1 | Sprint 2 | Sprint 3 | Trend   |
+| ---------------------------- | -------- | -------- | -------- | ------- |
+| Story Points Completed       | 16       | 12       | 12       | Stable  |
+| Velocity Achievement         | 100%     | 100%     | 100%     | Perfect |
+| Tests Added                  | 18       | 26       | 26       | Stable  |
+| Total Tests                  | 18       | 44       | 70       | Growing |
+| Debugging Time               | 2-3h     | 0h       | 1h       | Good    |
+| Major Issues                 | 3        | 0        | 1        | Good    |
+| CI/CD Verified Before Done   | No       | Yes      | Yes      | Great   |
+| Documentation Written During | No       | Yes      | Yes      | Great   |
+| Template Usage               | No       | Some     | Heavy    | Great   |
+| Confidence Level (1-10)      | 6        | 8        | 9        | Rising  |
 
-**Trend Analysis:**  
+**Trend Analysis:**
+
 - Velocity stabilized at 12 points
 - Process improvements compound over time
 - Confidence growing with each sprint
@@ -203,27 +212,27 @@ Sprint 3 proved that consistent velocity, good templates, and lessons learned co
 
 ### What Did I Do Well?
 
-1. **Applied All Previous Learnings**  
+1. **Applied All Previous Learnings**
    - CI/CD verification: Applied from Sprint 1 learning
    - Continuous documentation: Applied from Sprint 2
    - Templates: Took from Sprint 2 and expanded in Sprint 3
 
-2. **Integration Testing Execution**  
+2. **Integration Testing Execution**
    - Proper setup with mongodb-memory-server
    - Solved User model dependency cleanly
    - 26 tests covering comprehensive scenarios
 
-3. **Documentation Quality**  
+3. **Documentation Quality**
    - Professional-grade API docs
    - Practical examples (curl commands)
    - User-focused, not just developer-focused
 
-4. **Problem-Solving Mindset**  
+4. **Problem-Solving Mindset**
    - User model issue: researched, understood, solved (45 min)
    - Didn't panic or abandon approach
    - Documented the learning
 
-5. **Consistency**  
+5. **Consistency**
    - 12 points for second sprint in a row
    - Quality maintained
    - Process improvements retained
@@ -232,17 +241,17 @@ Sprint 3 proved that consistent velocity, good templates, and lessons learned co
 
 ### What Could I Have Done Better?
 
-1. **Anticipate Model Dependencies**  
+1. **Anticipate Model Dependencies**
    - Could have checked Tour model middleware before writing tests
    - Would have created User mock upfront
    - Saved 30-45 minutes
 
-2. **Test Other Models**  
+2. **Test Other Models**
    - Only tested Tour model
    - User, Review, Booking models untested
    - Could have demonstrated broader testing skills
 
-3. **OpenAPI/Swagger**  
+3. **OpenAPI/Swagger**
    - README approach works, but Swagger would be more professional
    - Could have used swagger-ui-express
    - But README was faster and met requirements
@@ -257,7 +266,8 @@ But honestly? These are "nice to have" not "must have."
 
 **Context:** Used templates for documentation and tests
 
-**Math:** 
+**Math:**
+
 - Creating template: 30 minutes
 - Using template 30 times: 1.5 hours
 - Without template: 4 hours
@@ -273,7 +283,8 @@ But honestly? These are "nice to have" not "must have."
 
 **Context:** Unit tests vs integration tests
 
-**Insight:** 
+**Insight:**
+
 - Unit test: "This function works in isolation"
 - Integration test: "This actually saves to the database"
 
@@ -288,6 +299,7 @@ But honestly? These are "nice to have" not "must have."
 **Context:** 3 sprints at different velocities
 
 **Data:**
+
 - Sprint 1 (16 pts): Rushed, issues, debugging
 - Sprint 2 (12 pts): Smooth, quality, no rush
 - Sprint 3 (12 pts): Smooth, quality, learning time
@@ -303,6 +315,7 @@ But honestly? These are "nice to have" not "must have."
 ### 1. I Prefer Building Over Debugging
 
 **Evidence:**
+
 - Sprint 1: 2-3h debugging (frustrating)
 - Sprint 2: 0h debugging (satisfying)
 - Sprint 3: 1h debugging (educational, not frustrating)
@@ -314,6 +327,7 @@ But honestly? These are "nice to have" not "must have."
 ### 2. I Underestimate the Value of Templates
 
 **Evidence:**
+
 - Resisted creating documentation template initially
 - Thought "it's faster to just write it"
 - Was wrong by a factor of 2x
@@ -325,6 +339,7 @@ But honestly? These are "nice to have" not "must have."
 ### 3. I'm Getting Better at Estimation
 
 **Evidence:**
+
 - Story #5 (3 pts): Took 2h (estimated 2-3h)
 - Story #8 (5 pts): Took 3h (estimated 3-4h)
 - Total: 5h for 8 points = 0.625 h/point
@@ -346,18 +361,18 @@ But honestly? These are "nice to have" not "must have."
 
 ### What to Add - New Ideas
 
-1. **Check Model Dependencies First**  
+1. **Check Model Dependencies First**
    - Before writing integration tests, check all ref fields
    - Check all populate middleware
    - Create necessary mocks upfront
 
-2. **Integration Test Checklist**  
+2. **Integration Test Checklist**
    - Setup (database connection, mocks)
    - Teardown (cleanup)
    - Test data templates
    - CRUD coverage
 
-3. **Documentation Template Library**  
+3. **Documentation Template Library**
    - API endpoint template
    - Test file template
    - README section template
@@ -404,6 +419,7 @@ But honestly? These are "nice to have" not "must have."
 ### Truth #1: Integration Testing is Now in My Toolkit
 
 **Evidence:**
+
 - 26 integration tests written
 - Comfortable with mongodb-memory-server
 - Understand mocking strategies
@@ -415,6 +431,7 @@ But honestly? These are "nice to have" not "must have."
 ### Truth #2: Documentation Templates Work
 
 **Evidence:**
+
 - Documented 30+ endpoints in 2 hours
 - Consistent quality
 - No mental fatigue
@@ -426,6 +443,7 @@ But honestly? These are "nice to have" not "must have."
 ### Wish #1: I Had More Time for End-to-End Tests
 
 **What I'd Do:**
+
 - Test full request -> controller -> model -> database flow
 - Test authentication in real API calls
 - Test error propagation through full stack
@@ -445,6 +463,7 @@ But honestly? These are "nice to have" not "must have."
 **Achieved:** 100%
 
 **Evidence:**
+
 - 70 tests total (unit + integration)
 - 30+ API endpoints documented
 - All acceptance criteria met
@@ -468,22 +487,22 @@ But honestly? These are "nice to have" not "must have."
 
 ### What Am I Most Proud Of?
 
-1. **70 Tests Passing**  
+1. **70 Tests Passing**
    - 59% increase from Sprint 2
    - Mix of unit and integration tests
    - Comprehensive coverage
 
-2. **Professional Documentation**  
+2. **Professional Documentation**
    - 850+ lines
    - 30+ endpoints
    - Practical examples
 
-3. **Process Maturity**  
+3. **Process Maturity**
    - Applied all previous learnings
    - No major issues
    - Smooth execution
 
-4. **Three Consistent Sprints**  
+4. **Three Consistent Sprints**
    - Sprint 1: Foundation
    - Sprint 2: Quality
    - Sprint 3: Integration
@@ -494,23 +513,27 @@ But honestly? These are "nice to have" not "must have."
 ### What Would I Tell Someone Else?
 
 **About Agile:**
+
 - Retrospectives create real improvement (if you apply them)
 - Sustainable velocity > maximum velocity
 - Process improvements compound
 
 **About Testing:**
+
 - Start with unit tests (fast, isolated)
 - Add integration tests for critical paths (confidence)
 - Templates make test writing faster
 - mongodb-memory-server is excellent for database testing
 
 **About Documentation:**
+
 - Create template first
 - Document as you go, not at the end
 - Include practical examples (curl commands)
 - Think about users, not just developers
 
 **About Learning:**
+
 - Second sprint is easier (learning curve)
 - Third sprint is smoother (established patterns)
 - Debugging can be educational if you have time
@@ -520,15 +543,15 @@ But honestly? These are "nice to have" not "must have."
 
 ## Sprint 3 Self-Assessment
 
-| Dimension              | My Performance | Evidence                                  |
-| ---------------------- | -------------- | ----------------------------------------- |
-| Agile Practice         | 5/5            | Applied retrospective, maintained velocity|
-| DevOps Practice        | 5/5            | CI/CD green, 70 tests, comprehensive docs |
-| Delivery Discipline    | 5/5            | 2 incremental commits, verified CI/CD     |
-| Integration Testing    | 5/5            | 26 tests, proper mocking, full coverage   |
-| Documentation          | 5/5            | 850+ lines, professional quality          |
-| Problem-Solving        | 4/5            | Solved User model issue (could anticipate)|
-| Process Improvement    | 5/5            | Applied all learnings, added templates    |
+| Dimension           | My Performance | Evidence                                   |
+| ------------------- | -------------- | ------------------------------------------ |
+| Agile Practice      | 5/5            | Applied retrospective, maintained velocity |
+| DevOps Practice     | 5/5            | CI/CD green, 70 tests, comprehensive docs  |
+| Delivery Discipline | 5/5            | 2 incremental commits, verified CI/CD      |
+| Integration Testing | 5/5            | 26 tests, proper mocking, full coverage    |
+| Documentation       | 5/5            | 850+ lines, professional quality           |
+| Problem-Solving     | 4/5            | Solved User model issue (could anticipate) |
+| Process Improvement | 5/5            | Applied all learnings, added templates     |
 
 **Overall Grade:** A (4.85/5)
 
@@ -581,6 +604,7 @@ If I could only keep ONE practice from Sprint 3, what would it be?
 **Answer: Template-driven development and documentation**
 
 **Why?**
+
 - Saved 2+ hours in Sprint 3
 - Improved quality through consistency
 - Reduced mental fatigue
@@ -634,6 +658,7 @@ Sprint 1 -> Sprint 2 -> Sprint 3 shows continuous improvement.
 - 9/10 confidence level
 
 **The numbers that matter most:**
+
 - 3 sprints completed successfully
 - All retrospective improvements applied
 - Process maturity: 5/10 -> 8/10 -> 9/10

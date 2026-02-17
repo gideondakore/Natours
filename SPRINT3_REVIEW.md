@@ -12,6 +12,7 @@
 ## Sprint Objectives
 
 Sprint 3 focused on:
+
 1. Comprehensive API documentation
 2. Database integration testing
 3. Code quality and completeness
@@ -29,6 +30,7 @@ The goal was to demonstrate full-stack testing capability (unit + integration) a
 **What Was Built:**
 
 Comprehensive API documentation added to README.md covering:
+
 - Health check endpoint
 - All tour endpoints (GET, POST, PATCH, DELETE)
 - User authentication endpoints (signup, login, logout, password reset)
@@ -41,12 +43,14 @@ Comprehensive API documentation added to README.md covering:
 - Query parameter documentation
 
 **Acceptance Criteria:**
+
 - README.md includes API documentation - DONE
 - Each endpoint has description, method, sample response - DONE
 - Authentication requirements stated - DONE
 - Example curl commands provided - DONE
 
 **Evidence:**
+
 ```bash
 # README.md expanded from 425 lines to 850+ lines
 # Complete documentation for:
@@ -57,6 +61,7 @@ Comprehensive API documentation added to README.md covering:
 ```
 
 **Technical Details:**
+
 - Documented query parameters (filter, sort, pagination)
 - Included authentication headers
 - Added error response examples (400, 401, 403, 404, 500)
@@ -73,12 +78,14 @@ Comprehensive API documentation added to README.md covering:
 **What Was Built:**
 
 Comprehensive database integration test suite using mongodb-memory-server:
+
 - 26 integration tests for Tour model
 - CRUD operations testing (Create, Read, Update, Delete)
 - Database aggregation and query testing
 - Validation and error handling in database context
 
 **Acceptance Criteria:**
+
 - Tests for creating tours in database - DONE
 - Tests for querying tours - DONE
 - Tests for updating and deleting - DONE
@@ -87,6 +94,7 @@ Comprehensive database integration test suite using mongodb-memory-server:
 **Test Breakdown:**
 
 **Creating Tours (7 tests):**
+
 - Successfully create and save valid tour
 - Set default values (ratingsAverage, ratingsQuantity)
 - Generate slug from tour name
@@ -95,6 +103,7 @@ Comprehensive database integration test suite using mongodb-memory-server:
 - Reject invalid difficulty values
 
 **Querying Tours (7 tests):**
+
 - Retrieve all tours from database
 - Find tour by ID
 - Filter tours by difficulty
@@ -104,6 +113,7 @@ Comprehensive database integration test suite using mongodb-memory-server:
 - Select specific fields
 
 **Updating Tours (5 tests):**
+
 - Update tour price
 - Update tour difficulty
 - Update multiple fields at once
@@ -111,19 +121,23 @@ Comprehensive database integration test suite using mongodb-memory-server:
 - Return null when updating non-existent tour
 
 **Deleting Tours (3 tests):**
+
 - Delete tour by ID
 - Delete multiple tours matching criteria
 - Return null when deleting non-existent tour
 
 **Advanced Queries (3 tests):**
+
 - Count tours by difficulty
 - Find tours with price greater than/equal to value
 - Find tours matching multiple criteria
 
 **Database Transactions (1 test):**
+
 - Rollback changes if validation fails
 
 **Technical Details:**
+
 - Used mongodb-memory-server for isolated testing
 - Created mock User model to satisfy Tour model dependencies
 - Proper setup/teardown with database cleanup
@@ -138,12 +152,14 @@ Comprehensive database integration test suite using mongodb-memory-server:
 **Status:** COMPLETE
 
 **What Was Done:**
+
 - Verified all 70 tests passing
 - Confirmed no console.log statements remain
 - Ensured environment variables documented
 - Verified CI/CD pipeline green on GitHub
 
 **Quality Metrics:**
+
 - Test count: 70 tests passing
 - Test suites: 5 suites
 - Code quality: All linting checks pass
@@ -155,33 +171,33 @@ Comprehensive database integration test suite using mongodb-memory-server:
 
 ### Story Points
 
-| Story                               | Planned Points | Actual Points | Status   |
-| ----------------------------------- | -------------- | ------------- | -------- |
-| Story #5: Tour API Documentation    | 3              | 3             | COMPLETE |
-| Story #8: Database Integration Tests| 5              | 5             | COMPLETE |
-| Code Quality Review                 | 4              | 4             | COMPLETE |
-| **TOTAL**                           | **12**         | **12**        | **100%** |
+| Story                                | Planned Points | Actual Points | Status   |
+| ------------------------------------ | -------------- | ------------- | -------- |
+| Story #5: Tour API Documentation     | 3              | 3             | COMPLETE |
+| Story #8: Database Integration Tests | 5              | 5             | COMPLETE |
+| Code Quality Review                  | 4              | 4             | COMPLETE |
+| **TOTAL**                            | **12**         | **12**        | **100%** |
 
 **Velocity:** 12 points (same as Sprint 2 - sustainable pace)
 
 ### Test Coverage
 
-| Category                  | Sprint 2 | Sprint 3 | Change |
-| ------------------------- | -------- | -------- | ------ |
-| Unit Tests                | 44       | 44       | 0      |
-| Integration Tests         | 0        | 26       | +26    |
-| **Total Tests**           | **44**   | **70**   | **+26** |
-| Test Suites               | 4        | 5        | +1     |
+| Category          | Sprint 2 | Sprint 3 | Change  |
+| ----------------- | -------- | -------- | ------- |
+| Unit Tests        | 44       | 44       | 0       |
+| Integration Tests | 0        | 26       | +26     |
+| **Total Tests**   | **44**   | **70**   | **+26** |
+| Test Suites       | 4        | 5        | +1      |
 
 **Test Growth:** 59% increase in test count (44 -> 70)
 
 ### Documentation
 
-| Metric                    | Before Sprint 3 | After Sprint 3 | Growth |
-| ------------------------- | --------------- | -------------- | ------ |
-| README Lines              | 425             | 850+           | 100%   |
-| API Endpoints Documented  | 4               | 30+            | 650%   |
-| Code Examples             | 5               | 50+            | 900%   |
+| Metric                   | Before Sprint 3 | After Sprint 3 | Growth |
+| ------------------------ | --------------- | -------------- | ------ |
+| README Lines             | 425             | 850+           | 100%   |
+| API Endpoints Documented | 4               | 30+            | 650%   |
+| Code Examples            | 5               | 50+            | 900%   |
 
 ### Commits
 
@@ -202,13 +218,16 @@ Comprehensive database integration test suite using mongodb-memory-server:
 ## Code Changes Summary
 
 ### Files Modified
+
 - `README.md` - Added 400+ lines of API documentation
 - `AGILE_DOCUMENTATION.md` - Updated with Sprint 3 planning
 
 ### Files Created
+
 - `__tests__/tourDatabase.integration.test.js` - 26 integration tests (370+ lines)
 
 ### Dependencies Added
+
 - `mongodb-memory-server` - For in-memory MongoDB testing
 
 ---
@@ -220,6 +239,7 @@ Comprehensive database integration test suite using mongodb-memory-server:
 **Challenge:** Creating documentation that's both thorough and practical
 
 **Solution:**
+
 - Organized by resource (Tours, Users, Reviews, Bookings)
 - Included real curl commands
 - Showed actual request/response JSON
@@ -232,6 +252,7 @@ Comprehensive database integration test suite using mongodb-memory-server:
 **Challenge:** Testing database operations in isolation without affecting real data
 
 **Solution:**
+
 - Used mongodb-memory-server for in-memory testing
 - Created mock User model to satisfy Tour model dependencies
 - Implemented proper setup/teardown to ensure test isolation
@@ -243,11 +264,13 @@ Comprehensive database integration test suite using mongodb-memory-server:
 **Challenge:** Tour model has populate middleware that requires User model
 
 **Problem Encountered:**
+
 ```
 MissingSchemaError: Schema hasn't been registered for model "User"
 ```
 
 **Solution:**
+
 ```javascript
 // Created simple User schema in test setup
 const userSchema = new mongoose.Schema({
@@ -257,7 +280,7 @@ const userSchema = new mongoose.Schema({
 });
 
 if (!mongoose.models.User) {
-  mongoose.model('User', userSchema);
+  mongoose.model("User", userSchema);
 }
 ```
 
@@ -271,13 +294,13 @@ if (!mongoose.models.User) {
 
 **Goal Achievement:** 100%
 
-| Objective                             | Status   | Evidence                           |
-| ------------------------------------- | -------- | ---------------------------------- |
-| Comprehensive API documentation       | COMPLETE | 30+ endpoints documented with examples |
-| Database integration tests            | COMPLETE | 26 tests covering all CRUD operations |
-| Professional documentation quality    | COMPLETE | curl examples, error formats, query params |
-| All tests passing                     | COMPLETE | 70/70 tests pass                   |
-| CI/CD green                           | COMPLETE | GitHub Actions passing             |
+| Objective                          | Status   | Evidence                                   |
+| ---------------------------------- | -------- | ------------------------------------------ |
+| Comprehensive API documentation    | COMPLETE | 30+ endpoints documented with examples     |
+| Database integration tests         | COMPLETE | 26 tests covering all CRUD operations      |
+| Professional documentation quality | COMPLETE | curl examples, error formats, query params |
+| All tests passing                  | COMPLETE | 70/70 tests pass                           |
+| CI/CD green                        | COMPLETE | GitHub Actions passing                     |
 
 ---
 
@@ -328,6 +351,7 @@ Time:        2.437 s
 ### Applied Improvement #3: Use Templates for Repetitive Work
 
 **How Applied:**
+
 - Created template structure for API endpoint documentation
 - Reused test patterns for CRUD operations
 - Copy-paste-modify approach for similar tests
@@ -343,16 +367,19 @@ Time:        2.437 s
 **Issue:** Tour model's populate middleware required User model to be registered
 
 **Error Message:**
+
 ```
 MissingSchemaError: Schema hasn't been registered for model "User"
 ```
 
 **Investigation:**
+
 - Checked Tour model for middleware
 - Found `tourSchema.pre(/^find/)` with `.populate('guides')`
 - Guides field references User model
 
 **Solution:**
+
 - Created simple mock User schema in test setup
 - Registered User model only if not already registered
 - Allowed Tour model middleware to function without full User implementation
@@ -421,14 +448,14 @@ MissingSchemaError: Schema hasn't been registered for model "User"
 
 ## Sprint 3 vs Previous Sprints
 
-| Metric                    | Sprint 1 | Sprint 2 | Sprint 3 | Trend |
-| ------------------------- | -------- | -------- | -------- | ----- |
-| Story Points Completed    | 16       | 12       | 12       | Stable|
-| Tests Added               | 18       | 26       | 26       | Stable|
-| Documentation Lines Added | 400      | 425      | 425      | Stable|
-| Debugging Time            | 2-3h     | 0h       | 1h       | Good  |
-| Major Issues              | 3        | 0        | 1        | Good  |
-| CI/CD Verified First Push | No       | Yes      | Yes      | Great |
+| Metric                    | Sprint 1 | Sprint 2 | Sprint 3 | Trend  |
+| ------------------------- | -------- | -------- | -------- | ------ |
+| Story Points Completed    | 16       | 12       | 12       | Stable |
+| Tests Added               | 18       | 26       | 26       | Stable |
+| Documentation Lines Added | 400      | 425      | 425      | Stable |
+| Debugging Time            | 2-3h     | 0h       | 1h       | Good   |
+| Major Issues              | 3        | 0        | 1        | Good   |
+| CI/CD Verified First Push | No       | Yes      | Yes      | Great  |
 
 **Observation:** Sprint 3 maintained Sprint 2's quality and pace. Reduced velocity (16 -> 12) from Sprint 1 continues to work well.
 
@@ -478,16 +505,19 @@ MissingSchemaError: Schema hasn't been registered for model "User"
 ## Stakeholder Value
 
 ### For Users:
+
 - Complete API documentation enables integration
 - curl examples provide immediate testing capability
 - Error formats help with debugging
 
 ### For Developers:
+
 - Integration tests provide confidence in database operations
 - Documentation serves as reference during development
 - Tests demonstrate how to use the data layer
 
 ### For Lab Assessment:
+
 - Demonstrates comprehensive testing skills (unit + integration)
 - Shows professional documentation practices
 - Proves ability to deliver consistently across 3 sprints
@@ -497,18 +527,22 @@ MissingSchemaError: Schema hasn't been registered for model "User"
 ## Sprint 3 Highlights
 
 **Most Proud Of:**
+
 1. 70 tests passing (59% increase from Sprint 2)
 2. Professional-quality API documentation
 3. Zero CI/CD issues (learned from Sprints 1 and 2)
 
 **Biggest Challenge:**
+
 - User model dependency in integration tests (solved in 45 min)
 
 **Best Decision:**
+
 - Using mongodb-memory-server for true integration testing
 - Template approach to API documentation
 
 **Surprise:**
+
 - Integration tests were faster to write than expected (template pattern worked well)
 
 ---
@@ -516,6 +550,7 @@ MissingSchemaError: Schema hasn't been registered for model "User"
 ## Next Steps (If Continuing)
 
 ### Potential Sprint 4 Ideas:
+
 1. Add integration tests for User, Review, Booking models
 2. Implement OpenAPI/Swagger documentation
 3. Add end-to-end API tests with full request/response cycle
@@ -523,6 +558,7 @@ MissingSchemaError: Schema hasn't been registered for model "User"
 5. Error logging analysis and monitoring dashboard
 
 ### Technical Debt (Minimal):
+
 - No significant technical debt introduced in Sprint 3
 - All code is tested and documented
 
@@ -532,16 +568,16 @@ MissingSchemaError: Schema hasn't been registered for model "User"
 
 ### Cumulative Progress (Sprint 0-3)
 
-| Metric                    | Total   |
-| ------------------------- | ------- |
-| Sprints Completed         | 3       |
-| Story Points Delivered    | 40      |
-| User Stories Completed    | 7+      |
-| Tests Written             | 70      |
-| Test Suites               | 5       |
-| Lines of Documentation    | 1000+   |
-| CI/CD Runs                | 15+     |
-| Commits                   | 12+     |
+| Metric                 | Total |
+| ---------------------- | ----- |
+| Sprints Completed      | 3     |
+| Story Points Delivered | 40    |
+| User Stories Completed | 7+    |
+| Tests Written          | 70    |
+| Test Suites            | 5     |
+| Lines of Documentation | 1000+ |
+| CI/CD Runs             | 15+   |
+| Commits                | 12+   |
 
 ### Sprint 3 Summary Numbers
 
@@ -559,6 +595,7 @@ MissingSchemaError: Schema hasn't been registered for model "User"
 ## Retrospective Preview
 
 Key areas for Sprint 3 Retrospective:
+
 - How did integration testing go?
 - Was the documentation template approach effective?
 - Did 12-point velocity continue to work well?
