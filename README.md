@@ -1209,7 +1209,7 @@ ISC
 
 ## 👤 Author
 
-**Gideon**
+**Gideon Dakore**
 
 ---
 
