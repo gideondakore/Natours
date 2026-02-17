@@ -94,7 +94,54 @@
 
     function localRequire(x) {
       var res = localRequire.resolve(x);
-      return res === false ? {} : newRequire(res);
+      if (res === false) {
+        return {};
+      }
+      // Synthesize a module to follow re-exports.
+      if (Array.isArray(res)) {
+        var m = {__esModule: true};
+        res.forEach(function (v) {
+          var key = v[0];
+          var id = v[1];
+          var exp = v[2] || v[0];
+          var x = newRequire(id);
+          if (key === '*') {
+            Object.keys(x).forEach(function (key) {
+              if (
+                key === 'default' ||
+                key === '__esModule' ||
+                Object.prototype.hasOwnProperty.call(m, key)
+              ) {
+                return;
+              }
+
+              Object.defineProperty(m, key, {
+                enumerable: true,
+                get: function () {
+                  return x[key];
+                },
+              });
+            });
+          } else if (exp === '*') {
+            Object.defineProperty(m, key, {
+              enumerable: true,
+              value: x,
+            });
+          } else {
+            Object.defineProperty(m, key, {
+              enumerable: true,
+              get: function () {
+                if (exp === 'default') {
+                  return x.__esModule ? x.default : x;
+                }
+                return x[exp];
+              },
+            });
+          }
+        });
+        return m;
+      }
+      return newRequire(res);
     }
 
     function resolve(x) {
@@ -160,15 +207,15 @@
       });
     }
   }
-})({"f7HJN":[function(require,module,exports,__globalThis) {
+})({"hzrvX":[function(require,module,exports,__globalThis) {
 var global = arguments[3];
 var HMR_HOST = null;
 var HMR_PORT = 1234;
 var HMR_SERVER_PORT = 1234;
 var HMR_SECURE = false;
-var HMR_ENV_HASH = "d74c7d31d7410ef3";
+var HMR_ENV_HASH = "6f4bf378b4af484f";
 var HMR_USE_SSE = false;
-module.bundle.HMR_BUNDLE_ID = "d724ba2d8f5127e1";
+module.bundle.HMR_BUNDLE_ID = "84b9ae8e622b53e2";
 "use strict";
 /* global HMR_HOST, HMR_PORT, HMR_SERVER_PORT, HMR_ENV_HASH, HMR_SECURE, HMR_USE_SSE, chrome, browser, __parcel__import__, __parcel__importScripts__, ServiceWorkerGlobalScope */ /*::
 import type {
@@ -248,7 +295,7 @@ let WebSocket = globalThis.WebSocket;
 if (!WebSocket && typeof module.bundle.root === 'function') try {
     // eslint-disable-next-line no-global-assign
     WebSocket = module.bundle.root('ws');
-} catch  {
+} catch (e) {
 // ignore.
 }
 var hostname = getHostname();
@@ -281,14 +328,14 @@ if (!parent || !parent.isParcelRequire) {
                 try {
                     await handleMessage(message);
                     parentPort.postMessage('updated');
-                } catch  {
+                } catch (e) {
                     parentPort.postMessage('restart');
                 }
             });
             // After the bundle has finished running, notify the dev server that the HMR update is complete.
             queueMicrotask(()=>parentPort.postMessage('ready'));
         }
-    } catch  {
+    } catch (e) {
         if (typeof WebSocket !== 'undefined') try {
             ws = new WebSocket(protocol + '://' + hostname + (port ? ':' + port : '') + '/');
         } catch (err) {
@@ -666,7 +713,7 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
     }
 }
 
-},{}],"cxEHY":[function(require,module,exports,__globalThis) {
+},{}],"3qBJN":[function(require,module,exports,__globalThis) {
 /* eslint-disable */ var _loginJs = require("./login.js");
 var _mapboxJs = require("./mapbox.js");
 var _updateSettingsJs = require("./updateSettings.js");
@@ -728,7 +775,7 @@ if (bookBtn) bookBtn.addEventListener('click', (e)=>{
 const alertMessage = document.querySelector('body').dataset.alert;
 if (alertMessage) (0, _alertsJs.showAlert)('success', alertMessage, 20);
 
-},{"./login.js":"kQmfh","./mapbox.js":"2bxml","./updateSettings.js":"lKqbB","./alerts.js":"3TJe0","./stripe.js":"aFZKP"}],"kQmfh":[function(require,module,exports,__globalThis) {
+},{"./login.js":"azbWk","./mapbox.js":"lWZko","./updateSettings.js":"dePkh","./alerts.js":"9zRvh","./stripe.js":"33qfq"}],"azbWk":[function(require,module,exports,__globalThis) {
 /* eslint-disable */ /* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "login", ()=>login);
@@ -772,7 +819,7 @@ const logout = async ()=>{
     }
 };
 
-},{"./alerts.js":"3TJe0","@parcel/transformer-js/src/esmodule-helpers.js":"1ynrP"}],"3TJe0":[function(require,module,exports,__globalThis) {
+},{"./alerts.js":"9zRvh","@parcel/transformer-js/src/esmodule-helpers.js":"lGQCY"}],"9zRvh":[function(require,module,exports,__globalThis) {
 /* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "hideAlert", ()=>hideAlert);
@@ -795,7 +842,7 @@ const showAlert = (type, msg, time = 7)=>{
     window.setTimeout(hideAlert, time * 1000);
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"1ynrP"}],"1ynrP":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"lGQCY"}],"lGQCY":[function(require,module,exports,__globalThis) {
 exports.interopDefault = function(a) {
     return a && a.__esModule ? a : {
         default: a
@@ -825,7 +872,7 @@ exports.export = function(dest, destName, get) {
     });
 };
 
-},{}],"2bxml":[function(require,module,exports,__globalThis) {
+},{}],"lWZko":[function(require,module,exports,__globalThis) {
 /* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "displayMap", ()=>displayMap);
@@ -863,7 +910,7 @@ const displayMap = (locations)=>{
     });
 };
 
-},{"@parcel/transformer-js/src/esmodule-helpers.js":"1ynrP"}],"lKqbB":[function(require,module,exports,__globalThis) {
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"lGQCY"}],"dePkh":[function(require,module,exports,__globalThis) {
 /* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "updateSettings", ()=>updateSettings);
@@ -895,22 +942,22 @@ const updateSettings = async (data, type)=>{
     }
 };
 
-},{"./alerts.js":"3TJe0","@parcel/transformer-js/src/esmodule-helpers.js":"1ynrP"}],"aFZKP":[function(require,module,exports,__globalThis) {
+},{"./alerts.js":"9zRvh","@parcel/transformer-js/src/esmodule-helpers.js":"lGQCY"}],"33qfq":[function(require,module,exports,__globalThis) {
 /* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "bookTour", ()=>bookTour);
 var _alertsJs = require("./alerts.js");
-const bookBtn = document.getElementById('book-tour');
-const stripe = Stripe('pk_test_51ROgQwR2MLdmVeqdh6UCoA5H1Fp5sqDrNleru4qFPfFbHlfbOykjnKIFquiycuMfqRSh9OHOk8XGoq8LZFY67A8200pAWpxCi1');
+const bookBtn = document.getElementById("book-tour");
+const stripe = Stripe("pk_test_51RfQE7KfHUg08ISw7jMxJb3W3vN9BQm064yLfzhhLfbBhKhlMc0EQCxIhhHNznwvqpJ74DD5BSi0O9bonamI0Gpe00ilt7lc2r");
 const bookTour = async (tourId)=>{
     try {
         // 1) Get checkout session from API
         const response = await fetch(`/api/v1/bookings/checkout-session/${tourId}`, {
-            credentials: 'include'
+            credentials: "include"
         });
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to get checkout session');
+            throw new Error(errorData.message || "Failed to get checkout session");
         }
         const session = await response.json();
         // 2) Create checkout form + charge credit card
@@ -919,11 +966,11 @@ const bookTour = async (tourId)=>{
         });
     } catch (err) {
         console.log(err);
-        if (bookBtn) bookBtn.textContent = 'Book your tour now!';
-        (0, _alertsJs.showAlert)('error', err.message); // Changed to err.message
+        if (bookBtn) bookBtn.textContent = "Book your tour now!";
+        (0, _alertsJs.showAlert)("error", err.message); // Changed to err.message
     }
 };
 
-},{"./alerts.js":"3TJe0","@parcel/transformer-js/src/esmodule-helpers.js":"1ynrP"}]},["f7HJN","cxEHY"], "cxEHY", "parcelRequire11c7", {})
+},{"./alerts.js":"9zRvh","@parcel/transformer-js/src/esmodule-helpers.js":"lGQCY"}]},["hzrvX","3qBJN"], "3qBJN", "parcelRequire11c7", {})
 
 //# sourceMappingURL=index.js.map

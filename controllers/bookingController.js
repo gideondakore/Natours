@@ -1,38 +1,38 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
-const Tour = require('../models/tourModel');
-const User = require('../models/userModel');
-const Booking = require('../models/bookingModel');
-const catchAsync = require('../utils/catchAsync');
-const AppError = require('../utils/appError');
-const factory = require('./handlerFactory');
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+const Tour = require("../models/tourModel");
+const User = require("../models/userModel");
+const Booking = require("../models/bookingModel");
+const catchAsync = require("../utils/catchAsync");
+const AppError = require("../utils/appError");
+const factory = require("./handlerFactory");
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   // 1) Get the currently booked tour
   const tour = await Tour.findById(req.params.tourId);
 
   // 2) Create checkout session
-  const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+  const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
   const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
+    payment_method_types: ["card"],
     // success_url: `${req.protocol}://${req.get('host')}/my-tours/?tour=${
     //   req.params.tourId
     // }&user=${req.user.id}&price=${tour.price}`,
-    success_url: `${req.protocol}://${req.get('host')}/my-tours?alert=booking`,
+    success_url: `${req.protocol}://${req.get("host")}/my-tours?alert=booking`,
 
-    cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`,
+    cancel_url: `${req.protocol}://${req.get("host")}/tour/${tour.slug}`,
     customer_email: req.user.email,
     client_reference_id: req.params.tourId,
     line_items: [
       {
         price_data: {
-          currency: 'usd',
+          currency: "usd",
           unit_amount: tour.price * 100,
           product_data: {
             name: `${tour.name} Tour`,
             description: tour.summary,
             images: [
-              `${req.protocol}://${req.get('host')}/img/tours/${
+              `${req.protocol}://${req.get("host")}/img/tours/${
                 tour.imageCover
               }`,
             ],
@@ -41,12 +41,12 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         quantity: 1,
       },
     ],
-    mode: 'payment',
+    mode: "payment",
   });
 
   // 3) Create session as response
   res.status(200).json({
-    status: 'success',
+    status: "success",
     session,
   });
 });
@@ -71,7 +71,7 @@ const createBookingCheckuout = async (session) => {
 };
 
 exports.webhookCheckout = (req, res, next) => {
-  const sig = req.headers['stripe-signature'];
+  const sig = req.headers["stripe-signature"];
 
   let event;
 
@@ -79,13 +79,13 @@ exports.webhookCheckout = (req, res, next) => {
     event = stripe.webhooks.constructEvent(
       req.body,
       sig,
-      process.env.WEBHOOK_SECRET
+      process.env.WEBHOOK_SECRET,
     );
   } catch (err) {
     return res.status(400).send(`Webhook Error: ${err.message}`);
   }
 
-  if (event.type === 'checkout.session.completed') {
+  if (event.type === "checkout.session.completed") {
     createBookingCheckuout(event.data.object);
   }
 

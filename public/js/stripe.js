@@ -1,9 +1,9 @@
 /* eslint-disable */
-import { showAlert } from './alerts.js';
-const bookBtn = document.getElementById('book-tour');
+import { showAlert } from "./alerts.js";
+const bookBtn = document.getElementById("book-tour");
 
 const stripe = Stripe(
-  'pk_test_51ROgQwR2MLdmVeqdh6UCoA5H1Fp5sqDrNleru4qFPfFbHlfbOykjnKIFquiycuMfqRSh9OHOk8XGoq8LZFY67A8200pAWpxCi1'
+  "pk_test_51RfQE7KfHUg08ISw7jMxJb3W3vN9BQm064yLfzhhLfbBhKhlMc0EQCxIhhHNznwvqpJ74DD5BSi0O9bonamI0Gpe00ilt7lc2r",
 );
 
 export const bookTour = async (tourId) => {
@@ -12,13 +12,13 @@ export const bookTour = async (tourId) => {
     const response = await fetch(
       `/api/v1/bookings/checkout-session/${tourId}`,
       {
-        credentials: 'include',
-      }
+        credentials: "include",
+      },
     );
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.message || 'Failed to get checkout session');
+      throw new Error(errorData.message || "Failed to get checkout session");
     }
 
     const session = await response.json();
@@ -30,9 +30,9 @@ export const bookTour = async (tourId) => {
   } catch (err) {
     console.log(err);
     if (bookBtn) {
-      bookBtn.textContent = 'Book your tour now!';
+      bookBtn.textContent = "Book your tour now!";
     }
 
-    showAlert('error', err.message); // Changed to err.message
+    showAlert("error", err.message); // Changed to err.message
   }
 };
