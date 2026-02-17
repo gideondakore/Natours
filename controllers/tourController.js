@@ -1,6 +1,11 @@
 const path = require('path');
 const multer = require('multer');
-const { fileTypeFromBuffer } = require('file-type');
+// Using dynamic import for ES module file-type
+let fileTypeFromBuffer;
+(async () => {
+  const { fileTypeFromBuffer: ft } = await import('file-type');
+  fileTypeFromBuffer = ft;
+})();
 const sharp = require('sharp');
 const Tour = require('./../models/tourModel');
 const catchAsync = require('./../utils/catchAsync');
