@@ -413,6 +413,7 @@ Sprint 1 requirements specifically ask for CI/CD and testing. This sets up every
 ### Critical Issue Found & Fixed
 
 **Issue:** CI/CD pipeline failed on first run with error:
+
 ```
 Error: Dependencies lock file is not found in /home/runner/work/Natours/Natours
 ```
@@ -509,7 +510,7 @@ Sprint 1 taught me that testing takes 2x longer than estimated. Reducing story p
 
 - [ ] Task 6.1: Write tests for tour model validation
 - [ ] Task 6.2: Write tests for required field validation
-- [ ] Task 6.3: Write tests for data type validation  
+- [ ] Task 6.3: Write tests for data type validation
 - [ ] Task 6.4: Write tests for API error responses
 - [ ] Task 6.5: Run tests and ensure all pass
 - [ ] Task 6.6: Update test coverage report
@@ -536,14 +537,142 @@ Sprint 1 taught me that testing takes 2x longer than estimated. Reducing story p
 ### Daily Log - Sprint 2 (To Be Updated)
 
 ```
+
 Sprint 2 Day 1 - February 17, 2026:
-- 
+- Created .env.example with all 18 environment variables documented
+- Expanded README.md from 10 lines to 425 lines (comprehensive setup guide)
+- Installed Winston logging library
+- Created logger.js and requestLogger.js utilities
+- Replaced all console.log/error with structured Winston logging
+- Wrote 26 new validation tests for Tour model
+- All 44 tests passing (18 from Sprint 1 + 26 from Sprint 2)
+- 4 incremental commits pushed to GitHub
+- CI/CD pipeline passing on all checks
+- Sprint 2 Review and Retrospective completed
 
-Sprint 2 Day 2 - [Date]:
--
+---
 
-Sprint 2 Day 3 - [Date]:
--
+## Sprint 2: COMPLETED
+
+**End Date:** February 17, 2026
+**Status:** All 3 stories completed (12 points)
+
+### Sprint 2 Outcomes
+
+- Error Logging & Monitoring - Winston implemented with file rotation
+- Environment Configuration Documentation - .env.example and comprehensive README
+- Input Validation Tests - 26 tests covering Tour model validation
+
+### Sprint 2 Improvements Applied
+
+1. Verified CI/CD on GitHub before declaring done - Applied successfully
+2. 30-minute debugging timer - Not needed (no major debugging issues)
+3. Continuous documentation - Applied successfully (docs written as work progressed)
+
+**Key Metrics:**
+- Tests: 18 -> 44 (144% increase)
+- Documentation: 10 lines -> 425 lines
+- Debugging time: 2-3h (Sprint 1) -> 0h (Sprint 2)
+- CI/CD verification: Done before completion
+
+---
+
+## Sprint 3: Planning & Execution
+
+**Start Date:** February 17, 2026
+**Sprint Goal:** "Complete comprehensive testing coverage and finalize API documentation"
+
+### Applying Sprint 2 Learnings
+
+From Sprint 2 Retrospective:
+
+1. Continue verifying CI/CD on GitHub before declaring done
+2. Keep documenting continuously (proven effective)
+3. Use templates for repetitive work (speeds up development)
+4. Maintain 12-point velocity (sustainable and quality-focused)
+
+---
+
+### Sprint 3 Backlog Selection
+
+**Selected Stories for Sprint 3:**
+
+| Story                           | Points | Priority | Reason for Selection                           |
+| ------------------------------- | ------ | -------- | ---------------------------------------------- |
+| #8: Database Integration Tests  | 5      | Medium   | Comprehensive testing demonstration            |
+| #5: Tour API Documentation      | 3      | Low      | Complete professional documentation            |
+| Additional: Code Quality Review | 4      | High     | Ensure code meets professional standards       |
+| **TOTAL**                       | **12** |          | Maintaining proven velocity from Sprint 2      |
+
+**Why These Stories?**
+
+1. Story #8 (Database Integration Tests) - Demonstrates comprehensive testing beyond unit tests
+2. Story #5 (Tour API Documentation) - Completes the documentation suite
+3. Code Quality Review - NEW story to ensure everything is production-ready
+
+---
+
+### Sprint 3 Task Breakdown
+
+**Story #8: Database Integration Tests (5 points)**
+
+- [ ] Task 8.1: Install mongodb-memory-server for testing
+- [ ] Task 8.2: Configure test database setup and teardown
+- [ ] Task 8.3: Write tests for creating tours in database
+- [ ] Task 8.4: Write tests for querying tours from database
+- [ ] Task 8.5: Write tests for updating tour documents
+- [ ] Task 8.6: Write tests for deleting tours
+- [ ] Task 8.7: Ensure database cleanup after each test
+- [ ] Task 8.8: Verify all integration tests pass
+- [ ] Task 8.9: Commit integration tests
+
+**Story #5: Tour API Documentation (3 points)**
+
+- [ ] Task 5.1: Document all tour API endpoints in README
+- [ ] Task 5.2: Add request/response examples for each endpoint
+- [ ] Task 5.3: Document authentication requirements
+- [ ] Task 5.4: Add curl command examples
+- [ ] Task 5.5: Document error response formats
+- [ ] Task 5.6: Commit API documentation
+
+**Story: Code Quality Review (4 points)**
+
+- [ ] Task: Review all controller files for consistent error handling
+- [ ] Task: Ensure all routes have proper validation
+- [ ] Task: Check for any remaining console.log statements
+- [ ] Task: Verify environment variables are properly used
+- [ ] Task: Run linting and fix any issues
+- [ ] Task: Update package.json scripts if needed
+- [ ] Task: Final CI/CD verification
+- [ ] Task: Commit quality improvements
+
+---
+
+### Sprint 3 Success Criteria
+
+**Must Have:**
+- Integration tests for database operations (at least 10 tests)
+- Complete API documentation in README
+- Code quality review completed
+- All tests passing (target: 60+ total tests)
+- CI/CD pipeline green
+- No console.log statements remaining
+- All environment variables documented
+
+**Nice to Have:**
+- Test coverage report
+- Performance benchmarks
+- API request examples in multiple formats
+
+---
+
+### Daily Log - Sprint 3
+
+```
+Sprint 3 Day 1 - February 17, 2026:
+- Started Sprint 3 planning
+- Selected stories: Database Integration Tests, API Documentation, Code Quality Review
+- Created task breakdown
 ```
 
 ---
@@ -556,18 +685,19 @@ Sprint 2 Day 3 - [Date]:
 
 ---
 
-## Self-Assessment Against Rubric (Pre-Sprint 0)
+## Self-Assessment Against Rubric (After Sprint 2)
 
-| Dimension           | Target                                             | My Current Status                     |
-| ------------------- | -------------------------------------------------- | ------------------------------------- |
-| Agile Practice      | Clear backlog, prioritization, acceptance criteria | Have all of these with personal notes |
-| DevOps Practice     | CI/CD, tests, monitoring/logging                   | Planned but not implemented           |
-| Delivery Discipline | No big-bang commits                                | Will track commits carefully          |
-| Prototype Quality   | Working solution meets criteria                    | Not started                           |
-| Reflection          | Meaningful improvement between sprints             | Will document lessons learned         |
+| Dimension           | Target                                             | Current Status                                  |
+| ------------------- | -------------------------------------------------- | ----------------------------------------------- |
+| Agile Practice      | Clear backlog, prioritization, acceptance criteria | Demonstrated through 3 sprints with iterations  |
+| DevOps Practice     | CI/CD, tests, monitoring/logging                   | Fully implemented and working                   |
+| Delivery Discipline | No big-bang commits                                | 12+ incremental commits with meaningful messages|
+| Prototype Quality   | Working solution meets criteria                    | 44 tests passing, logging, documentation        |
+| Reflection          | Meaningful improvement between sprints             | Applied improvements from each retrospective    |
 
-**Areas I Need to Focus On:**
+**Progress Made:**
 
-1. Actually sticking to my commit discipline
-2. Not underestimating testing complexity
-3. Documenting my thought process as I go
+1. Commit discipline maintained - All commits are incremental and meaningful
+2. Testing complexity understood - 44 tests written with good coverage
+3. Documentation completed continuously - No end-of-sprint rush
+```
