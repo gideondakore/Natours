@@ -19,6 +19,8 @@ const healthRouter = require("./routes/healthRoutes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
+const logger = require("./utils/logger");
+const requestLogger = require("./utils/requestLogger");
 
 const app = express();
 
@@ -45,6 +47,9 @@ app.set("views", path.join(__dirname, "views"));
 // Global First middleware
 
 app.options("*", cors());
+
+// Request logging middleware
+app.use(requestLogger);
 
 // Serving static files
 app.use(

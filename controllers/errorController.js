@@ -1,5 +1,6 @@
 const AppError = require('./../utils/appError');
 const getPrototypeChain = require('./../utils/getPrototypeChain');
+const logger = require('./../utils/logger');
 
 const handleMongooseErrorDB = (err) => {
   let message;
@@ -43,7 +44,11 @@ const sendErrorDev = (err, req, res) => {
     });
   }
   // B) RENDERED WEBSITE
-  console.error('ERROR RENDERED WEBSITE DEV💥: ', err, ' : ', err.stack);
+  logger.error(`RENDERED WEBSITE ERROR (DEV): ${err.message}`, {
+    error: err.name,
+    stack: err.stack,
+    url: req.originalUrl,
+  });
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong',
     msg: err.message,
@@ -62,7 +67,12 @@ const sendErrorProd = (err, req, res) => {
     }
     // b) Programming or other unknown error: don't leak error details
     // 1) Log error
-    console.error('ERROR Log error API 💥: ', err, ' : ', err.stack);
+    logger.error(`API ERROR (PROD): ${err.message}`, {
+      error: err.name,
+      stack: err.stack,
+      url: req.originalUrl,
+      method: req.method,
+    });
     // 2) Send generic message
     return res.status(500).json({
       status: 'error',
@@ -81,7 +91,11 @@ const sendErrorProd = (err, req, res) => {
 
   // b) Programming or other unknown error: don't leak error details
   // 1) Log error
-  console.error('ERROR RENDERED WEBSITE PROD 💥:', err, ' : ', err.stack);
+  logger.error(`RENDERED WEBSITE ERROR (PROD): ${err.message}`, {
+    error: err.name,
+    stack: err.stack,
+    url: req.originalUrl,
+  });
   // 2) Send generic message
   return res.status(err.statusCode).render('error', {
     title: 'Something went wrong',
