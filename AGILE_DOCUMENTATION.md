@@ -145,9 +145,11 @@ Week 1 Goals:
 // Pseudo-code I'll work from
 health endpoint {
   status: 'ok',
+  message: 'Server is running'
   timestamp: new Date(),
   uptime: process.uptime(),
-  environment: process.env.NODE_ENV
+  environment: process.env.NODE_ENV,
+  nodeVersion: process.version
 }
 ```
 

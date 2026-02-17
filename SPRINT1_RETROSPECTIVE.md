@@ -8,13 +8,14 @@
 
 ## Retrospective Format: Start, Stop, Continue
 
-### 🟢 START (Things I should start doing)
+### START (Things I should start doing)
 
 #### 1. Checking GitHub Actions in Real-Time
 
 **Why:** I created the CI/CD pipeline and pushed it, but didn't actually verify it runs successfully on GitHub. That's like building a car and not test-driving it.
 
 **Action:** In Sprint 2, immediately after pushing:
+
 - Open GitHub Actions tab
 - Watch pipeline run
 - Fix any failures before moving on
@@ -24,8 +25,9 @@
 **Why:** I spent 2+ hours on the browserslist/ES module issues. Got tunnel vision trying the same thing over and over.
 
 **Action:** Set 30-minute timer when debugging. If not solved:
+
 - Take a break
-- Try completely different approach  
+- Try completely different approach
 - Google the exact error message again
 - Ask for help
 
@@ -34,17 +36,19 @@
 **Why:** Writing this review at the end made me realize I forgot some details. Also felt like busywork instead of valuable reflection.
 
 **Action:**
+
 - Keep AGILE_DOCUMENTATION.md open in a tab
 - After completing each task, add 1-2 sentences
 - Add screenshots immediately when something works
 
 ---
 
-### 🔴 STOP (Things I should stop doing)
+### STOP (Things I should stop doing)
 
 #### 1. Underestimating Testing Complexity
 
 **What I did wrong:** Thought "writing tests" would be quick. Didn't account for:
+
 - Learning Jest syntax
 - Dealing with ES module compatibility
 - Understanding mock functions
@@ -74,7 +78,7 @@
 
 ### 🔵 CONTINUE (Things that worked well)
 
-#### 1. Incremental Commits ✅
+#### 1. Incremental Commits
 
 **What I did:** Made 3 separate commits for 3 separate features. Each commit message explained what and why.
 
@@ -82,9 +86,10 @@
 
 **Keep doing:** Commit after each story completion. Never batch commits.
 
-#### 2. Breaking Down Tasks ✅
+#### 2. Breaking Down Tasks
 
 **What I did:** Split "automated testing" into subtasks:
+
 - Install dependencies
 - Configure Jest
 - Write first test
@@ -94,7 +99,7 @@
 
 **Keep doing:** Always break stories into 30-60 minute chunks.
 
-#### 3. Testing Locally Before Committing ✅
+#### 3. Testing Locally Before Committing
 
 **What I did:** Ran `npm test` multiple times. Fixed all errors before committing.
 
@@ -113,6 +118,7 @@
 **Why it happened:** I have BOTH `.browserslistrc` file AND `browserslist` in package.json. Tools got confused.
 
 **What I learned:**
+
 - Read error messages carefully (it literally said "contains both")
 - Check for duplicate configs
 - When using Parcel, remember it needs browserslist config
@@ -128,6 +134,7 @@
 **Why it happened:** Didn't realize file-type v20 switched to ESM-only.
 
 **What I learned:**
+
 - Check package documentation for breaking changes
 - ESM vs CommonJS is a real thing in Node.js
 - Dynamic `import()` can save you when mixing module types
@@ -143,6 +150,7 @@
 **Why it happened:** Thought "test the app as it runs" meant "import the entire app".
 
 **What I learned:**
+
 - Tests should be isolated
 - Create minimal test apps for specific routes
 - Don't load dependencies you don't need
@@ -155,24 +163,24 @@
 
 ### What I Said I'd Do vs What I Actually Did
 
-| Story                          | Estimated Points | Actual Points | Status      |
-| ------------------------------ | ---------------- | ------------- | ----------- |
-| Health Monitoring Endpoint     | 3                | 3             | ✅ Complete |
-| Automated Testing Suite        | 5                | 5             | ✅ Complete |
-| CI/CD Pipeline Setup           | 8                | 8             | ✅ Complete |
-| **TOTAL**                      | **16**           | **16**        | **100%**    |
+| Story                      | Estimated Points | Actual Points | Status   |
+| -------------------------- | ---------------- | ------------- | -------- |
+| Health Monitoring Endpoint | 3                | 3             | Complete |
+| Automated Testing Suite    | 5                | 5             | Complete |
+| CI/CD Pipeline Setup       | 8                | 8             | Complete |
+| **TOTAL**                  | **16**           | **16**        | **100%** |
 
 **Velocity:** 16 points completed out of 16 planned = 100% predictability
 
 ### Time Estimates vs Reality
 
-| Task                     | Estimated | Actual | Variance |
-| ------------------------ | --------- | ------ | -------- |
-| Health endpoint          | 1 hour    | ~1h    | On track |
-| Testing setup            | 1.5 hours | ~3h    | 2x over  |
-| Writing tests            | 1 hour    | ~1.5h  | 1.5x     |
-| CI/CD pipeline           | 1.5 hours | ~2h    | 1.3x     |
-| **TOTAL**                | **5h**    | **7-8h** | **~60% over** |
+| Task            | Estimated | Actual   | Variance      |
+| --------------- | --------- | -------- | ------------- |
+| Health endpoint | 1 hour    | ~1h      | On track      |
+| Testing setup   | 1.5 hours | ~3h      | 2x over       |
+| Writing tests   | 1 hour    | ~1.5h    | 1.5x          |
+| CI/CD pipeline  | 1.5 hours | ~2h      | 1.3x          |
+| **TOTAL**       | **5h**    | **7-8h** | **~60% over** |
 
 **Learning:** Testing tasks take 2x longer than estimated. Account for this in Sprint 2.
 
@@ -204,22 +212,22 @@ Surprising! I thought I'd hate testing. But there's something satisfying about s
 
 ## Sprint Health Check
 
-### What's Working? 🟢
+### What's Working?
 
-- ✅ Agile process (backlog → sprint planning → execution → review)
-- ✅ Git workflow (meaningful commits, no big-bang)
-- ✅ Technical skills (learned Jest, GitHub Actions, ES modules)
-- ✅ Problem-solving (didn't give up when things broke)
+- Agile process (backlog → sprint planning → execution → review)
+- Git workflow (meaningful commits, no big-bang)
+- Technical skills (learned Jest, GitHub Actions, ES modules)
+- Problem-solving (didn't give up when things broke)
 
-### What's At Risk? 🟡
+### What's At Risk?
 
-- ⚠️ CI/CD verification (haven't checked GitHub Actions)
-- ⚠️ Test coverage (only 2% overall, but 100% on what we tested)
-- ⚠️ Time management (went 60% over estimate)
+- CI/CD verification (haven't checked GitHub Actions)
+- Test coverage (only 2% overall, but 100% on what we tested)
+- Time management (went 60% over estimate)
 
-### What's Broken? 🔴
+### What's Broken?
 
-- ❌ Nothing critical! All stories completed.
+- Nothing critical! All stories completed.
 
 ---
 
@@ -230,6 +238,7 @@ Surprising! I thought I'd hate testing. But there's something satisfying about s
 **Problem:** I created the pipeline but didn't verify it runs on GitHub.
 
 **Solution:**
+
 1. Open GitHub repo
 2. Go to Actions tab
 3. Check latest workflow run
@@ -246,6 +255,7 @@ Surprising! I thought I'd hate testing. But there's something satisfying about s
 **Problem:** Spent 2+ hours on browserslist issue.
 
 **Solution:**
+
 - Set 30-minute timer when debugging
 - When timer goes off:
   - Step away for 5 minutes
@@ -262,6 +272,7 @@ Surprising! I thought I'd hate testing. But there's something satisfying about s
 **Problem:** Writing this review at the end is time-consuming and I forgot details.
 
 **Solution:**
+
 - Keep AGILE_DOCUMENTATION.md open in tab
 - After completing each task:
   - Add timestamp
@@ -285,11 +296,11 @@ Surprising! I thought I'd hate testing. But there's something satisfying about s
 
 ## Gratitude Section (What Am I Proud Of?)
 
-### 1. I Didn't Give Up ✅
+### 1. I Didn't Give Up
 
 When the browserslist error appeared, I could have said "Jest is too hard, I'll skip tests". But I didn't. I debugged it. That's growth.
 
-### 2. I Learned 3 New Technologies ✅
+### 2. I Learned 3 New Technologies
 
 - Jest (testing framework)
 - GitHub Actions (CI/CD)
@@ -297,9 +308,10 @@ When the browserslist error appeared, I could have said "Jest is too hard, I'll 
 
 All in one sprint. That's solid.
 
-### 3. I Followed the Process ✅
+### 3. I Followed the Process
 
 I actually DID the Agile process:
+
 - Sprint planning (picked 3 stories)
 - Execution (committed incrementally)
 - Review (this document)
@@ -347,7 +359,7 @@ ES module compatibility issues. Didn't realize how much the JavaScript ecosystem
 
 This was a successful sprint. I completed 100% of planned stories, learned new technologies, and followed Agile practices properly. The improvements I identified are specific and actionable.
 
-Sprint 2, let's go! 🚀
+Sprint 2, let's go!
 
 ---
 

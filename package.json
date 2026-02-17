@@ -30,7 +30,7 @@
     "express-mongo-sanitize": "^2.2.0",
     "express-rate-limit": "^7.5.0",
     "express-xss-sanitizer": "^2.0.0",
-    "file-type": "^20.5.0",
+    "file-type": "^16.5.4",
     "helmet": "^8.1.0",
     "hpp": "^0.2.3",
     "html-to-text": "^9.0.5",
