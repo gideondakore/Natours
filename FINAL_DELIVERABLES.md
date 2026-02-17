@@ -14,6 +14,7 @@
 **Location:** [AGILE_DOCUMENTATION.md](./AGILE_DOCUMENTATION.md)
 
 **Contents:**
+
 - Complete product vision
 - 8+ user stories with acceptance criteria
 - Story point estimates
@@ -21,6 +22,7 @@
 - Definition of Done
 
 **User Stories Delivered:**
+
 1. User Story #1: Automated Testing Suite (5 points) - COMPLETE
 2. User Story #2: CI/CD Pipeline Setup (8 points) - COMPLETE
 3. User Story #3: Health Monitoring Endpoint (3 points) - COMPLETE
@@ -35,24 +37,28 @@
 ### Sprint Plans
 
 **Sprint 0: Planning**
+
 - Product backlog creation
 - User story definition
 - Acceptance criteria established
 - Technical stack decisions
 
 **Sprint 1: DevOps Foundation (16 points)**
+
 - Story #2: CI/CD Pipeline Setup (8 points)
 - Story #1: Automated Testing Suite (5 points)
 - Story #3: Health Monitoring Endpoint (3 points)
 - Outcome: 18 tests, GitHub Actions CI/CD, Health endpoint
 
 **Sprint 2: Quality & Monitoring (12 points)**
+
 - Story #4: Error Logging & Monitoring (5 points)
 - Story #6: Input Validation Tests (5 points)
 - Story #7: Environment Configuration Documentation (2 points)
 - Outcome: 44 tests total, Winston logging, comprehensive README
 
 **Sprint 3: Integration & Documentation (12 points)**
+
 - Story #8: Database Integration Tests (5 points)
 - Story #5: Tour API Documentation (3 points)
 - Code Quality Review (4 points)
@@ -63,6 +69,7 @@
 **Location:** [AGILE_DOCUMENTATION.md](./AGILE_DOCUMENTATION.md#3-definition-of-done-my-personal-version)
 
 **Criteria:**
+
 - Code tested manually with multiple inputs
 - All automated tests pass
 - CI/CD pipeline runs and passes on GitHub
@@ -100,6 +107,7 @@ b0482dd fix: add package-lock.json for CI/CD pipeline
 ```
 
 **Commit Characteristics:**
+
 - Incremental commits (no big-bang commits)
 - Descriptive messages explaining what and why
 - Conventional commit format where appropriate (feat:, fix:, docs:, test:)
@@ -141,6 +149,7 @@ Natours/
 **Location:** [.github/workflows/ci.yml](./.github/workflows/ci.yml)
 
 **Pipeline Features:**
+
 - Automated testing on push to main/dev branches
 - Matrix builds (Node.js 24.x and 25.x)
 - Linting checks (ESLint)
@@ -148,6 +157,7 @@ Natours/
 - Test execution with coverage
 
 **Pipeline Configuration:**
+
 ```yaml
 name: CI/CD Pipeline
 
@@ -164,7 +174,7 @@ jobs:
     strategy:
       matrix:
         node-version: [24.x, 25.x]
-    
+
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -181,6 +191,7 @@ jobs:
 #### Successful Pipeline Runs
 
 **Sprint 1 - Initial Failure:**
+
 - **Screenshot:** [ci_failed.png](./dev-data/img/screenshots/ci_failed.png)
 - **Screenshot:** [sprint_1_failed.png](./dev-data/img/screenshots/spring_1_failed.png)
 - **Issue:** package-lock.json was in .gitignore
@@ -188,20 +199,24 @@ jobs:
 - **Resolution:** Removed package-lock.json from .gitignore and committed it
 
 **Sprint 1 - After Fix:**
+
 - **Screenshot:** [sprint_1_passed.png](./dev-data/img/screenshots/sprint_1_passed.png)
 - **Status:** GREEN - All checks passing
 - **Tests:** 18 tests passing on Node 24.x and 25.x
 
 **Sprint 2:**
+
 - **Screenshot:** [sprint_2_passed.png](./dev-data/img/screenshots/sprint_2_passed.png)
 - **Status:** GREEN - All checks passing
 - **Tests:** 44 tests passing on Node 24.x and 25.x
 
 **Sprint 3 - Initial Run:**
+
 - **Screenshot:** [sprint_3_failed.png](./dev-data/img/screenshots/sprint_3_failed.png)
 - **Status:** Shows the iterative process
 
 **Sprint 3 - Final:**
+
 - **Screenshot:** [sprint_3_passed.png](./dev-data/img/screenshots/sprint_3_passed.png)
 - **Status:** GREEN - All checks passing
 - **Tests:** 70 tests passing on Node 24.x and 25.x
@@ -224,9 +239,10 @@ jobs:
 
 ### Test Files
 
-**Location:** [__tests__/](./__tests__/)
+**Location:** [**tests**/](./__tests__/)
 
 **Test Suites:**
+
 1. `health.test.js` - 7 tests for health endpoint
 2. `appError.test.js` - 6 tests for error utility
 3. `catchAsync.test.js` - 5 tests for async wrapper
@@ -240,21 +256,25 @@ jobs:
 #### Screenshots
 
 **Health Endpoint Test:**
+
 - **Screenshot:** [health_check.png](./dev-data/img/screenshots/health_check.png)
 - **Shows:** Health endpoint returning server status
 
 **All Tests Passing:**
+
 - **Screenshot:** [test_passed.png](./dev-data/img/screenshots/test_passed.png)
 - **Shows:** All 70 tests passing locally
 
 #### Screen Recordings
 
 **Complete Test Suite Execution:**
+
 - **Video:** [test_pass_final.webm](./dev-data/video/screenrecord/test_pass_final.webm)
 - **Duration:** Full test suite execution
 - **Shows:** All 70 tests passing with coverage report
 
 **Final Test Demonstration:**
+
 - **Video:** [final_test_video.webm](./dev-data/video/screenrecord/final_test_video.webm)
 - **Shows:** Complete testing workflow and results
 
@@ -268,6 +288,7 @@ Time:        2.477 s
 ```
 
 **Test Coverage:**
+
 - Unit Tests: 18 tests (health, error handling, async wrapper)
 - Validation Tests: 26 tests (Tour model validation)
 - Integration Tests: 26 tests (database CRUD operations)
@@ -275,11 +296,13 @@ Time:        2.477 s
 ### Test Categories
 
 **Sprint 1 Tests (18):**
+
 - Health endpoint functionality
 - AppError class behavior
 - CatchAsync wrapper functionality
 
 **Sprint 2 Tests (26):**
+
 - Required field validation
 - Data type validation
 - String length validation
@@ -289,6 +312,7 @@ Time:        2.477 s
 - Default values
 
 **Sprint 3 Tests (26):**
+
 - Database create operations
 - Database query operations
 - Database update operations
@@ -305,6 +329,7 @@ Time:        2.477 s
 **Document:** [SPRINT1_REVIEW.md](./SPRINT1_REVIEW.md)
 
 **Contents:**
+
 - Sprint objectives and goals
 - Stories completed (3 stories, 16 points)
 - Technical achievements
@@ -314,12 +339,14 @@ Time:        2.477 s
 - Lessons learned
 
 **Deliverables:**
+
 - Health monitoring endpoint
 - Automated testing suite (18 tests)
 - CI/CD pipeline with GitHub Actions
 - Resolution of package-lock.json issue
 
 **Screenshots Referenced:**
+
 - [ci_failed.png](./dev-data/img/screenshots/ci_failed.png) - Initial CI failure
 - [sprint_1_passed.png](./dev-data/img/screenshots/sprint_1_passed.png) - CI success after fix
 
@@ -328,6 +355,7 @@ Time:        2.477 s
 **Document:** [SPRINT2_REVIEW.md](./SPRINT2_REVIEW.md)
 
 **Contents:**
+
 - Sprint objectives and goals
 - Stories completed (3 stories, 12 points)
 - Technical achievements
@@ -338,6 +366,7 @@ Time:        2.477 s
 - Zero debugging time
 
 **Deliverables:**
+
 - Winston logging with file rotation
 - Environment configuration documentation
 - Comprehensive README (425 lines)
@@ -345,6 +374,7 @@ Time:        2.477 s
 - Total: 44 tests passing
 
 **Screenshots Referenced:**
+
 - [sprint_2_passed.png](./dev-data/img/screenshots/sprint_2_passed.png) - All checks passing
 - [test_passed.png](./dev-data/img/screenshots/test_passed.png) - 44 tests passing
 
@@ -353,6 +383,7 @@ Time:        2.477 s
 **Document:** [SPRINT3_REVIEW.md](./SPRINT3_REVIEW.md)
 
 **Contents:**
+
 - Sprint objectives and goals
 - Stories completed (3 stories, 12 points)
 - Comprehensive API documentation
@@ -362,16 +393,19 @@ Time:        2.477 s
 - Template-driven documentation approach
 
 **Deliverables:**
+
 - 26 database integration tests
 - Comprehensive API documentation (850+ lines)
 - Total: 70 tests passing
 - Production-ready codebase
 
 **Screenshots Referenced:**
+
 - [sprint_3_passed.png](./dev-data/img/screenshots/sprint_3_passed.png) - Final CI success
 - [git_online_log.png](./dev-data/img/screenshots/git_online_log.png) - Complete commit history
 
 **Video Evidence:**
+
 - [final_test_video.webm](./dev-data/video/screenrecord/final_test_video.webm) - Complete test execution
 - [test_pass_final.webm](./dev-data/video/screenrecord/test_pass_final.webm) - Test suite demonstration
 
@@ -386,16 +420,19 @@ Time:        2.477 s
 **Format:** Start, Stop, Continue
 
 **Key Improvements Identified:**
+
 1. **Verify CI/CD on GitHub** - Don't just check locally
 2. **30-minute debugging timer** - Try different approach after 30 min
 3. **Continuous documentation** - Update docs as you work
 
 **Problems Encountered:**
+
 - Browserslist configuration conflict
 - ES module compatibility issue
 - package-lock.json CI/CD error
 
 **Lessons Learned:**
+
 - Always verify CI in actual GitHub environment
 - npm ci requires package-lock.json
 - Learning curve affects estimation
@@ -409,21 +446,25 @@ Time:        2.477 s
 **Format:** Did I Apply Sprint 1 Improvements?
 
 **Application of Sprint 1 Improvements:**
+
 1. Verify CI/CD on GitHub - APPLIED (Grade: A+)
 2. 30-minute debugging timer - N/A (no debugging needed)
 3. Continuous documentation - APPLIED (Grade: A)
 
 **Surprises:**
+
 - Sprint 2 was easier than Sprint 1
 - Writing 26 tests was fast (~1.5h)
 - Reducing story points felt good
 
 **Key Metrics:**
+
 - Debugging time: 2-3h (Sprint 1) -> 0h (Sprint 2)
 - Velocity: 16 points -> 12 points (sustainable)
 - Confidence: 6/10 -> 8/10
 
 **Lessons That Will Stick:**
+
 - Always verify in production environment
 - Reducing scope improves quality
 - Templates speed up repetitive work
@@ -437,26 +478,31 @@ Time:        2.477 s
 **Format:** What Worked Exceptionally Well
 
 **Application of Sprint 2 Improvements:**
+
 1. Verify CI/CD on GitHub - APPLIED (Grade: A)
 2. Document continuously - APPLIED (Grade: A)
 3. Use templates - APPLIED HEAVILY (Grade: A+)
 
 **What Worked Exceptionally Well:**
+
 - Template-driven documentation (saved 50% time)
 - Integration test patterns (26 tests in 2h)
 - Sustainable velocity maintained (12 points)
 
 **Surprises:**
+
 - Integration tests were fun
 - User model dependency issue was educational
 - Documentation didn't feel like "extra work"
 
 **Key Metrics:**
+
 - Debugging time: 1h (educational, not frustrating)
 - Confidence: 9/10
 - Process maturity: 9/10
 
 **Lessons That Will Stick:**
+
 - Templates compound value (2h saved)
 - Integration tests build real confidence
 - Consistent velocity enables quality
@@ -469,32 +515,35 @@ Time:        2.477 s
 
 ### Overall Metrics
 
-| Metric                    | Value   |
-| ------------------------- | ------- |
-| Total Sprints Completed   | 3       |
-| Total Story Points        | 40      |
-| User Stories Completed    | 8       |
-| Total Tests Written       | 70      |
-| Test Suites               | 5       |
-| Documentation Lines       | 1000+   |
-| CI/CD Pipeline Runs       | 15+     |
-| Commits                   | 15+     |
-| Sprint Reviews            | 3       |
-| Sprint Retrospectives     | 3       |
+| Metric                  | Value |
+| ----------------------- | ----- |
+| Total Sprints Completed | 3     |
+| Total Story Points      | 40    |
+| User Stories Completed  | 8     |
+| Total Tests Written     | 70    |
+| Test Suites             | 5     |
+| Documentation Lines     | 1000+ |
+| CI/CD Pipeline Runs     | 15+   |
+| Commits                 | 15+   |
+| Sprint Reviews          | 3     |
+| Sprint Retrospectives   | 3     |
 
 ### Sprint Progression
 
 **Sprint 1 (16 points):**
+
 - Foundation: CI/CD, testing framework, health endpoint
 - Challenges: Package-lock.json, browserslist, ES modules
 - Outcome: 18 tests, CI/CD pipeline
 
 **Sprint 2 (12 points):**
+
 - Quality: Logging, validation tests, documentation
 - Improvements: Zero debugging, continuous documentation
 - Outcome: 44 tests, Winston logging, comprehensive README
 
 **Sprint 3 (12 points):**
+
 - Integration: Database tests, API documentation
 - Refinement: Template-driven approach, minimal debugging
 - Outcome: 70 tests, API docs, production-ready code
@@ -552,7 +601,7 @@ Time:        2.477 s
    - Success runs: [sprint_1_passed.png](./dev-data/img/screenshots/sprint_1_passed.png), [sprint_2_passed.png](./dev-data/img/screenshots/sprint_2_passed.png), [sprint_3_passed.png](./dev-data/img/screenshots/sprint_3_passed.png)
 
 4. **Testing Evidence:**
-   - Test files: [__tests__/](./__tests__/)
+   - Test files: [**tests**/](./__tests__/)
    - Screenshots: [test_passed.png](./dev-data/img/screenshots/test_passed.png)
    - Videos: [final_test_video.webm](./dev-data/video/screenrecord/final_test_video.webm), [test_pass_final.webm](./dev-data/video/screenrecord/test_pass_final.webm)
 
@@ -635,6 +684,7 @@ npm run dev
 ## 12. Conclusion
 
 This project demonstrates:
+
 - Ability to plan and execute Agile sprints
 - DevOps practices (CI/CD, testing, logging)
 - Continuous improvement through retrospectives
@@ -642,6 +692,7 @@ This project demonstrates:
 - Problem-solving and learning agility
 
 All required deliverables have been submitted:
+
 - Backlog & Sprint Plans
 - Codebase with commit history
 - CI/CD configuration and evidence

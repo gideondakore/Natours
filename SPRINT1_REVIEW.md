@@ -191,10 +191,12 @@ Tests:       18 passed, 18 total
 ### 3. CI/CD Pipeline
 
 **Initial Failure:**
+
 - [ci_failed.png](./dev-data/img/screenshots/ci_failed.png) - Initial pipeline failure
 - [spring_1_failed.png](./dev-data/img/screenshots/spring_1_failed.png) - Error details
 
 **After Fix:**
+
 - [sprint_1_passed.png](./dev-data/img/screenshots/sprint_1_passed.png) - All checks passing
 
 ### 4. Git Commit History

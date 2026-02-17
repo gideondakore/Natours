@@ -8,11 +8,13 @@
 **Team:** Gideon (Solo Project)
 
 **Screenshot Evidence:**
+
 - [sprint_3_passed.png](./dev-data/img/screenshots/sprint_3_passed.png) - Sprint 3 CI/CD completion
 - [test_passed.png](./dev-data/img/screenshots/test_passed.png) - All 70 tests passing
 - [git_online_log.png](./dev-data/img/screenshots/git_online_log.png) - Complete commit history
 
 **Video Evidence:**
+
 - [final_test_video.webm](./dev-data/video/screenrecord/final_test_video.webm) - Complete test suite execution
 - [test_pass_final.webm](./dev-data/video/screenrecord/test_pass_final.webm) - Final testing demonstration
 
@@ -320,6 +322,7 @@ if (!mongoose.models.User) {
 **Screenshot:** [test_passed.png](./dev-data/img/screenshots/test_passed.png) - Shows all 70 tests passing
 
 **Video Evidence:**
+
 - [final_test_video.webm](./dev-data/video/screenrecord/final_test_video.webm) - Complete test suite execution
 - [test_pass_final.webm](./dev-data/video/screenrecord/test_pass_final.webm) - Final testing demonstration
 

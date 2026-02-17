@@ -1227,6 +1227,7 @@ ISC
 **Complete Project Deliverable:** [FINAL_DELIVERABLES.md](./FINAL_DELIVERABLES.md)
 
 This document includes all required artifacts:
+
 - Backlog & Sprint Plans
 - Codebase link and commit history
 - CI/CD Evidence (configuration, screenshots, logs)
@@ -1237,12 +1238,14 @@ This document includes all required artifacts:
 ### Evidence & Assets
 
 **Screenshots:** [dev-data/img/screenshots/](./dev-data/img/screenshots/)
+
 - CI/CD pipeline runs (failed and successful)
 - Test execution results
 - GitHub commit history
 - Health endpoint demonstration
 
 **Screen Recordings:** [dev-data/video/screenrecord/](./dev-data/video/screenrecord/)
+
 - Complete test suite execution
 - Final testing demonstration
 
