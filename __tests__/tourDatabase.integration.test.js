@@ -45,6 +45,13 @@ describe("Tour Database Integration Tests", () => {
     price: 397,
     summary: "Breathtaking hike through the Canadian Banff National Park",
     imageCover: "tour-1-cover.jpg",
+    // Minimal required fields for schema
+    startLocation: {
+      type: "Point",
+      coordinates: [0, 0], // Any coordinates work
+    },
+    locations: [], // Empty array is fine
+    guides: [], // Empty array is fine
   };
 
   describe("Creating Tours in Database", () => {
