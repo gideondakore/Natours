@@ -399,43 +399,156 @@ Sprint 1 requirements specifically ask for CI/CD and testing. This sets up every
 
 ---
 
-### 7. Initial Thoughts for Sprint 2
+## Sprint 1: COMPLETED ✅
 
-I don't know exactly what I'll do in Sprint 2 yet - it depends on how Sprint 1 goes.
+**End Date:** February 17, 2026  
+**Status:** All 3 stories completed (16 points)
 
-**Potential Directions:**
+### Sprint 1 Outcomes
 
-- If CI/CD was easy → Focus on logging and monitoring (Story #4)
-- If testing went well → Add more tests (Story #6, #8)
-- If I struggled → Simplify and focus on documentation (Story #5, #7)
-- Need to show "improvement" from feedback, so I'll keep notes during Sprint 1
+✅ Health Monitoring Endpoint - Working  
+✅ Automated Testing Suite - 18 tests passing  
+✅ CI/CD Pipeline - GitHub Actions configured
 
-**Questions for My Future Self:**
+### Critical Issue Found & Fixed
 
-- What was harder than expected?
-- What would you do differently?
-- What feedback would you give yourself?
+**Issue:** CI/CD pipeline failed on first run with error:
+```
+Error: Dependencies lock file is not found in /home/runner/work/Natours/Natours
+```
+
+**Root Cause:** `package-lock.json` was in `.gitignore`, so GitHub Actions couldn't run `npm ci` (which requires the lock file).
+
+**Fix:** Removed `package-lock.json` from `.gitignore` and pushed it to repository.
+
+**Result:** ✅ All CI jobs passing (Test and Build on Node 24.x & 25.x, Code Quality Checks)
+
+**Lesson Learned:** This validates Retrospective Improvement #1: "Verify CI/CD pipeline actually works on GitHub before declaring story done." I marked Story #2 as complete before checking GitHub Actions. Now I know to always verify.
 
 ---
 
-### 8. Daily Log (To Be Updated During Sprint 1)
+### 8. Daily Log - Sprint 1
 
 ```
-Sprint 1 Day 1 - [Date]:
-- Started reading GitHub Actions docs
-- Created project structure
-- Initial commit with Express setup
+Sprint 1 - February 17, 2026:
+- Created health endpoint (/api/v1/health) ✅
+- Configured Jest with 18 passing tests ✅
+- Set up GitHub Actions CI/CD pipeline ✅
+- Fixed browserslist configuration conflict
+- Fixed ES module compatibility issue (file-type package)
+- Created Sprint 1 Review and Retrospective
+- ISSUE: CI failed - package-lock.json not in repo
+- FIX: Removed package-lock.json from .gitignore
+- RESULT: All CI checks passing ✅
+```
 
-Sprint 1 Day 2 - [Date]:
+---
+
+## Sprint 2: Planning & Execution
+
+**Start Date:** February 17, 2026  
+**Sprint Goal:** "Improve code quality with logging, additional tests, and complete documentation"
+
+### Applying Sprint 1 Learnings
+
+**From Retrospective - 3 Improvements:**
+
+1. ✅ **Verify CI/CD on GitHub** - ALREADY LEARNED! Found package-lock.json issue
+2. ⏰ **30-minute debugging timer** - Will apply during Sprint 2
+3. 📝 **Continuous documentation** - Update docs as I work, not at end
+
+---
+
+### 9. Sprint 2 Backlog Selection
+
+```
+### 9. Sprint 2 Backlog Selection
+
+**Selected Stories for Sprint 2:**
+
+| Story                               | Points | Priority | Reason for Selection                           |
+| ----------------------------------- | ------ | -------- | ---------------------------------------------- |
+| #4: Error Logging & Monitoring      | 5      | High     | Demonstrates monitoring capability for rubric  |
+| #7: Environment Config Docs         | 2      | Medium   | Quick win, improves project documentation      |
+| #6: Input Validation Tests          | 5      | Medium   | Adds more test coverage, shows testing skills  |
+| **TOTAL**                           | **12** |          | Reduced from 16 to focus on quality & learning |
+
+**Why 12 points instead of 16?**
+
+Sprint 1 taught me that testing takes 2x longer than estimated. Reducing story points to:
+- Focus on applying the 3 improvements from retrospective
+- Ensure higher quality delivery
+- Leave time for documentation updates
+- Avoid rushing at the end
+
+---
+
+### Sprint 2 Task Breakdown
+
+**Story #4: Error Logging & Monitoring (5 points)**
+
+- [ ] Task 4.1: Install Winston logging library
+- [ ] Task 4.2: Create logger configuration file
+- [ ] Task 4.3: Set up different log levels (error, warn, info)
+- [ ] Task 4.4: Add file transports for production logging
+- [ ] Task 4.5: Replace console.log with structured logging
+- [ ] Task 4.6: Add request logging middleware
+- [ ] Task 4.7: Test logging in different environments
+- [ ] Task 4.8: Commit logging implementation
+
+**Story #7: Environment Configuration Documentation (2 points)**
+
+- [ ] Task 7.1: Document all required environment variables
+- [ ] Task 7.2: Create .env.example file
+- [ ] Task 7.3: Add setup instructions to README.md
+- [ ] Task 7.4: Document Node.js version requirements
+- [ ] Task 7.5: Add troubleshooting section
+- [ ] Task 7.6: Commit documentation updates
+
+**Story #6: Input Validation Tests (5 points)**
+
+- [ ] Task 6.1: Write tests for tour model validation
+- [ ] Task 6.2: Write tests for required field validation
+- [ ] Task 6.3: Write tests for data type validation  
+- [ ] Task 6.4: Write tests for API error responses
+- [ ] Task 6.5: Run tests and ensure all pass
+- [ ] Task 6.6: Update test coverage report
+- [ ] Task 6.7: Commit validation tests
+
+---
+
+### Sprint 2 Success Criteria
+
+**Must Have:**
+- Winston logging implemented with file output
+- README.md has complete setup instructions
+- At least 10 new validation tests passing
+- All 3 retrospective improvements applied
+- CI/CD pipeline still passing
+
+**Nice to Have:**
+- Test coverage >15%
+- Log rotation configured
+- API documentation in README
+
+---
+
+### Daily Log - Sprint 2 (To Be Updated)
+
+```
+Sprint 2 Day 1 - February 17, 2026:
+- 
+
+Sprint 2 Day 2 - [Date]:
 -
 
-Sprint 1 Day 3 - [Date]:
+Sprint 2 Day 3 - [Date]:
 -
 ```
 
 ---
 
-### 9. Questions for My Instructor/Tutor
+### 10. Questions for My Instructor/Tutor
 
 1. For monitoring/logging in Sprint 2, is simple file logging enough or should I look into external services?
 2. How much test coverage is considered "good enough" for this lab?
