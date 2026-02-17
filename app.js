@@ -15,6 +15,7 @@ const reviewRouter = require("./routes/reviewRoutes");
 const bookingRouter = require("./routes/bookingRoutes");
 const bookingController = require("./controllers/bookingController");
 const viewRouter = require("./routes/viewRoutes");
+const healthRouter = require("./routes/healthRoutes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
@@ -176,6 +177,7 @@ app.use((req, res, next) => {
 // ROUTES
 app.use("/", viewRouter);
 
+app.use("/api/v1/health", healthRouter);
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/reviews", reviewRouter);
