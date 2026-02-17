@@ -142,6 +142,8 @@ Rotation: 5MB per file, 5 files max
 
 **Test Results:**
 
+**Screenshot:** [test_passed.png](./dev-data/img/screenshots/test_passed.png) - Shows 44 tests passing
+
 ```
 PASS __tests__/tourModel.test.js (26 tests)
   Tour Model Validation
@@ -157,6 +159,8 @@ PASS __tests__/tourModel.test.js (26 tests)
 Test Suites: 4 passed, 4 total
 Tests:       44 passed, 44 total
 ```
+
+**CI/CD Evidence:** [sprint_2_passed.png](./dev-data/img/screenshots/sprint_2_passed.png) - All pipeline checks passing
 
 **Commit:** `34853c7 - test: add comprehensive tour model validation tests`
 

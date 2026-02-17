@@ -162,6 +162,8 @@ Estimated breakdown:
 
 ### 1. Health Endpoint Response
 
+**Screenshot:** [health_check.png](./dev-data/img/screenshots/health_check.png)
+
 ```json
 {
   "status": "success",
@@ -175,6 +177,8 @@ Estimated breakdown:
 
 ### 2. Test Results
 
+**Screenshot:** [test_passed.png](./dev-data/img/screenshots/test_passed.png)
+
 ```
 PASS  __tests__/catchAsync.test.js
 PASS  __tests__/appError.test.js
@@ -184,7 +188,18 @@ Test Suites: 3 passed, 3 total
 Tests:       18 passed, 18 total
 ```
 
-### 3. Git Commit History
+### 3. CI/CD Pipeline
+
+**Initial Failure:**
+- [ci_failed.png](./dev-data/img/screenshots/ci_failed.png) - Initial pipeline failure
+- [spring_1_failed.png](./dev-data/img/screenshots/spring_1_failed.png) - Error details
+
+**After Fix:**
+- [sprint_1_passed.png](./dev-data/img/screenshots/sprint_1_passed.png) - All checks passing
+
+### 4. Git Commit History
+
+**Screenshot:** [git_online_log.png](./dev-data/img/screenshots/git_online_log.png)
 
 ```
 d298dbf feat: setup CI/CD pipeline with GitHub Actions
