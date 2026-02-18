@@ -47,7 +47,6 @@ junit.xml
 
 # Package manager specific
 yarn.lock
-package-lock.json
 pnpm-lock.yaml
 
 # Optional npm cache directory

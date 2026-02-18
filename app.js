@@ -15,9 +15,12 @@ const reviewRouter = require("./routes/reviewRoutes");
 const bookingRouter = require("./routes/bookingRoutes");
 const bookingController = require("./controllers/bookingController");
 const viewRouter = require("./routes/viewRoutes");
+const healthRouter = require("./routes/healthRoutes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
+const logger = require("./utils/logger");
+const requestLogger = require("./utils/requestLogger");
 
 const app = express();
 
@@ -44,6 +47,9 @@ app.set("views", path.join(__dirname, "views"));
 // Global First middleware
 
 app.options("*", cors());
+
+// Request logging middleware
+app.use(requestLogger);
 
 // Serving static files
 app.use(
@@ -176,6 +182,7 @@ app.use((req, res, next) => {
 // ROUTES
 app.use("/", viewRouter);
 
+app.use("/api/v1/health", healthRouter);
 app.use("/api/v1/tours", tourRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/reviews", reviewRouter);
