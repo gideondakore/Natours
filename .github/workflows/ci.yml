@@ -53,7 +53,7 @@ jobs:
           image: gdakore/my-repo
           tags: v1,latest
           registry: docker.io
-          username: ${{ vars.DOCKER_USERNAME }}
+          username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Login to Docker Hub
