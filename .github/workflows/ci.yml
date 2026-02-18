@@ -9,11 +9,13 @@ on:
 jobs:
   test:
     name: Test and Build
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
         node-version: [24.x, 25.x]
+        os: [ubuntu-latest, windows-latest, macos-latest] #Just added this for testing purposes, we can remove it later if we want to test only on ubuntu-latest
 
     steps:
       - name: Checkout code
