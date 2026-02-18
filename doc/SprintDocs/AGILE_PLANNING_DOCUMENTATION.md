@@ -108,7 +108,6 @@ Week 1 Goals:
 
 - GitHub Actions documentation
 - "CI/CD for Node.js" tutorial I found
-- Stack Overflow threads about MongoDB in CI
 
 **Potential Problems I Foresee:**
 

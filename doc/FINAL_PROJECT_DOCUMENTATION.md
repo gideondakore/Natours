@@ -136,8 +136,8 @@ The project followed Scrum framework with:
 
 ### Product Backlog
 
-| ID  | Story                       | Points | Sprint | Status  |
-| --- | --------------------------- | ------ | ------ | ------- |
+| ID  | Story                       | Points | Sprint | Status    |
+| --- | --------------------------- | ------ | ------ | --------- |
 | 1   | Health Check Endpoint       | 2      | 1      | DONE DONE |
 | 2   | Basic Unit Tests            | 3      | 1      | DONE DONE |
 | 3   | GitHub Actions CI           | 5      | 1      | DONE DONE |
