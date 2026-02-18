@@ -47,15 +47,33 @@ jobs:
       - name: Build application
         run: npm run build --if-present || echo "No build step configured"
 
-      - name: Login to Docker Hub
+      - name: Debug secrets
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          echo "Token differ: $DOCKERHUB_TOKEN"
+          echo "Database password length: ${#DATABASE_PASSWORD}"
+          echo "Username length: ${#DOCKER_USERNAME}"
+          echo "Token length: ${#DOCKERHUB_TOKEN}"
+          echo "Database password length: ${#DATABASE_PASSWORD}"
+          echo "JWT secret length: ${#JWT_SECRET}"
+          echo "Stripe secret key length: ${#STRIPE_SECRET_KEY}"
+          echo "SendGrid username length: ${#SENDGRID_USERNAME}"
+          echo "SendGrid password length: ${#SENDGRID_PASSWORD}"
+          echo "Mailtrap username length: ${#MAILTRAP_USERNAME}"
+          echo "Mailtrap password length: ${#MAILTRAP_PASSWORD}"
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Login to Docker Hub
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build & push Docker image
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
         uses: mr-smithers-excellent/docker-build-push@v6
         with:
           image: gdakore/my-repo
