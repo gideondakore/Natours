@@ -1,0 +1,33 @@
+services:
+  natours:
+    image: gdakore/my-repo:${TAG:-latest}
+    container_name: natours-app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-development}
+      - PORT=3000
+      - LOCAL_HOST_CLIENT=http://localhost:5000
+      # Database credentials
+      - DATABASE=${DATABASE}
+      - DATABASE_PASSWORD=${DATABASE_PASSWORD}
+      - DATABASE=${DATABASE}
+      # JWT
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRES_IN=${JWT_EXPIRES_IN:-30d}
+      - JWT_COOKIE_EXPIRES_IN=${JWT_COOKIE_EXPIRES_IN:-30} # Fixed space
+      # Stripe
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+      # Email (SendGrid)
+      - EMAIL_FROM=${EMAIL_FROM}
+      - SENDGRID_USERNAME=${SENDGRID_USERNAME}
+      - SENDGRID_PASSWORD=${SENDGRID_PASSWORD}
+      # Email (Mailtrap - for testing)
+      - MAILTRAP_HOST=${MAILTRAP_HOST}
+      - MAILTRAP_PORT=${MAILTRAP_PORT}
+      - MAILTRAP_USERNAME=${MAILTRAP_USERNAME}
+      - MAILTRAP_PASSWORD=${MAILTRAP_PASSWORD}
+      # Google gmail app password (for production)
+      - APP_PASSWORD=${APP_PASSWORD}
+    restart: unless-stopped

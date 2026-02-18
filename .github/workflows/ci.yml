@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         node-version: [24.x, 25.x]
-        os: [ubuntu-latest, windows-latest, macos-latest] #Just added this for testing purposes, we can remove it later if we want to test only on ubuntu-latest
+        os: [ubuntu-latest] #Just added this for testing purposes, we can remove it later if we want to test only on ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -46,6 +46,51 @@ jobs:
 
       - name: Build application
         run: npm run build --if-present || echo "No build step configured"
+
+      - name: Login to Docker Hub
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build & push Docker image
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: gdakore/my-repo
+          tags: v1,latest
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Docker compose to test the application
+        env:
+          NODE_ENV: development
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
+          DATABASE: ${{ secrets.DATABASE }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_EXPIRES_IN: 30d
+          JWT_COOKIE_EXPIRES_IN: 30
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          SENDGRID_USERNAME: ${{ secrets.SENDGRID_USERNAME }}
+          SENDGRID_PASSWORD: ${{ secrets.SENDGRID_PASSWORD }}
+          MAILTRAP_USERNAME: ${{ secrets.MAILTRAP_USERNAME }}
+          MAILTRAP_PASSWORD: ${{ secrets.MAILTRAP_PASSWORD }}
+          APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
+          PORT: 3000
+          LOCAL_HOST_CLIENT: http://localhost:5000
+          WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
+          EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
+          MAILTRAP_HOST: ${{ secrets.MAILTRAP_HOST }}
+          MAILTRAP_PORT: ${{ secrets.MAILTRAP_PORT }}
+        run: |
+          docker compose up -d
+          echo "Waiting for app to start..."
+          sleep 15
+          # Test if app is responding
+          curl --fail http://localhost:3000 || exit 1
+          docker compose down
 
   code-quality:
     name: Code Quality Checks
