@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         node-version: [24.x, 25.x]
-        os: [ubuntu-latest] #Just added this for testing purposes, we can remove it later if we want to test only on ubuntu-latest
+        os: [ubuntu-latest] #Just added this for testing purposes, I can remove it later if I want to test only on ubuntu-latest
 
     steps:
       - name: Checkout code
