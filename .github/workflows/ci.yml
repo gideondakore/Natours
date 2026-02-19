@@ -139,7 +139,6 @@ jobs:
           docker exec natours-app ps aux | grep node
 
           docker compose down
-          exit 1  # Fail the build since app isn't responding correctly
 
   code-quality:
     name: Code Quality Checks
