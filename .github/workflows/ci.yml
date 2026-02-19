@@ -138,11 +138,6 @@ jobs:
           # Check if Node.js process is running
           docker exec natours-app ps aux | grep node
 
-          # Test with more details
-          docker exec natours-app curl -v http://localhost:3000/ || true
-          docker exec natours-app wget -O- http://localhost:3000/ || true
-
-
           docker compose down
           exit 1  # Fail the build since app isn't responding correctly
 
