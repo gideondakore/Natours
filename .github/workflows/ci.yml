@@ -100,7 +100,7 @@ jobs:
           MAILTRAP_PASSWORD: ${{ secrets.MAILTRAP_PASSWORD }}
           APP_PASSWORD: ${{ secrets.APP_PASSWORD }}
           PORT: 3000
-          LOCAL_HOST_CLIENT: http://localhost:5000
+          LOCAL_HOST_CLIENT: http://localhost:3000
           WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
           EMAIL_FROM: ${{ secrets.EMAIL_FROM }}
           MAILTRAP_HOST: ${{ secrets.MAILTRAP_HOST }}
@@ -109,9 +109,42 @@ jobs:
           docker compose up -d
           echo "Waiting for app to start..."
           sleep 15
-          # Test if app is responding
-          curl --fail http://localhost:3000 || exit 1
+
+          # Check container logs
+          echo "=== Container Logs ==="
+          docker compose logs
+
+          # Check if container is still running
+          echo "=== Container Status ==="
+          docker compose ps
+
+          # Test different endpoints
+          echo "=== Testing Root Endpoint ==="
+          curl -v http://localhost:3000 || true
+
+          echo "=== Testing Health Endpoint (if exists) ==="
+          curl -v http://localhost:3000/api/v1/health || true
+
+          # Check what's listening on port 3000 inside container
+          echo "=== Processes inside container ==="
+          docker exec natours-app ps aux || true
+
+          echo "=== Network connections inside container ==="
+          docker exec natours-app netstat -tln || true
+
+          # Get all logs
+          docker logs natours-app 2>&1 | head -50
+
+          # Check if Node.js process is running
+          docker exec natours-app ps aux | grep node
+
+          # Test with more details
+          docker exec natours-app curl -v http://localhost:3000/ || true
+          docker exec natours-app wget -O- http://localhost:3000/ || true
+
+
           docker compose down
+          exit 1  # Fail the build since app isn't responding correctly
 
   code-quality:
     name: Code Quality Checks
