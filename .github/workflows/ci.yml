@@ -76,7 +76,7 @@ jobs:
 
       - name: Configure AWS Credentials
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
-        uses: aws-actions/configure-aws-credentials@v6.0.0
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: ${{ secrets.AWS_REGION }}
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
