@@ -9,14 +9,13 @@ on:
 jobs:
   test:
     name: Test and Build
-    # runs-on: ubuntu-latest
     runs-on: ${{ matrix.os }}
     environment: natours-api-app
 
     strategy:
       matrix:
         node-version: [24.x, 25.x]
-        os: [ubuntu-latest] #Just added this for testing purposes, we can remove it later if we want to test only on ubuntu-latest
+        os: [ubuntu-latest]
 
     steps:
       - name: Checkout code
@@ -60,7 +59,7 @@ jobs:
 
       - name: Docker compose to test the application
         env:
-          NODE_ENV: development
+          NODE_ENV: production
           DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD }}
           DATABASE: ${{ secrets.DATABASE }}
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
