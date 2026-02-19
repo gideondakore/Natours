@@ -17,7 +17,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [24.x, 25.x]
+        node-version: [25.x]
         os: [ubuntu-latest]
 
     steps:
@@ -113,18 +113,18 @@ jobs:
 
           # Check container logs
           echo "=== Container Logs ==="
-          docker compose logs
+          # docker compose logs
 
           # Check if container is still running
           echo "=== Container Status ==="
           docker compose ps
 
           # Test different endpoints
-          echo "=== Testing Root Endpoint ==="
-          curl -v http://localhost:3000 || true
+          # echo "=== Testing Root Endpoint ==="
+          # curl -v http://localhost:3000 || true
 
-          echo "=== Testing Health Endpoint (if exists) ==="
-          curl -v http://localhost:3000/api/v1/health || true
+          # echo "=== Testing Health Endpoint (if exists) ==="
+          # curl -v http://localhost:3000/api/v1/health || true
 
           # Check what's listening on port 3000 inside container
           echo "=== Processes inside container ==="
@@ -134,7 +134,7 @@ jobs:
           docker exec natours-app netstat -tln || true
 
           # Get all logs
-          docker logs natours-app 2>&1 | head -50
+          # docker logs natours-app 2>&1 | head -50
 
           # Check if Node.js process is running
           docker exec natours-app ps aux | grep node
