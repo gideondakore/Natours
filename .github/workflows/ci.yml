@@ -11,6 +11,7 @@ jobs:
     name: Test and Build
     # runs-on: ubuntu-latest
     runs-on: ${{ matrix.os }}
+    environment: natours-api-app
 
     strategy:
       matrix:
@@ -50,7 +51,9 @@ jobs:
       - name: Debug secrets
         if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/dev')
         run: |
-          echo "Token differ: $DOCKERHUB_TOKEN"
+          echo "GitHub ref: $GITHUB_REF"
+          echo "GitHub event: $GITHUB_EVENT_NAME"
+          echo "Environment: $GITHUB_ENVIRONMENT"
           echo "Database password length: ${#DATABASE_PASSWORD}"
           echo "Username length: ${#DOCKER_USERNAME}"
           echo "Token length: ${#DOCKERHUB_TOKEN}"
