@@ -1,4 +1,4 @@
-name: Natours CI/CD Pipeline
+name: Natours CI Pipeline
 permissions:
   id-token: write
   contents: read
@@ -163,3 +163,18 @@ jobs:
 
       - name: Check for outdated packages
         run: npm outdated || true
+
+  # I can just deploy the docker from ecr directly, but for demonstration, I'll show the steps to deploy to ECS using GitHub Actions. But I will create another cd.yml file for the actual deployment to keep things clean and separated. This is just a placeholder to show where the deployment steps would go after the CI tests pass.
+  deploy:
+    needs: test # Only runs if CI passes
+    if: github.ref == 'refs/heads/main' # Only deploy from main
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        run: echo "I can just deploy the tdocker from ecr directly"
+
+      - name: Login to ECR
+        run: echo "Login to ECR"
+
+      - name: Deploy to ECS
+        run: echo "Deploying to ECS using the new image from ECR"

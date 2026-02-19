@@ -1,0 +1,25 @@
+name: Natours CD Pipeline
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    environment: natours-api-app
+    steps:
+      - name: Deploy to ECS
+        run: |
+          echo "Deploying to AWS ECS..."
+          # Add your deployment commands here, e.g., using AWS CLI or GitHub Actions for AWS
+          # Example using AWS CLI:
+          # aws ecs update-service --cluster your-cluster-name --service your-service-name --force-new-deployment
+          echo "Deployment completed."
