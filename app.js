@@ -18,45 +18,45 @@ const viewRouter = require("./routes/viewRoutes");
 const healthRouter = require("./routes/healthRoutes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-// const compression = require("compression");
+const compression = require("compression");
 const logger = require("./utils/logger");
 const requestLogger = require("./utils/requestLogger");
 
 const app = express();
 
-// app.use(compression());
+app.use(compression());
 
-// app.set('trust proxy', true);
-app.set("trust proxy", process.env.NODE_ENV === "production" ? 1 : false);
+app.set("trust proxy", true);
+// app.set("trust proxy", process.env.NODE_ENV === "production" ? 1 : false);
 
-const corsOptions = {
-  origin: function (origin, callback) {
-    // Allow requests with no origin (like mobile apps, curl)
-    if (!origin) return callback(null, true);
+// const corsOptions = {
+//   origin: function (origin, callback) {
+//     // Allow requests with no origin (like mobile apps, curl)
+//     if (!origin) return callback(null, true);
 
-    const allowedOrigins = [
-      "http://localhost:3000",
-      "http://127.0.0.1:3000",
-      "http://3.92.206.36:3000", // Your ECS IP
-      // Add your domain when you have one
-    ];
+//     const allowedOrigins = [
+//       "http://localhost:3000",
+//       "http://127.0.0.1:3000",
+//       "http://3.92.206.36:3000", // Your ECS IP
+//       // Add your domain when you have one
+//     ];
 
-    if (
-      allowedOrigins.indexOf(origin) !== -1 ||
-      process.env.NODE_ENV !== "production"
-    ) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  methods: "GET,POST,PUT,PATCH,DELETE,HEAD",
-  credentials: true,
-  allowedHeaders: ["Content-Type", "Authorization"],
-  optionsSuccessStatus: 200,
-  preflightContinue: false,
-  maxAge: process.env.NODE_ENV === "production" ? 86400 : 300,
-};
+//     if (
+//       allowedOrigins.indexOf(origin) !== -1 ||
+//       process.env.NODE_ENV !== "production"
+//     ) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   methods: "GET,POST,PUT,PATCH,DELETE,HEAD",
+//   credentials: true,
+//   allowedHeaders: ["Content-Type", "Authorization"],
+//   optionsSuccessStatus: 200,
+//   preflightContinue: false,
+//   maxAge: process.env.NODE_ENV === "production" ? 86400 : 300,
+// };
 
 // app.use(cors(corsOptions));
 app.use(cors()); // Allow all origins for simplicity; adjust in production
@@ -66,7 +66,7 @@ app.set("views", path.join(__dirname, "views"));
 
 // Global First middleware
 
-app.options("*", cors());
+// app.options("*", cors()); //Preflight CORS requests for all routes is already handled by app.use(cors());
 
 // Request logging middleware
 app.use(requestLogger);
@@ -83,7 +83,11 @@ app.use(
 // Enabling HSTS on an HTTP origin causes browsers to upgrade all subsequent
 // requests (assets, API calls) to HTTPS, breaking static file loading entirely.
 // Re-enable only when TLS termination is in front of this service.
-app.use(helmet({ hsts: false }));
+// CSP is configured separately below per environment; disable it here to avoid
+// helmet's default CSP which includes 'upgrade-insecure-requests' — that
+// directive makes browsers upgrade asset requests to HTTPS, breaking plain-HTTP
+// deployments (e.g. ECS containers without TLS termination).
+app.use(helmet({ hsts: false, contentSecurityPolicy: false }));
 
 if (
   process.env.NODE_ENV === "production" ||
@@ -91,7 +95,10 @@ if (
 ) {
   app.use(
     helmet.contentSecurityPolicy({
+      useDefaults: false, // Prevents Helmet from adding its defaults
       directives: {
+        "upgrade-insecure-requests":
+          process.env.NODE_ENV === "production" ? [] : null, // redundant but explicit for clarity
         defaultSrc: ["'self'"],
         scriptSrc: [
           "'self'",
@@ -144,44 +151,43 @@ if (
     }),
   );
 } else {
-  // Helmet with relaxed settings for development
+  // Relaxed CSP for development (helmet base headers are already set above)
   app.use(
-    helmet({
-      hsts: false,
-      contentSecurityPolicy: {
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: [
-            "'self'",
-            "'unsafe-inline'",
-            "'unsafe-eval'",
-            "https://*.mapbox.com",
-            "https://*.stripe.com",
-          ],
-          styleSrc: [
-            "'self'",
-            "'unsafe-inline'",
-            "https://*.mapbox.com",
-            "https://fonts.googleapis.com",
-          ],
-          imgSrc: [
-            "'self'",
-            "data:",
-            "blob:",
-            "https://*.mapbox.com",
-            "https://*.stripe.com",
-          ],
-          connectSrc: [
-            "'self'",
-            "https://*.mapbox.com",
-            "https://*.stripe.com",
-            "ws://localhost:1234",
-          ],
-          fontSrc: ["'self'", "https://fonts.gstatic.com"],
-          objectSrc: ["'none'"],
-          baseUri: ["'self'"],
-          frameSrc: ["'self'", "https://*.stripe.com"],
-        },
+    helmet.contentSecurityPolicy({
+      "upgrade-insecure-requests": null,
+      useDefaults: false, // Prevents Helmet from adding its defaults
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "'unsafe-eval'",
+          "https://*.mapbox.com",
+          "https://*.stripe.com",
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://*.mapbox.com",
+          "https://fonts.googleapis.com",
+        ],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "https://*.mapbox.com",
+          "https://*.stripe.com",
+        ],
+        connectSrc: [
+          "'self'",
+          "https://*.mapbox.com",
+          "https://*.stripe.com",
+          "ws://localhost:1234",
+        ],
+        fontSrc: ["'self'", "https://fonts.gstatic.com"],
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"],
+        frameSrc: ["'self'", "https://*.stripe.com"],
       },
     }),
   );
