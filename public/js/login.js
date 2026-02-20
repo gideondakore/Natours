@@ -31,6 +31,38 @@ export const login = async (email, password) => {
   }
 };
 
+export const signup = async (name, email, password, passwordConfirm) => {
+  try {
+    const response = await fetch('/api/v1/users/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        passwordConfirm,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Signup failed');
+    }
+
+    if (data.status === 'success') {
+      showAlert('success', 'Account created successfully');
+      window.setTimeout(() => {
+        location.assign('/');
+      }, 1500);
+    }
+  } catch (err) {
+    showAlert('error', err.message);
+  }
+};
+
 export const logout = async () => {
   try {
     const response = await fetch('/api/v1/users/logout', {
