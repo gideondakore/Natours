@@ -18,19 +18,38 @@ const viewRouter = require("./routes/viewRoutes");
 const healthRouter = require("./routes/healthRoutes");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const compression = require("compression");
+// const compression = require("compression");
 const logger = require("./utils/logger");
 const requestLogger = require("./utils/requestLogger");
 
 const app = express();
 
-app.use(compression());
+// app.use(compression());
 
 // app.set('trust proxy', true);
 app.set("trust proxy", process.env.NODE_ENV === "production" ? 1 : false);
 
 const corsOptions = {
-  origin: [process.env.LOCAL_HOST_CLIENT],
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, curl)
+    if (!origin) return callback(null, true);
+
+    const allowedOrigins = [
+      "http://localhost:3000",
+      "http://127.0.0.1:3000",
+      "http://3.92.206.36:3000", // Your ECS IP
+      // Add your domain when you have one
+    ];
+
+    if (
+      allowedOrigins.indexOf(origin) !== -1 ||
+      process.env.NODE_ENV !== "production"
+    ) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   methods: "GET,POST,PUT,PATCH,DELETE,HEAD",
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -39,7 +58,8 @@ const corsOptions = {
   maxAge: process.env.NODE_ENV === "production" ? 86400 : 300,
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors()); // Allow all origins for simplicity; adjust in production
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
@@ -59,60 +79,113 @@ app.use(
 );
 
 // Set security HTTP headers
-app.use(helmet()); // Apply all default Helmet protections first
+// Disable HSTS: app is served over plain HTTP (no TLS at container level).
+// Enabling HSTS on an HTTP origin causes browsers to upgrade all subsequent
+// requests (assets, API calls) to HTTPS, breaking static file loading entirely.
+// Re-enable only when TLS termination is in front of this service.
+app.use(helmet({ hsts: false }));
 
-app.use(helmet.hsts({ maxAge: 31536000, includeSubDomains: true }));
-
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "'unsafe-eval'",
-        "https://api.mapbox.com",
-        "https://cdn.jsdelivr.net",
-        "https://js.stripe.com",
-        "blob:",
-      ],
-      workerSrc: ["'self'", "blob:"],
-      styleSrc: [
-        "'self'",
-        "'unsafe-inline'",
-        "https://api.mapbox.com",
-        "https://fonts.googleapis.com",
-        "https://cdn.jsdelivr.net",
-      ],
-      fontSrc: [
-        "'self'",
-        "https://fonts.gstatic.com",
-        "https://cdn.jsdelivr.net",
-      ],
-      imgSrc: [
-        "'self'",
-        "data:",
-        "blob:",
-        "https://*.mapbox.com",
-        "https://*.stripe.com",
-      ],
-      connectSrc: [
-        "'self'",
-        "https://api.mapbox.com",
-        "https://events.mapbox.com",
-        "https://cdn.jsdelivr.net",
-        "http://localhost:3000/v1/users/login",
-        "ws://localhost:1234",
-        "http://127.0.0.1:3000/api/v1/users/updateMe",
-        "https://js.stripe.com/basil/stripe.js",
-        "https://api.stripe.com",
-        "https://checkout.stripe.com",
-      ],
-      objectSrc: ["'none'"],
-      baseUri: ["'self'"],
-      frameSrc: ["'self'", "https://js.stripe.com", "https://hooks.stripe.com"],
-    },
-  }),
-);
+if (
+  process.env.NODE_ENV === "production" ||
+  process.env.NODE_ENV === "staging"
+) {
+  app.use(
+    helmet.contentSecurityPolicy({
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-eval'",
+          "https://api.mapbox.com",
+          "https://cdn.jsdelivr.net",
+          "https://js.stripe.com",
+          "blob:",
+        ],
+        workerSrc: ["'self'", "blob:"],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          "https://api.mapbox.com",
+          "https://fonts.googleapis.com",
+          "https://cdn.jsdelivr.net",
+        ],
+        fontSrc: [
+          "'self'",
+          "https://fonts.gstatic.com",
+          "https://cdn.jsdelivr.net",
+        ],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "https://*.mapbox.com",
+          "https://*.stripe.com",
+        ],
+        connectSrc: [
+          "'self'",
+          "https://api.mapbox.com",
+          "https://events.mapbox.com",
+          "https://cdn.jsdelivr.net",
+          "http://localhost:3000/v1/users/login",
+          "ws://localhost:1234",
+          "http://127.0.0.1:3000/api/v1/users/updateMe",
+          "https://js.stripe.com/basil/stripe.js",
+          "https://api.stripe.com",
+          "https://checkout.stripe.com",
+        ],
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"],
+        frameSrc: [
+          "'self'",
+          "https://js.stripe.com",
+          "https://hooks.stripe.com",
+        ],
+      },
+    }),
+  );
+} else {
+  // Helmet with relaxed settings for development
+  app.use(
+    helmet({
+      hsts: false,
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "'unsafe-eval'",
+            "https://*.mapbox.com",
+            "https://*.stripe.com",
+          ],
+          styleSrc: [
+            "'self'",
+            "'unsafe-inline'",
+            "https://*.mapbox.com",
+            "https://fonts.googleapis.com",
+          ],
+          imgSrc: [
+            "'self'",
+            "data:",
+            "blob:",
+            "https://*.mapbox.com",
+            "https://*.stripe.com",
+          ],
+          connectSrc: [
+            "'self'",
+            "https://*.mapbox.com",
+            "https://*.stripe.com",
+            "ws://localhost:1234",
+          ],
+          fontSrc: ["'self'", "https://fonts.gstatic.com"],
+          objectSrc: ["'none'"],
+          baseUri: ["'self'"],
+          frameSrc: ["'self'", "https://*.stripe.com"],
+        },
+      },
+    }),
+  );
+}
 
 //Development logging
 if (process.env.NODE_ENV === "development") {
