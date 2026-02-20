@@ -1,25 +1,68 @@
-name: Natours CD Pipeline
+name: Natours CD
 permissions:
   id-token: write
   contents: read
 
 on:
   workflow_run:
-    workflows: ["CI"]
+    workflows: ["Natours CI"]
     types: [completed]
-    branches: [main]
-  workflow_dispatch: # Allow manual trigger
+    branches: [main, dev]
+  workflow_dispatch:
 
 jobs:
   deploy:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     environment: natours-api-app
+
     steps:
-      - name: Deploy to ECS
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ secrets.AWS_REGION }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          role-session-name: github-actions-${{ github.run_id }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Download current task definition
         run: |
-          echo "Deploying to AWS ECS..."
-          # Add your deployment commands here, e.g., using AWS CLI or GitHub Actions for AWS
-          # Example using AWS CLI:
-          # aws ecs update-service --cluster your-cluster-name --service your-service-name --force-new-deployment
-          echo "Deployment completed."
+          aws ecs describe-task-definition \
+            --task-definition natours_app \
+            --query taskDefinition > task-definition.json
+
+      - name: Create new task definition with environment variables
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: natours_app
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
+          environment-variables: |
+            NODE_ENV=production
+            PORT=3000
+            DATABASE=${{ secrets.DATABASE }}
+            DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            JWT_EXPIRES_IN=90d
+            JWT_COOKIE_EXPIRES_IN=90
+            SENDGRID_USERNAME=${{ secrets.SENDGRID_USERNAME }}
+            SENDGRID_PASSWORD=${{ secrets.SENDGRID_PASSWORD }}
+            STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
+            WEBHOOK_SECRET=${{ secrets.WEBHOOK_SECRET }}
+            EMAIL_FROM=${{ secrets.EMAIL_FROM }}
+            MAILTRAP_HOST=${{ secrets.MAILTRAP_HOST }}
+            MAILTRAP_PORT=${{ secrets.MAILTRAP_PORT }}
+            MAILTRAP_USERNAME=${{ secrets.MAILTRAP_USERNAME }}
+            MAILTRAP_PASSWORD=${{ secrets.MAILTRAP_PASSWORD }}
+
+      - name: Deploy to Amazon ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: natours_app-service-ojrlmhzo
+          cluster: natours_cluster
+          wait-for-service-stability: true

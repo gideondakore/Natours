@@ -10,6 +10,7 @@
     "test": "jest --coverage --verbose",
     "test:watch": "jest --watch",
     "start": "NODE_ENV=production node server.js",
+    "start:dev": "NODE_ENV=development node server.js",
     "dev": "NODE_ENV=development nodemon node server.js",
     "dev:prod": "NODE_ENV=production nodemon node server.js",
     "debug": "NODE_ENV=development node --inspect server.js",
