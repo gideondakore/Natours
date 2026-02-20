@@ -59,9 +59,11 @@ app.use(
 );
 
 // Set security HTTP headers
-app.use(helmet()); // Apply all default Helmet protections first
-
-app.use(helmet.hsts({ maxAge: 31536000, includeSubDomains: true }));
+// Disable HSTS: app is served over plain HTTP (no TLS at container level).
+// Enabling HSTS on an HTTP origin causes browsers to upgrade all subsequent
+// requests (assets, API calls) to HTTPS, breaking static file loading entirely.
+// Re-enable only when TLS termination is in front of this service.
+app.use(helmet({ hsts: false }));
 
 app.use(
   helmet.contentSecurityPolicy({

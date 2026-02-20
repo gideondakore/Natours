@@ -7,7 +7,7 @@ services:
     environment:
       - NODE_ENV=${NODE_ENV:-development}
       - PORT=3000
-      - LOCAL_HOST_CLIENT=http://localhost:5000
+      - LOCAL_HOST_CLIENT=http://localhost:3000
       # Database credentials
       - DATABASE=${DATABASE}
       - DATABASE_PASSWORD=${DATABASE_PASSWORD}
