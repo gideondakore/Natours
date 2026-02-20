@@ -26,11 +26,7 @@ const app = express();
 
 app.use(compression());
 
-app.set("trust proxy", process.env.NODE_ENV === "production" ? 1 : false);
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// Will use this commented code in production when we have a real domain and TLS termination in front of this service. For now, trust all origins to avoid CORS issues with local development and testing.
-
+app.set("trust proxy", true);
 // app.set("trust proxy", process.env.NODE_ENV === "production" ? 1 : false);
 
 // const corsOptions = {
@@ -72,6 +68,8 @@ app.set("views", path.join(__dirname, "views"));
 
 // Global First middleware
 
+// app.options("*", cors()); //Preflight CORS requests for all routes is already handled by app.use(cors());
+
 // Request logging middleware
 app.use(requestLogger);
 
@@ -91,8 +89,6 @@ app.use(
 // helmet's default CSP which includes 'upgrade-insecure-requests' — that
 // directive makes browsers upgrade asset requests to HTTPS, breaking plain-HTTP
 // deployments (e.g. ECS containers without TLS termination).
-
-//NOTE: ADD BACK ALL THE HELMET CONFIGURATION WHEN WE HAVE A REAL DOMAIN AND TLS TERMINATION IN FRONT OF THIS SERVICE. FOR NOW, DISABLE HSTS AND CSP TO AVOID ISSUES WITH PLAIN-HTTP LOCAL DEVELOPMENT AND TESTING.
 app.use(helmet({ hsts: false, contentSecurityPolicy: false }));
 
 if (
