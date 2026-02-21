@@ -11,6 +11,7 @@ router.get("/", authController.isLoggedIn, viewsController.getOverview); // Todo
 
 router.get("/tour/:slug", authController.isLoggedIn, viewsController.getTour); // Todo: Review whether 'authController.isLoggedIn' is necessary for now
 router.get("/login", authController.isLoggedIn, viewsController.getLoginForm); // Todo: Review whether 'authController.isLoggedIn' is necessary for now
+router.get("/signup", authController.isLoggedIn, viewsController.getSignupForm);
 router.get("/me", authController.protect, viewsController.getAccount);
 router.get(
   "/my-tours",

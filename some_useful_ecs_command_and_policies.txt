@@ -1,0 +1,52 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+
+
+===================================================
+2. Verify Current Role Policies
+Check what's currently attached:
+
+aws iam list-attached-role-policies --role-name ecsTaskExecutionRole
+aws iam list-role-policies --role-name ecsTaskExecutionRole
+
+
+===================================================
+3. Force New Deployment
+After fixing permissions:,
+
+aws ecs update-service \
+  --cluster natours_cluster \
+  --service natours_app-service-ojrlmhzo \
+  --force-new-deployment
+
+
+====================================================
+Monitor the New Deployment
+After running the command, monitor the deployment progress:
+
+# Check service status
+aws ecs describe-services \
+  --cluster natours_cluster \
+  --services natours_app-service-ojrlmhzo
+
+# Watch task events
+aws ecs list-tasks \
+  --cluster natours_cluster \
+  --service-name natours_app-service-ojrlmhzo
+
+# Check CloudWatch logs for any container startup issues
+aws logs describe-log-streams \
+  --log-group-name /ecs/natours_app
