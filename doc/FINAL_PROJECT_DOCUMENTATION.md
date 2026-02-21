@@ -2,7 +2,7 @@
 
 **Project:** Natours API - Tour Booking Application  
 **Author:** Gideon Dakore  
-**Date:** February 18, 2026  
+**Date:** February 21, 2026  
 **Repository:** https://github.com/gideondakore/Natours  
 **Branch:** dev
 
@@ -34,18 +34,20 @@ This document provides comprehensive documentation for the Natours project, a RE
 
 - **40 Story Points** delivered across 3 sprints
 - **70 Automated Tests** (100% passing rate)
-- **Multi-environment CI/CD** pipeline with Node.js 24.x and 25.x
+- **CI/CD Pipeline** with Node.js 25.x, Docker builds, AWS ECR integration
 - **Comprehensive API Documentation** covering 30+ endpoints
 - **Production-grade Logging** with Winston
 - **Database Integration Testing** with in-memory MongoDB
+- **Containerization** with Docker and Docker Compose
 
 ### Technology Stack
 
-- **Runtime:** Node.js v24.x/25.x
+- **Runtime:** Node.js v25.x
 - **Framework:** Express.js
 - **Database:** MongoDB with Mongoose ODM
 - **Testing:** Jest + Supertest + mongodb-memory-server
-- **CI/CD:** GitHub Actions
+- **CI/CD:** GitHub Actions with Docker and AWS ECR
+- **Containerization:** Docker + Docker Compose
 - **Logging:** Winston with file rotation
 - **Version Control:** Git/GitHub
 
@@ -94,7 +96,11 @@ Natours is a tour booking platform API that enables users to:
 |                   MongoDB Database                        |
 |  +--------------+  +--------------+  +--------------+     |
 |  |    Tours     |  |    Users     |  |   Bookings   |     |
-|  +--------------+  +--------------+  +--------------+     |
++-----------------------------------------------------------+
+                            |
+                            v
++-----------------------------------------------------------+
+|                Docker Container / AWS ECR                 |
 +-----------------------------------------------------------+
 ```
 
@@ -105,11 +111,15 @@ Natours/
 |-- controllers/        # Request handlers
 |-- models/            # Mongoose schemas
 |-- routes/            # API routes
-|-- utils/             # Utility functions
-|-- __tests__/         # Test suites
+|-- utils/             # Utility functions (logger, error handling)
+|-- __tests__/         # Test suites (70 tests, 5 suites)
 |-- public/            # Static assets
 |-- views/             # Pug templates
-+-- dev-data/          # Development data
+|-- dev-data/          # Development data
+|-- coverage/          # Test coverage reports
+|-- doc/               # Project documentation
+|-- Dockerfile         # Docker configuration
++-- docker-compose.yml # Docker Compose configuration
 ```
 
 ### Key Components
@@ -119,7 +129,9 @@ Natours/
 3. **Booking System:** Stripe integration for payment processing
 4. **Review System:** User reviews with ratings and moderation
 5. **Error Handling:** Centralized error handling with custom error classes
-6. **Logging:** Multi-level logging with file rotation
+6. **Logging:** Multi-level logging with file rotation using Winston
+7. **Containerization:** Docker-based deployment with Docker Compose
+8. **CI/CD Pipeline:** Automated testing, building, and deployment to AWS ECR
 
 ---
 
@@ -187,7 +199,7 @@ February 15-16, 2026
 
 **Evidence:**
 
-![Health Check Endpoint](./dev-data/img/screenshots/health_check.png)
+![Health Check Endpoint](../dev-data/img/screenshots/health_check.png)
 _Health check endpoint returning system status_
 
 #### Story #2: Basic Unit Tests (3 points)
@@ -580,20 +592,20 @@ _Complete test suite with 100% pass rate_
 ### Pipeline Architecture
 
 ```yaml
-name: CI Pipeline
+name: Natours CI
 
 on:
   push:
-    branches: [dev, main]
+    branches: [main, dev]
   pull_request:
-    branches: [dev, main]
+    branches: [main, dev]
 
 jobs:
   test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [24.x, 25.x]
+        node-version: [25.x]
 ```
 
 ### Pipeline Stages
@@ -611,53 +623,70 @@ jobs:
    - Runs `npm ci` for clean install
    - Uses package-lock.json for reproducibility
 
-4. **Test Execution**
-   - Runs full test suite
+4. **Linting Checks**
+   - Runs linting if configured
+   - Ensures code quality standards
+
+5. **Test Execution**
+   - Runs full test suite (70 tests)
    - Captures test results
    - Fails build on test failure
 
-5. **Reporting**
+6. **Build Application**
+   - Builds the application
+   - Prepares for deployment
+
+7. **Docker Operations**
+   - Builds Docker image
+   - Pushes to Docker Hub
+   - Pushes to AWS ECR
+   - Tags with version and latest
+
+8. **Docker Compose Testing**
+   - Tests application with Docker Compose
+   - Validates containerized deployment
+
+9. **Reporting**
    - Reports success/failure status
    - Provides test output logs
    - Updates commit status
+   - Uploads coverage reports to Codecov
 
-### Multi-Version Testing
+### Node.js Version
 
-The pipeline tests against multiple Node.js versions:
+The pipeline tests against Node.js 25.x to ensure:
 
-- **Node.js 24.x:** Current LTS
-- **Node.js 25.x:** Latest stable
-
-This ensures:
-
-- Forward compatibility
-- API stability across versions
-- Early detection of breaking changes
+- Latest stable version compatibility
+- Modern JavaScript features support
+- Optimal performance
+- Security updates
 
 ### Build Status
 
-**Current Status:** DONE All checks passing
+**Current Status:** All checks passing
 
 **Sprint 1 CI/CD:**
-![Sprint 1 Build](./dev-data/img/screenshots/sprint_1_passed.png)
+![Sprint 1 Build](../dev-data/img/screenshots/sprint_1_passed.png)
 
 **Sprint 2 CI/CD:**
-![Sprint 2 Build](./dev-data/img/screenshots/sprint_2_passed.png)
+![Sprint 2 Build](../dev-data/img/screenshots/sprint_2_passed.png)
 
 **Sprint 3 CI/CD:**
-![Sprint 3 Build](./dev-data/img/screenshots/sprint_3_passed.png)
+![Sprint 3 Build](../dev-data/img/screenshots/sprint_3_passed.png)
 
 **Git Commit History:**
-![Git Log](./dev-data/img/screenshots/git_online_log.png)
+![Git Log](../dev-data/img/screenshots/git_online_log.png)
 _Complete development history with meaningful commits_
 
 ### Pipeline Benefits
 
 1. **Automated Quality Gates:** No manual testing required
-2. **Fast Feedback:** Results in ~30-60 seconds
+2. **Fast Feedback:** Results in approximately 30-60 seconds
 3. **Consistent Environment:** Same setup every time
-4. **Multiple Versions:** Compatibility verification
-5. **Branch Protection:** Can enforce passing tests for merges
+4. **Docker Integration:** Automated container builds and deployments
+5. **AWS ECR Deployment:** Automatic image push to AWS registry
+6. **Multi-stage Validation:** Linting, testing, building, and deployment
+7. **Branch Protection:** Can enforce passing tests for merges
 
 ---
 
@@ -693,10 +722,11 @@ Returns API status and system information.
 ```json
 {
   "status": "success",
-  "message": "API is running",
-  "timestamp": "2026-02-18T10:30:00.000Z",
+  "message": "Server is running",
+  "timestamp": "2026-02-21T10:30:00.000Z",
+  "uptime": 12.935,
   "environment": "development",
-  "nodeVersion": "24.1.0"
+  "nodeVersion": "v25.2.1"
 }
 ```
 
@@ -812,26 +842,29 @@ All errors follow consistent format:
 8. **sprint_3_passed.png** - Sprint 3 completion
 9. **git_online_log.png** - Complete commit history
 
+All screenshots are located in `dev-data/img/screenshots/`
+
 ### Video Evidence
 
 1. **final_test_video.webm** - Complete test suite execution
 2. **test_pass_final.webm** - Final testing demonstration
 
+All video recordings are located in `dev-data/video/screenrecord/`
+
 ### Documentation Files
 
-1. **BACKLOG.md** - Complete product backlog
-2. **SPRINT1_PLAN.md** - Sprint 1 planning
-3. **SPRINT1_REVIEW.md** - Sprint 1 review and metrics
-4. **SPRINT1_RETROSPECTIVE.md** - Sprint 1 learnings
-5. **SPRINT2_PLAN.md** - Sprint 2 planning
-6. **SPRINT2_REVIEW.md** - Sprint 2 review and metrics
-7. **SPRINT2_RETROSPECTIVE.md** - Sprint 2 learnings
-8. **SPRINT3_PLAN.md** - Sprint 3 planning
-9. **SPRINT3_REVIEW.md** - Sprint 3 review and metrics
-10. **SPRINT3_RETROSPECTIVE.md** - Sprint 3 learnings
-11. **AGILE_DOCUMENTATION.md** - Master Agile documentation
-12. **FINAL_DELIVERABLES.md** - Complete artifact index
-13. **README.md** - Project and API documentation
+1. **AGILE_PLANNING_DOCUMENTATION.md** - Complete product backlog and sprint planning
+2. **SPRINT1_REVIEW.md** - Sprint 1 review and metrics
+3. **SPRINT1_RETROSPECTIVE.md** - Sprint 1 learnings
+4. **SPRINT2_REVIEW.md** - Sprint 2 review and metrics
+5. **SPRINT2_RETROSPECTIVE.md** - Sprint 2 learnings
+6. **SPRINT3_REVIEW.md** - Sprint 3 review and metrics
+7. **SPRINT3_RETROSPECTIVE.md** - Sprint 3 learnings
+8. **FINAL_DELIVERABLES.md** - Complete artifact index
+9. **FINAL_PROJECT_DOCUMENTATION.md** - This comprehensive documentation
+10. **README.md** - Project setup and API documentation
+
+All documentation files are located in `doc/` and `doc/SprintDocs/`
 
 ---
 
@@ -890,8 +923,8 @@ All errors follow consistent format:
 
 3. **Multi-version Testing**
    - Challenge: Ensuring compatibility across Node versions
-   - Solution: GitHub Actions matrix strategy
-   - Learning: Early detection of compatibility issues
+   - Solution: GitHub Actions matrix strategy with Node 25.x
+   - Learning: Consistent testing with latest stable version
 
 ### Best Practices Established
 
@@ -923,20 +956,21 @@ All errors follow consistent format:
 
 The Natours project successfully demonstrates:
 
-DONE **Agile Development:** Three complete sprints with 40 story points delivered  
-DONE **Quality Assurance:** 70 automated tests with 100% pass rate  
-DONE **DevOps Practices:** Automated CI/CD with multi-version testing  
-DONE **Production Readiness:** Comprehensive logging and error handling  
-DONE **Professional Documentation:** Complete API reference and process documentation
+- **Agile Development:** Three complete sprints with 40 story points delivered
+- **Quality Assurance:** 70 automated tests with 100% pass rate
+- **DevOps Practices:** Automated CI/CD with Docker and AWS ECR integration
+- **Production Readiness:** Comprehensive logging and error handling
+- **Professional Documentation:** Complete API reference and process documentation
+- **Containerization:** Docker-based deployment with Docker Compose
 
 ### Key Metrics
 
 - **Total Story Points:** 40
 - **Total Tests:** 70 (100% passing)
-- **Test Execution Time:** < 3 seconds
-- **CI/CD Pipeline:** Multi-version (Node 24.x, 25.x)
+- **Test Execution Time:** < 7 seconds
+- **CI/CD Pipeline:** Node 25.x with Docker and AWS ECR
 - **Documentation:** 2000+ lines across multiple files
-- **Commits:** 16 meaningful commits
+- **Commits:** 15+ meaningful commits
 - **Code Coverage:** High coverage on critical paths
 
 ### Technical Achievements
@@ -948,7 +982,9 @@ DONE **Professional Documentation:** Complete API reference and process document
 
 2. **Professional DevOps Pipeline**
    - Automated testing on every commit
-   - Multi-version compatibility verification
+   - Docker container builds and deployments
+   - AWS ECR integration
+   - Docker Compose testing
    - Clear success/failure indicators
 
 3. **Production-Grade Features**
@@ -972,6 +1008,7 @@ While the project meets all current requirements, potential future improvements 
 
 2. **CI/CD:**
    - Automatic deployment to staging
+   - Kubernetes orchestration
    - Blue-green deployment
    - Automated rollback
 
@@ -987,18 +1024,18 @@ While the project meets all current requirements, potential future improvements 
 
 ### Final Thoughts
 
-This project demonstrates the successful application of modern software engineering practices. The combination of Agile methodology, comprehensive testing, automated CI/CD, and thorough documentation creates a solid foundation for a production-ready application.
+This project demonstrates the successful application of modern software engineering practices. The combination of Agile methodology, comprehensive testing, automated CI/CD with Docker and AWS integration, and thorough documentation creates a solid foundation for a production-ready application.
 
-The systematic approach to quality—with automated testing catching issues early, CI/CD ensuring consistent builds, and comprehensive logging aiding troubleshooting—exemplifies professional software development practices.
-
----
-
-**Project Status:** DONE COMPLETE  
-**All Deliverables:** DONE SUBMITTED  
-**Quality Gates:** DONE PASSING
+The systematic approach to quality with automated testing catching issues early, CI/CD ensuring consistent builds and deployments, containerization enabling portable deployments, and comprehensive logging aiding troubleshooting exemplifies professional software development practices.
 
 ---
 
-**Document Version:** 1.0  
-**Last Updated:** February 18, 2026  
+**Project Status:** COMPLETE  
+**All Deliverables:** SUBMITTED  
+**Quality Gates:** PASSING
+
+---
+
+**Document Version:** 1.1  
+**Last Updated:** February 21, 2026  
 **Author:** Gideon Dakore

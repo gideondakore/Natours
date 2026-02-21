@@ -1,8 +1,8 @@
 # Final Deliverables - Natours Agile Lab Project
 
 **Project:** Natours Tour Booking API  
-**Developer:** Gideon  
-**Completion Date:** February 17, 2026  
+**Developer:** Gideon Dakore  
+**Completion Date:** February 21, 2026  
 **Total Sprints:** 3 (Sprint 0-3)
 
 ---
@@ -11,7 +11,7 @@
 
 ### Product Backlog
 
-**Location:** [AGILE_DOCUMENTATION.md](./AGILE_DOCUMENTATION.md)
+**Location:** [AGILE_PLANNING_DOCUMENTATION.md](./SprintDocs/AGILE_PLANNING_DOCUMENTATION.md)
 
 **Contents:**
 
@@ -66,7 +66,7 @@
 
 ### Definition of Done
 
-**Location:** [AGILE_DOCUMENTATION.md](./AGILE_DOCUMENTATION.md#3-definition-of-done-my-personal-version)
+**Location:** [AGILE_PLANNING_DOCUMENTATION.md](./SprintDocs/AGILE_PLANNING_DOCUMENTATION.md#3-definition-of-done-my-personal-version)
 
 **Criteria:**
 
@@ -77,6 +77,7 @@
 - Git commit messages are meaningful
 - Documentation updated
 - No known bugs
+- Docker builds successfully
 
 ---
 
@@ -92,7 +93,7 @@
 
 **Commit History:** See [git_online_log.png](./dev-data/img/screenshots/git_online_log.png)
 
-### Commit Quality Examples
+\*\*Commit Quality Examples
 
 ```
 f0ea629 Update README to reflect Sprint 3 completion
@@ -112,6 +113,7 @@ b0482dd fix: add package-lock.json for CI/CD pipeline
 - Descriptive messages explaining what and why
 - Conventional commit format where appropriate (feat:, fix:, docs:, test:)
 - Each commit represents a logical unit of work
+- First-person perspective avoided in commit messages
 
 ### Repository Structure
 
@@ -129,13 +131,19 @@ Natours/
 ├── utils/                          # Utilities (logger, error handling)
 ├── .github/workflows/              # CI/CD configuration
 │   └── ci.yml
-├── AGILE_DOCUMENTATION.md          # Complete backlog & sprint plans
-├── SPRINT1_REVIEW.md               # Sprint 1 review
-├── SPRINT1_RETROSPECTIVE.md        # Sprint 1 retrospective
-├── SPRINT2_REVIEW.md               # Sprint 2 review
-├── SPRINT2_RETROSPECTIVE.md        # Sprint 2 retrospective
-├── SPRINT3_REVIEW.md               # Sprint 3 review
-├── SPRINT3_RETROSPECTIVE.md        # Sprint 3 retrospective
+├── doc/                            # Project documentation
+│   ├── FINAL_PROJECT_DOCUMENTATION.md
+│   ├── FINAL_DELIVERABLES.md
+│   └── SprintDocs/
+│       ├── AGILE_PLANNING_DOCUMENTATION.md
+│       ├── SPRINT1_REVIEW.md
+│       ├── SPRINT1_RETROSPECTIVE.md
+│       ├── SPRINT2_REVIEW.md
+│       ├── SPRINT2_RETROSPECTIVE.md
+│       ├── SPRINT3_REVIEW.md
+│       └── SPRINT3_RETROSPECTIVE.md
+├── Dockerfile                      # Docker configuration
+├── docker-compose.yml              # Docker Compose configuration
 ├── README.md                       # Complete API documentation
 └── package.json                    # Dependencies & scripts
 ```
@@ -146,15 +154,19 @@ Natours/
 
 ### Pipeline Configuration
 
-**Location:** [.github/workflows/ci.yml](./.github/workflows/ci.yml)
+**Location:** [.github/workflows/ci.yml](../.github/workflows/ci.yml)
 
 **Pipeline Features:**
 
 - Automated testing on push to main/dev branches
-- Matrix builds (Node.js 24.x and 25.x)
-- Linting checks (ESLint)
+- Node.js 25.x testing
+- Linting checks (if configured)
 - Code quality verification
 - Test execution with coverage
+- Docker image builds
+- Push to Docker Hub and AWS ECR
+- Docker Compose testing
+- Coverage upload to Codecov
 
 **Pipeline Configuration:**
 
@@ -192,34 +204,34 @@ jobs:
 
 **Sprint 1 - Initial Failure:**
 
-- **Screenshot:** [ci_failed.png](./dev-data/img/screenshots/ci_failed.png)
-- **Screenshot:** [sprint_1_failed.png](./dev-data/img/screenshots/spring_1_failed.png)
+- **Screenshot:** [ci_failed.png](../dev-data/img/screenshots/ci_failed.png)
+- **Screenshot:** [sprint_1_failed.png](../dev-data/img/screenshots/spring_1_failed.png)
 - **Issue:** package-lock.json was in .gitignore
 - **Error:** "Dependencies lock file is not found"
 - **Resolution:** Removed package-lock.json from .gitignore and committed it
 
 **Sprint 1 - After Fix:**
 
-- **Screenshot:** [sprint_1_passed.png](./dev-data/img/screenshots/sprint_1_passed.png)
+- **Screenshot:** [sprint_1_passed.png](../dev-data/img/screenshots/sprint_1_passed.png)
 - **Status:** GREEN - All checks passing
-- **Tests:** 18 tests passing on Node 24.x and 25.x
+- **Tests:** 18 tests passing on Node 25.x
 
 **Sprint 2:**
 
-- **Screenshot:** [sprint_2_passed.png](./dev-data/img/screenshots/sprint_2_passed.png)
+- **Screenshot:** [sprint_2_passed.png](../dev-data/img/screenshots/sprint_2_passed.png)
 - **Status:** GREEN - All checks passing
-- **Tests:** 44 tests passing on Node 24.x and 25.x
+- **Tests:** 44 tests passing on Node 25.x
 
 **Sprint 3 - Initial Run:**
 
-- **Screenshot:** [sprint_3_failed.png](./dev-data/img/screenshots/sprint_3_failed.png)
+- **Screenshot:** [sprint_3_failed.png](../dev-data/img/screenshots/sprint_3_failed.png)
 - **Status:** Shows the iterative process
 
 **Sprint 3 - Final:**
 
-- **Screenshot:** [sprint_3_passed.png](./dev-data/img/screenshots/sprint_3_passed.png)
+- **Screenshot:** [sprint_3_passed.png](../dev-data/img/screenshots/sprint_3_passed.png)
 - **Status:** GREEN - All checks passing
-- **Tests:** 70 tests passing on Node 24.x and 25.x
+- **Tests:** 70 tests passing on Node 25.x with Docker builds and AWS ECR integration
 
 ### Key Learning from CI/CD
 
@@ -231,7 +243,7 @@ jobs:
 
 **Result:** All subsequent pipeline runs successful
 
-**Documented in:** [SPRINT1_RETROSPECTIVE.md](./SPRINT1_RETROSPECTIVE.md)
+**Documented in:** [SPRINT1_RETROSPECTIVE.md](./SprintDocs/SPRINT1_RETROSPECTIVE.md)
 
 ---
 
@@ -239,7 +251,7 @@ jobs:
 
 ### Test Files
 
-**Location:** [**tests**/](./__tests__/)
+**Location:** [**tests**/](../__tests__/)
 
 **Test Suites:**
 
@@ -257,25 +269,25 @@ jobs:
 
 **Health Endpoint Test:**
 
-- **Screenshot:** [health_check.png](./dev-data/img/screenshots/health_check.png)
+- **Screenshot:** [health_check.png](../dev-data/img/screenshots/health_check.png)
 - **Shows:** Health endpoint returning server status
 
 **All Tests Passing:**
 
-- **Screenshot:** [test_passed.png](./dev-data/img/screenshots/test_passed.png)
+- **Screenshot:** [test_passed.png](../dev-data/img/screenshots/test_passed.png)
 - **Shows:** All 70 tests passing locally
 
 #### Screen Recordings
 
 **Complete Test Suite Execution:**
 
-- **Video:** [test_pass_final.webm](./dev-data/video/screenrecord/test_pass_final.webm)
+- **Video:** [test_pass_final.webm](../dev-data/video/screenrecord/test_pass_final.webm)
 - **Duration:** Full test suite execution
 - **Shows:** All 70 tests passing with coverage report
 
 **Final Test Demonstration:**
 
-- **Video:** [final_test_video.webm](./dev-data/video/screenrecord/final_test_video.webm)
+- **Video:** [final_test_video.webm](../dev-data/video/screenrecord/final_test_video.webm)
 - **Shows:** Complete testing workflow and results
 
 ### Test Results Summary
@@ -284,7 +296,7 @@ jobs:
 Test Suites: 5 passed, 5 total
 Tests:       70 passed, 70 total
 Snapshots:   0 total
-Time:        2.477 s
+Time:        6.679 s
 ```
 
 **Test Coverage:**
@@ -326,7 +338,7 @@ Time:        2.477 s
 
 ### Sprint 1 Review
 
-**Document:** [SPRINT1_REVIEW.md](./SPRINT1_REVIEW.md)
+**Document:** [SPRINT1_REVIEW.md](./SprintDocs/SPRINT1_REVIEW.md)
 
 **Contents:**
 
@@ -347,12 +359,12 @@ Time:        2.477 s
 
 **Screenshots Referenced:**
 
-- [ci_failed.png](./dev-data/img/screenshots/ci_failed.png) - Initial CI failure
-- [sprint_1_passed.png](./dev-data/img/screenshots/sprint_1_passed.png) - CI success after fix
+- [ci_failed.png](../dev-data/img/screenshots/ci_failed.png) - Initial CI failure
+- [sprint_1_passed.png](../dev-data/img/screenshots/sprint_1_passed.png) - CI success after fix
 
 ### Sprint 2 Review
 
-**Document:** [SPRINT2_REVIEW.md](./SPRINT2_REVIEW.md)
+**Document:** [SPRINT2_REVIEW.md](./SprintDocs/SPRINT2_REVIEW.md)
 
 **Contents:**
 
@@ -375,12 +387,12 @@ Time:        2.477 s
 
 **Screenshots Referenced:**
 
-- [sprint_2_passed.png](./dev-data/img/screenshots/sprint_2_passed.png) - All checks passing
-- [test_passed.png](./dev-data/img/screenshots/test_passed.png) - 44 tests passing
+- [sprint_2_passed.png](../dev-data/img/screenshots/sprint_2_passed.png) - All checks passing
+- [test_passed.png](../dev-data/img/screenshots/test_passed.png) - 44 tests passing
 
 ### Sprint 3 Review
 
-**Document:** [SPRINT3_REVIEW.md](./SPRINT3_REVIEW.md)
+**Document:** [SPRINT3_REVIEW.md](./SprintDocs/SPRINT3_REVIEW.md)
 
 **Contents:**
 
@@ -401,13 +413,13 @@ Time:        2.477 s
 
 **Screenshots Referenced:**
 
-- [sprint_3_passed.png](./dev-data/img/screenshots/sprint_3_passed.png) - Final CI success
-- [git_online_log.png](./dev-data/img/screenshots/git_online_log.png) - Complete commit history
+- [sprint_3_passed.png](../dev-data/img/screenshots/sprint_3_passed.png) - Final CI success
+- [git_online_log.png](../dev-data/img/screenshots/git_online_log.png) - Complete commit history
 
 **Video Evidence:**
 
-- [final_test_video.webm](./dev-data/video/screenrecord/final_test_video.webm) - Complete test execution
-- [test_pass_final.webm](./dev-data/video/screenrecord/test_pass_final.webm) - Test suite demonstration
+- [final_test_video.webm](../dev-data/video/screenrecord/final_test_video.webm) - Complete test execution
+- [test_pass_final.webm](../dev-data/video/screenrecord/test_pass_final.webm) - Test suite demonstration
 
 ---
 
@@ -415,7 +427,7 @@ Time:        2.477 s
 
 ### Sprint 1 Retrospective
 
-**Document:** [SPRINT1_RETROSPECTIVE.md](./SPRINT1_RETROSPECTIVE.md)
+**Document:** [SPRINT1_RETROSPECTIVE.md](./SprintDocs/SPRINT1_RETROSPECTIVE.md)
 
 **Format:** Start, Stop, Continue
 
@@ -441,7 +453,7 @@ Time:        2.477 s
 
 ### Sprint 2 Retrospective
 
-**Document:** [SPRINT2_RETROSPECTIVE.md](./SPRINT2_RETROSPECTIVE.md)
+**Document:** [SPRINT2_RETROSPECTIVE.md](./SprintDocs/SPRINT2_RETROSPECTIVE.md)
 
 **Format:** Did I Apply Sprint 1 Improvements?
 
@@ -473,7 +485,7 @@ Time:        2.477 s
 
 ### Sprint 3 Retrospective
 
-**Document:** [SPRINT3_RETROSPECTIVE.md](./SPRINT3_RETROSPECTIVE.md)
+**Document:** [SPRINT3_RETROSPECTIVE.md](./SprintDocs/SPRINT3_RETROSPECTIVE.md)
 
 **Format:** What Worked Exceptionally Well
 
@@ -571,14 +583,14 @@ Time:        2.477 s
 8. **sprint_3_passed.png** - Sprint 3 successful pipeline
 9. **test_passed.png** - All tests passing locally
 
-**Location:** `./dev-data/img/screenshots/`
+**Location:** `../dev-data/img/screenshots/`
 
 ### Screen Recordings (2 files)
 
 1. **final_test_video.webm** - Complete test suite execution
 2. **test_pass_final.webm** - Final testing demonstration
 
-**Location:** `./dev-data/video/screenrecord/`
+**Location:** `../dev-data/video/screenrecord/`
 
 ---
 
@@ -586,34 +598,34 @@ Time:        2.477 s
 
 ### How to Review This Deliverable
 
-1. **Backlog & Sprint Plans:**
-   - Open [AGILE_DOCUMENTATION.md](./AGILE_DOCUMENTATION.md)
+1. **Backlog and Sprint Plans:**
+   - Open [AGILE_PLANNING_DOCUMENTATION.md](./SprintDocs/AGILE_PLANNING_DOCUMENTATION.md)
    - Review product vision, user stories, and sprint plans
 
 2. **Codebase:**
    - Visit: https://github.com/gideondakore/Natours
    - Check `dev` branch for all commits
-   - Review commit history in [git_online_log.png](./dev-data/img/screenshots/git_online_log.png)
+   - Review commit history in [git_online_log.png](../dev-data/img/screenshots/git_online_log.png)
 
 3. **CI/CD Evidence:**
-   - Configuration: [.github/workflows/ci.yml](./.github/workflows/ci.yml)
-   - Failed run: [ci_failed.png](./dev-data/img/screenshots/ci_failed.png)
-   - Success runs: [sprint_1_passed.png](./dev-data/img/screenshots/sprint_1_passed.png), [sprint_2_passed.png](./dev-data/img/screenshots/sprint_2_passed.png), [sprint_3_passed.png](./dev-data/img/screenshots/sprint_3_passed.png)
+   - Configuration: [.github/workflows/ci.yml](../.github/workflows/ci.yml)
+   - Failed run: [ci_failed.png](../dev-data/img/screenshots/ci_failed.png)
+   - Success runs: [sprint_1_passed.png](../dev-data/img/screenshots/sprint_1_passed.png), [sprint_2_passed.png](../dev-data/img/screenshots/sprint_2_passed.png), [sprint_3_passed.png](../dev-data/img/screenshots/sprint_3_passed.png)
 
 4. **Testing Evidence:**
-   - Test files: [**tests**/](./__tests__/)
-   - Screenshots: [test_passed.png](./dev-data/img/screenshots/test_passed.png)
-   - Videos: [final_test_video.webm](./dev-data/video/screenrecord/final_test_video.webm), [test_pass_final.webm](./dev-data/video/screenrecord/test_pass_final.webm)
+   - Test files: [**tests**/](../__tests__/)
+   - Screenshots: [test_passed.png](../dev-data/img/screenshots/test_passed.png)
+   - Videos: [final_test_video.webm](../dev-data/video/screenrecord/final_test_video.webm), [test_pass_final.webm](../dev-data/video/screenrecord/test_pass_final.webm)
 
 5. **Sprint Reviews:**
-   - Sprint 1: [SPRINT1_REVIEW.md](./SPRINT1_REVIEW.md)
-   - Sprint 2: [SPRINT2_REVIEW.md](./SPRINT2_REVIEW.md)
-   - Sprint 3: [SPRINT3_REVIEW.md](./SPRINT3_REVIEW.md)
+   - Sprint 1: [SPRINT1_REVIEW.md](./SprintDocs/SPRINT1_REVIEW.md)
+   - Sprint 2: [SPRINT2_REVIEW.md](./SprintDocs/SPRINT2_REVIEW.md)
+   - Sprint 3: [SPRINT3_REVIEW.md](./SprintDocs/SPRINT3_REVIEW.md)
 
 6. **Retrospectives:**
-   - Sprint 1: [SPRINT1_RETROSPECTIVE.md](./SPRINT1_RETROSPECTIVE.md)
-   - Sprint 2: [SPRINT2_RETROSPECTIVE.md](./SPRINT2_RETROSPECTIVE.md)
-   - Sprint 3: [SPRINT3_RETROSPECTIVE.md](./SPRINT3_RETROSPECTIVE.md)
+   - Sprint 1: [SPRINT1_RETROSPECTIVE.md](./SprintDocs/SPRINT1_RETROSPECTIVE.md)
+   - Sprint 2: [SPRINT2_RETROSPECTIVE.md](./SprintDocs/SPRINT2_RETROSPECTIVE.md)
+   - Sprint 3: [SPRINT3_RETROSPECTIVE.md](./SprintDocs/SPRINT3_RETROSPECTIVE.md)
 
 ---
 
@@ -623,6 +635,7 @@ Time:        2.477 s
 
 - Node.js 24.x or 25.x
 - MongoDB (local or Atlas)
+- Docker (optional, for containerized deployment)
 
 ### Setup Instructions
 
@@ -650,6 +663,7 @@ npm run dev
 - Tests: `npm test` - Should show 70 tests passing
 - Health endpoint: `curl http://localhost:3000/api/v1/health`
 - CI/CD: Push to GitHub and check Actions tab
+- Docker: `docker-compose up` to run in containers
 
 ---
 
@@ -658,10 +672,11 @@ npm run dev
 ### Technical Achievements
 
 1. **Comprehensive Testing:** 70 tests (unit + integration + validation)
-2. **CI/CD Pipeline:** Automated testing on GitHub Actions
+2. **CI/CD Pipeline:** Automated testing on GitHub Actions with Docker and AWS ECR
 3. **Logging System:** Winston with file rotation
 4. **API Documentation:** 850+ lines with examples
 5. **Database Testing:** Integration tests with mongodb-memory-server
+6. **Containerization:** Docker and Docker Compose setup
 
 ### Process Achievements
 
@@ -674,29 +689,37 @@ npm run dev
 ### Learning Achievements
 
 1. **Testing Skills:** From 0 to 70 tests
-2. **CI/CD Knowledge:** From concept to implementation
+2. **CI/CD Knowledge:** From concept to implementation with Docker and AWS
 3. **Process Maturity:** From 5/10 to 9/10
 4. **Confidence:** From 6/10 to 9/10
 5. **Problem-Solving:** Resolved package-lock.json, browserslist, User model issues
+6. **DevOps Practices:** Containerization and cloud deployment
 
 ---
 
-## 12. Conclusion
+## Conclusion
 
 This project demonstrates:
 
 - Ability to plan and execute Agile sprints
-- DevOps practices (CI/CD, testing, logging)
+- DevOps practices (CI/CD, testing, logging, containerization)
 - Continuous improvement through retrospectives
 - Professional documentation and code quality
 - Problem-solving and learning agility
 
 All required deliverables have been submitted:
 
-- Backlog & Sprint Plans
+- Backlog and Sprint Plans
 - Codebase with commit history
 - CI/CD configuration and evidence
 - Testing files and evidence
+- Sprint Review Documents (all 3 sprints)
+- Retrospectives (all 3 sprints)
+
+---
+
+_Last Updated: February 21, 2026_
+
 - Sprint reviews for all sprints
 - Sprint retrospectives for all sprints
 
