@@ -64,3 +64,6 @@ pnpm-lock.yaml
 
 # Parcel cache
 .parcel-cache
+
+# Dist
+public/dist
