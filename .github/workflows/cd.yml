@@ -11,11 +11,13 @@ on:
   workflow_dispatch:
 
 jobs:
+  # github.event_name == 'workflow_dispatch is use for manual trigger and
+  # github.event.workflow_run.conclusion == 'success' is use to check if the workflow run is successful or not and
+  # github.event.workflow_run.head_branch == 'main' is use to check if the branch is main or not
   deploy:
     if: |
       (github.event_name == 'workflow_dispatch') ||
-      (github.event.workflow_run.conclusion == 'success' &&
-       (github.event.workflow_run.head_branch == 'main' || github.event.workflow_run.head_branch == 'dev'))
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main')
     runs-on: ubuntu-latest
     environment: natours-api-app
 
@@ -45,7 +47,7 @@ jobs:
           container-name: natours_app
           image: ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY }}:${{ github.sha }}
           environment-variables: |
-            NODE_ENV=production
+            NODE_ENV=development
             PORT=3000
             DATABASE=${{ secrets.DATABASE }}
             DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }}
