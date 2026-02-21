@@ -1,6 +1,5 @@
 const path = require("path");
 const multer = require("multer");
-const { fileTypeFromBuffer } = require("file-type");
 const sharp = require("sharp");
 const Tour = require("./../models/tourModel");
 const catchAsync = require("./../utils/catchAsync");
@@ -58,7 +57,8 @@ const validateFileBuffer = async (files, req) => {
           );
         }
 
-        let fileType = await fileTypeFromBuffer(file.buffer);
+        const fileTypeModule = await import("file-type");
+        const fileType = await fileTypeModule.default.fromBuffer(file.buffer);
 
         if (!fileType || !allowedMimeTypes.includes(fileType?.mime)) {
           throw new Error(

@@ -1,11 +1,11 @@
-const path = require('path');
-const multer = require('multer');
-const sharp = require('sharp');
-const { fileTypeFromBuffer } = require('file-type');
-const AppError = require('../utils/appError');
-const User = require('./../models/userModel');
-const catchAsync = require('./../utils/catchAsync');
-const factory = require('./handlerFactory');
+const path = require("path");
+const multer = require("multer");
+const sharp = require("sharp");
+// const { fileTypeFromBuffer } = require("file-type");
+const AppError = require("../utils/appError");
+const User = require("./../models/userModel");
+const catchAsync = require("./../utils/catchAsync");
+const factory = require("./handlerFactory");
 
 // USING distorage
 // const multerStorage = multer.diskStorage({
@@ -30,16 +30,16 @@ const filterObj = (obj, ...allowedFields) => {
 
 const multerStorage = multer.memoryStorage();
 
-const allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
-const allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+const allowedExtensions = [".jpg", ".jpeg", ".png", ".gif", ".webp"];
+const allowedMimeTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 
 const multerFilter = (req, file, cb) => {
   try {
     //1. Check MIME type (quick first check)
-    if (!file.mimetype.startsWith('image/')) {
+    if (!file.mimetype.startsWith("image/")) {
       return cb(
-        new AppError('Not an image! Please upload only images.', 400),
-        false
+        new AppError("Not an image! Please upload only images.", 400),
+        false,
       );
     }
 
@@ -49,11 +49,11 @@ const multerFilter = (req, file, cb) => {
       return cb(
         new AppError(
           `Invalid extension! Allowed extensions: ${allowedExtensions.join(
-            ', '
+            ", ",
           )}`,
-          400
+          400,
         ),
-        false
+        false,
       );
     }
     return cb(null, true);
@@ -62,18 +62,43 @@ const multerFilter = (req, file, cb) => {
   }
 };
 
-const validateFileBuffer = async (file) => {
-  //validates both the file extension and actual content (magic numbers) to prevent spoofing or file upload attacks
-  try {
-    if (!file) throw new Error('Upload fail please try again');
+// const validateFileBuffer = async (file) => {
+//   //validates both the file extension and actual content (magic numbers) to prevent spoofing or file upload attacks
+//   try {
+//     if (!file) throw new Error("Upload fail please try again");
 
-    const fileType = await fileTypeFromBuffer(file.buffer);
+//     console.log("FILE: ", file);
+
+//     const fileType = await fileTypeFromBuffer(file.buffer);
+
+//     if (!fileType || !allowedMimeTypes.includes(fileType?.mime)) {
+//       throw new Error(
+//         `Invalid image content! Allowed extensions: ${allowedExtensions.join(
+//           ", ",
+//         )}`,
+//       );
+//     }
+
+//     return;
+//   } catch (err) {
+//     throw new Error(err.message);
+//   }
+// };
+const validateFileBuffer = async (file) => {
+  try {
+    if (!file) throw new Error("Upload fail please try again");
+
+    // console.log("FILE: ", file);
+
+    // Dynamic import for ES module
+    const fileTypeModule = await import("file-type");
+    const fileType = await fileTypeModule.default.fromBuffer(file.buffer);
 
     if (!fileType || !allowedMimeTypes.includes(fileType?.mime)) {
       throw new Error(
         `Invalid image content! Allowed extensions: ${allowedExtensions.join(
-          ', '
-        )}`
+          ", ",
+        )}`,
       );
     }
 
@@ -88,7 +113,7 @@ const upload = multer({
   fileFilter: multerFilter,
 });
 
-exports.uploadUserPhoto = upload.single('photo');
+exports.uploadUserPhoto = upload.single("photo");
 
 exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
   await validateFileBuffer(req.file);
@@ -97,7 +122,7 @@ exports.resizeUserPhoto = catchAsync(async (req, res, next) => {
 
   await sharp(req.file.buffer)
     .resize(500, 500)
-    .toFormat('jpeg')
+    .toFormat("jpeg")
     .jpeg({
       quality: 90,
     })
@@ -116,14 +141,14 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   if (req.body.password || req.body.passwordConfirm) {
     return next(
       new AppError(
-        'This route is not for password updates. Please use /updateMyPassword',
-        400
-      )
+        "This route is not for password updates. Please use /updateMyPassword",
+        400,
+      ),
     );
   }
 
   // 2) Filtered out unwanted fields names that are not allowed to be updated
-  const filteredBody = filterObj(req.body, 'name', 'email');
+  const filteredBody = filterObj(req.body, "name", "email");
   if (req.file) filteredBody.photo = req.file.filename;
 
   // 3) Update user document
@@ -133,7 +158,7 @@ exports.updateMe = catchAsync(async (req, res, next) => {
   });
 
   res.status(200).json({
-    status: 'success',
+    status: "success",
     data: {
       user: updatedUser,
     },
@@ -142,8 +167,8 @@ exports.updateMe = catchAsync(async (req, res, next) => {
 
 exports.createUser = (req, res) => {
   res.status(500).json({
-    status: 'error',
-    message: 'This route is not define! Please use /signup instead',
+    status: "error",
+    message: "This route is not define! Please use /signup instead",
   });
 };
 
@@ -153,7 +178,7 @@ exports.deleteMe = catchAsync(async (req, res, next) => {
   });
 
   res.status(204).json({
-    status: 'success',
+    status: "success",
     data: null,
   });
 });

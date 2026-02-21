@@ -30,12 +30,24 @@ if (loginForm) {
 }
 
 if (signupForm) {
+  console.log("Signup form found, adding event listener...");
   signupForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
     const passwordConfirm = document.getElementById("passwordConfirm").value;
+
+    console.log(
+      "Name: ",
+      name,
+      " Email: ",
+      email,
+      " Password: ",
+      password,
+      " Confirm Password: ",
+      passwordConfirm,
+    );
 
     if (password !== passwordConfirm) {
       showAlert("error", "New and confirm passwords are not the same!");

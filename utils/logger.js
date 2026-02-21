@@ -88,7 +88,7 @@ const logger = winston.createLogger({
     process.env.LOG_LEVEL ||
     (process.env.NODE_ENV === "development" ? "debug" : "info"),
   transports,
-  // Don't exit on uncaught exceptions (we handle them separately)
+  // Don't exit on uncaught exceptions (I handle them separately)
   exitOnError: false,
 });
 

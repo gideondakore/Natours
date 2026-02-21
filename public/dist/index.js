@@ -720,73 +720,91 @@ var _updateSettingsJs = require("./updateSettings.js");
 var _alertsJs = require("./alerts.js");
 var _stripeJs = require("./stripe.js");
 // DOM ELEMENT
-const mapBox = document.getElementById('map');
-const loginForm = document.querySelector('.form--login');
-const logOutBtn = document.querySelector('.nav__el--logout');
-const userDataForm = document.querySelector('.form-user-data');
-const userPasswordForm = document.querySelector('.form-user-password');
-const bookBtn = document.getElementById('book-tour');
+const mapBox = document.getElementById("map");
+const loginForm = document.querySelector(".form--login");
+const signupForm = document.querySelector(".form--signup");
+const logOutBtn = document.querySelector(".nav__el--logout");
+const userDataForm = document.querySelector(".form-user-data");
+const userPasswordForm = document.querySelector(".form-user-password");
+const bookBtn = document.getElementById("book-tour");
 // DELEGATION
 if (mapBox) {
     const locations = JSON.parse(mapBox.dataset.locations);
     (0, _mapboxJs.displayMap)(locations);
 }
-if (loginForm) loginForm.addEventListener('submit', (e)=>{
+if (loginForm) loginForm.addEventListener("submit", (e)=>{
     e.preventDefault();
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
     (0, _loginJs.login)(email, password);
 });
-if (logOutBtn) logOutBtn.addEventListener('click', (0, _loginJs.logout));
-if (userDataForm) userDataForm.addEventListener('submit', (e)=>{
+if (signupForm) {
+    console.log("Signup form found, adding event listener...");
+    signupForm.addEventListener("submit", (e)=>{
+        e.preventDefault();
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        const passwordConfirm = document.getElementById("passwordConfirm").value;
+        console.log("Name: ", name, " Email: ", email, " Password: ", password, " Confirm Password: ", passwordConfirm);
+        if (password !== passwordConfirm) {
+            (0, _alertsJs.showAlert)("error", "New and confirm passwords are not the same!");
+            return;
+        }
+        (0, _loginJs.signup)(name, email, password, passwordConfirm);
+    });
+}
+if (logOutBtn) logOutBtn.addEventListener("click", (0, _loginJs.logout));
+if (userDataForm) userDataForm.addEventListener("submit", (e)=>{
     e.preventDefault();
     const form = new FormData();
-    form.append('name', document.getElementById('name').value);
-    form.append('email', document.getElementById('email').value);
-    form.append('photo', document.getElementById('photo').files[0]);
-    (0, _updateSettingsJs.updateSettings)(form, 'data');
+    form.append("name", document.getElementById("name").value);
+    form.append("email", document.getElementById("email").value);
+    form.append("photo", document.getElementById("photo").files[0]);
+    (0, _updateSettingsJs.updateSettings)(form, "data");
 });
-if (userPasswordForm) userPasswordForm.addEventListener('submit', async (e)=>{
+if (userPasswordForm) userPasswordForm.addEventListener("submit", async (e)=>{
     e.preventDefault();
-    document.querySelector('.btn--save-password').textContent = 'Updating...';
-    const passwordCurrent = document.getElementById('password-current').value;
-    const password = document.getElementById('password').value;
-    const passwordConfirm = document.getElementById('password-confirm').value;
+    document.querySelector(".btn--save-password").textContent = "Updating...";
+    const passwordCurrent = document.getElementById("password-current").value;
+    const password = document.getElementById("password").value;
+    const passwordConfirm = document.getElementById("password-confirm").value;
     if (password !== passwordConfirm) {
-        (0, _alertsJs.showAlert)('error', 'New and confirm passwords are not the same!');
+        (0, _alertsJs.showAlert)("error", "New and confirm passwords are not the same!");
         return;
     }
     await (0, _updateSettingsJs.updateSettings)({
         passwordCurrent,
         password,
         passwordConfirm
-    }, 'password');
-    document.querySelector('.btn--save-password').textContent = 'Save password';
-    document.getElementById('password-current').value = '';
-    document.getElementById('password').value = '';
-    document.getElementById('password-confirm').value = '';
+    }, "password");
+    document.querySelector(".btn--save-password").textContent = "Save password";
+    document.getElementById("password-current").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("password-confirm").value = "";
 });
-if (bookBtn) bookBtn.addEventListener('click', (e)=>{
+if (bookBtn) bookBtn.addEventListener("click", (e)=>{
     e.preventDefault();
-    e.target.textContent = 'Processing...';
+    e.target.textContent = "Processing...";
     const { tourId } = e.target.dataset;
     (0, _stripeJs.bookTour)(tourId);
 });
-const alertMessage = document.querySelector('body').dataset.alert;
-if (alertMessage) (0, _alertsJs.showAlert)('success', alertMessage, 20);
+const alertMessage = document.querySelector("body").dataset.alert;
+if (alertMessage) (0, _alertsJs.showAlert)("success", alertMessage, 20);
 
 },{"./login.js":"8oreZ","./mapbox.js":"9qayh","./updateSettings.js":"kTmnF","./alerts.js":"4Gr4r","./stripe.js":"4x7oK"}],"8oreZ":[function(require,module,exports,__globalThis) {
 /* eslint-disable */ /* eslint-disable */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
 parcelHelpers.export(exports, "login", ()=>login);
+parcelHelpers.export(exports, "signup", ()=>signup);
 parcelHelpers.export(exports, "logout", ()=>logout);
 var _alertsJs = require("./alerts.js");
 const login = async (email, password)=>{
     try {
-        const response = await fetch('/api/v1/users/login', {
-            method: 'POST',
+        const response = await fetch("/api/v1/users/login", {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                "Content-Type": "application/json"
             },
             body: JSON.stringify({
                 email,
@@ -794,28 +812,64 @@ const login = async (email, password)=>{
             })
         });
         const data = await response.json();
-        if (!response.ok) throw new Error(data.message || 'Login failed');
-        if (data.status === 'success') {
-            (0, _alertsJs.showAlert)('success', 'Logged in successfully');
+        if (!response.ok) throw new Error(data.message || "Login failed");
+        if (data.status === "success") {
+            (0, _alertsJs.showAlert)("success", "Logged in successfully");
             window.setTimeout(()=>{
-                location.assign('/');
+                location.assign("/");
             }, 1500);
         }
     } catch (err) {
-        (0, _alertsJs.showAlert)('error', err.message);
+        (0, _alertsJs.showAlert)("error", err.message);
+    }
+};
+const signup = async (name, email, password, passwordConfirm)=>{
+    // console.log(
+    //   "Name: ",
+    //   name,
+    //   " Email: ",
+    //   email,
+    //   " Password: ",
+    //   password,
+    //   " Confirm Password: ",
+    //   passwordConfirm,
+    // );
+    try {
+        const response = await fetch("/api/v1/users/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password,
+                passwordConfirm
+            })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "Signup failed");
+        if (data.status === "success") {
+            (0, _alertsJs.showAlert)("success", "Account created successfully");
+            window.setTimeout(()=>{
+                location.assign("/");
+            }, 1500);
+        }
+    } catch (err) {
+        (0, _alertsJs.showAlert)("error", err.message);
     }
 };
 const logout = async ()=>{
     try {
-        const response = await fetch('/api/v1/users/logout', {
-            method: 'GET'
+        const response = await fetch("/api/v1/users/logout", {
+            method: "GET"
         });
         const data = await response.json();
-        if (!response.ok) throw new Error(data.message || 'Logout failed');
-        if (data.status === 'success') // if (res.data.status === 'success') location.reload(true);
-        location.assign('/');
+        if (!response.ok) throw new Error(data.message || "Logout failed");
+        if (data.status === "success") // if (res.data.status === 'success') location.reload(true);
+        location.assign("/");
     } catch (err) {
-        (0, _alertsJs.showAlert)('error', 'Error logging out! Try again.');
+        (0, _alertsJs.showAlert)("error", "Error logging out! Try again.");
     }
 };
 
