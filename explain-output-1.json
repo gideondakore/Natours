@@ -1,0 +1,274 @@
+{
+  "explainVersion": "1",
+  "queryPlanner": {
+    "namespace": "natours.tours",
+    "parsedQuery": {
+      "$and": [
+        {
+          "difficulty": {
+            "$eq": "easy"
+          }
+        },
+        {
+          "price": {
+            "$lte": 500
+          }
+        },
+        {
+          "ratingsAverage": {
+            "$gte": 4.5
+          }
+        },
+        {
+          "secretTour": {
+            "$not": {
+              "$eq": true
+            }
+          }
+        }
+      ]
+    },
+    "indexFilterSet": false,
+    "queryHash": "5D2AC608",
+    "planCacheShapeHash": "5D2AC608",
+    "planCacheKey": "4BA254DC",
+    "optimizationTimeMillis": 0,
+    "maxIndexedOrSolutionsReached": false,
+    "maxIndexedAndSolutionsReached": false,
+    "maxScansToExplodeReached": false,
+    "prunedSimilarIndexes": false,
+    "winningPlan": {
+      "isCached": false,
+      "stage": "SORT",
+      "sortPattern": {
+        "ratingsAverage": -1
+      },
+      "memLimit": 33554432,
+      "type": "simple",
+      "inputStage": {
+        "stage": "PROJECTION_SIMPLE",
+        "transformBy": {
+          "createdAt": 0
+        },
+        "inputStage": {
+          "stage": "FETCH",
+          "filter": {
+            "$and": [
+              {
+                "secretTour": {
+                  "$not": {
+                    "$eq": true
+                  }
+                }
+              },
+              {
+                "difficulty": {
+                  "$eq": "easy"
+                }
+              }
+            ]
+          },
+          "inputStage": {
+            "stage": "IXSCAN",
+            "keyPattern": {
+              "price": 1,
+              "ratingsAverage": -1
+            },
+            "indexName": "price_1_ratingsAverage_-1",
+            "isMultiKey": false,
+            "multiKeyPaths": {
+              "price": [],
+              "ratingsAverage": []
+            },
+            "isUnique": false,
+            "isSparse": false,
+            "isPartial": false,
+            "indexVersion": 2,
+            "direction": "forward",
+            "indexBounds": {
+              "price": [
+                "[-inf.0, 500]"
+              ],
+              "ratingsAverage": [
+                "[inf.0, 4.5]"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "rejectedPlans": []
+  },
+  "executionStats": {
+    "executionSuccess": true,
+    "nReturned": 1,
+    "executionTimeMillis": 0,
+    "totalKeysExamined": 3,
+    "totalDocsExamined": 2,
+    "executionStages": {
+      "isCached": false,
+      "stage": "SORT",
+      "nReturned": 1,
+      "executionTimeMillisEstimate": 0,
+      "works": 5,
+      "advanced": 1,
+      "needTime": 3,
+      "needYield": 0,
+      "saveState": 0,
+      "restoreState": 0,
+      "isEOF": 1,
+      "sortPattern": {
+        "ratingsAverage": -1
+      },
+      "memLimit": 33554432,
+      "type": "simple",
+      "totalDataSizeSorted": 1545,
+      "usedDisk": false,
+      "spills": 0,
+      "spilledDataStorageSize": 0,
+      "inputStage": {
+        "stage": "PROJECTION_SIMPLE",
+        "nReturned": 1,
+        "executionTimeMillisEstimate": 0,
+        "works": 3,
+        "advanced": 1,
+        "needTime": 1,
+        "needYield": 0,
+        "saveState": 0,
+        "restoreState": 0,
+        "isEOF": 1,
+        "transformBy": {
+          "createdAt": 0
+        },
+        "inputStage": {
+          "stage": "FETCH",
+          "filter": {
+            "$and": [
+              {
+                "secretTour": {
+                  "$not": {
+                    "$eq": true
+                  }
+                }
+              },
+              {
+                "difficulty": {
+                  "$eq": "easy"
+                }
+              }
+            ]
+          },
+          "nReturned": 1,
+          "executionTimeMillisEstimate": 0,
+          "works": 3,
+          "advanced": 1,
+          "needTime": 1,
+          "needYield": 0,
+          "saveState": 0,
+          "restoreState": 0,
+          "isEOF": 1,
+          "docsExamined": 2,
+          "alreadyHasObj": 0,
+          "inputStage": {
+            "stage": "IXSCAN",
+            "nReturned": 2,
+            "executionTimeMillisEstimate": 0,
+            "works": 3,
+            "advanced": 2,
+            "needTime": 0,
+            "needYield": 0,
+            "saveState": 0,
+            "restoreState": 0,
+            "isEOF": 1,
+            "keyPattern": {
+              "price": 1,
+              "ratingsAverage": -1
+            },
+            "indexName": "price_1_ratingsAverage_-1",
+            "isMultiKey": false,
+            "multiKeyPaths": {
+              "price": [],
+              "ratingsAverage": []
+            },
+            "isUnique": false,
+            "isSparse": false,
+            "isPartial": false,
+            "indexVersion": 2,
+            "direction": "forward",
+            "indexBounds": {
+              "price": [
+                "[-inf.0, 500]"
+              ],
+              "ratingsAverage": [
+                "[inf.0, 4.5]"
+              ]
+            },
+            "keysExamined": 3,
+            "seeks": 1,
+            "dupsTested": 0,
+            "dupsDropped": 0
+          }
+        }
+      }
+    },
+    "allPlansExecution": []
+  },
+  "queryShapeHash": "6A30F2C485EF246685CD7AE38818A3618EBF3D249AC6B12CDC9FD8BE9DB0FE89",
+  "command": {
+    "find": "tours",
+    "filter": {
+      "price": {
+        "$lte": 500
+      },
+      "ratingsAverage": {
+        "$gte": 4.5
+      },
+      "difficulty": "easy",
+      "secretTour": {
+        "$ne": true
+      }
+    },
+    "sort": {
+      "ratingsAverage": -1
+    },
+    "projection": {
+      "createdAt": 0
+    },
+    "$db": "natours"
+  },
+  "serverInfo": {
+    "host": "ac-13rlqcm-shard-00-02.tfemqae.mongodb.net",
+    "port": 27017,
+    "version": "8.0.19",
+    "gitVersion": "cc1adb6b0875cc3003854ac2489818e459686f0b"
+  },
+  "serverParameters": {
+    "internalQueryFacetBufferSizeBytes": 104857600,
+    "internalQueryFacetMaxOutputDocSizeBytes": 104857600,
+    "internalLookupStageIntermediateDocumentMaxSizeBytes": 16793600,
+    "internalDocumentSourceGroupMaxMemoryBytes": 104857600,
+    "internalQueryMaxBlockingSortMemoryUsageBytes": 33554432,
+    "internalQueryProhibitBlockingMergeOnMongoS": 0,
+    "internalQueryMaxAddToSetBytes": 104857600,
+    "internalDocumentSourceSetWindowFieldsMaxMemoryBytes": 104857600,
+    "internalQueryFrameworkControl": "trySbeRestricted",
+    "internalQueryPlannerIgnoreIndexWithCollationForRegex": 1
+  },
+  "ok": 1,
+  "$clusterTime": {
+    "clusterTime": {
+      "$timestamp": "7610459294328160290"
+    },
+    "signature": {
+      "hash": "NhAeHd7nj997coZTHNYgDwKvtvA=",
+      "keyId": {
+        "low": 2,
+        "high": 1759597395,
+        "unsigned": false
+      }
+    }
+  },
+  "operationTime": {
+    "$timestamp": "7610459294328160290"
+  }
+}
