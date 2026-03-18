@@ -1,12 +1,12 @@
 /* eslint-disable */ /* eslint-disable */
-import { showAlert } from './alerts.js';
+import { showAlert } from "./alerts.js";
 
 export const login = async (email, password) => {
   try {
-    const response = await fetch('/api/v1/users/login', {
-      method: 'POST',
+    const response = await fetch("/api/v1/users/login", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         email,
@@ -17,26 +17,37 @@ export const login = async (email, password) => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.message || 'Login failed');
+      throw new Error(data.message || "Login failed");
     }
 
-    if (data.status === 'success') {
-      showAlert('success', 'Logged in successfully');
+    if (data.status === "success") {
+      showAlert("success", "Logged in successfully");
       window.setTimeout(() => {
-        location.assign('/');
+        location.assign("/");
       }, 1500);
     }
   } catch (err) {
-    showAlert('error', err.message);
+    showAlert("error", err.message);
   }
 };
 
 export const signup = async (name, email, password, passwordConfirm) => {
+  // console.log(
+  //   "Name: ",
+  //   name,
+  //   " Email: ",
+  //   email,
+  //   " Password: ",
+  //   password,
+  //   " Confirm Password: ",
+  //   passwordConfirm,
+  // );
+
   try {
-    const response = await fetch('/api/v1/users/signup', {
-      method: 'POST',
+    const response = await fetch("/api/v1/users/signup", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name,
@@ -49,37 +60,37 @@ export const signup = async (name, email, password, passwordConfirm) => {
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.message || 'Signup failed');
+      throw new Error(data.message || "Signup failed");
     }
 
-    if (data.status === 'success') {
-      showAlert('success', 'Account created successfully');
+    if (data.status === "success") {
+      showAlert("success", "Account created successfully");
       window.setTimeout(() => {
-        location.assign('/');
+        location.assign("/");
       }, 1500);
     }
   } catch (err) {
-    showAlert('error', err.message);
+    showAlert("error", err.message);
   }
 };
 
 export const logout = async () => {
   try {
-    const response = await fetch('/api/v1/users/logout', {
-      method: 'GET',
+    const response = await fetch("/api/v1/users/logout", {
+      method: "GET",
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.message || 'Logout failed');
+      throw new Error(data.message || "Logout failed");
     }
 
-    if (data.status === 'success') {
+    if (data.status === "success") {
       // if (res.data.status === 'success') location.reload(true);
-      location.assign('/');
+      location.assign("/");
     }
   } catch (err) {
-    showAlert('error', 'Error logging out! Try again.');
+    showAlert("error", "Error logging out! Try again.");
   }
 };

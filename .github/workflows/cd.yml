@@ -63,6 +63,7 @@ jobs:
             MAILTRAP_PORT=${{ secrets.MAILTRAP_PORT }}
             MAILTRAP_USERNAME=${{ secrets.MAILTRAP_USERNAME }}
             MAILTRAP_PASSWORD=${{ secrets.MAILTRAP_PASSWORD }}
+            ENABLE_FILE_LOGGING=false
 
       - name: Deploy to Amazon ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2

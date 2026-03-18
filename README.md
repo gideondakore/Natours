@@ -4,16 +4,17 @@
 
 A tour booking platform backend API built with Node.js, Express, and MongoDB.
 
-## 📊 Project Status
+## Project Status
 
 **Test Status:** 70 tests passing (Sprint 3 COMPLETE)  
 **Coverage:** Unit tests + Integration tests + Validation tests  
-**Node Version:** 24.x or 25.x  
-**Current Sprint:** All sprints complete (Sprint 0-3)
+**Node Version:** 25.x  
+**Current Sprint:** All sprints complete (Sprint 0-3)  
+**CI/CD:** Automated testing, Docker builds, AWS ECR integration
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -23,12 +24,14 @@ Before you begin, ensure you have the following installed:
 - **npm:** v11.x or higher (comes with Node.js)
 - **MongoDB:** Local instance or MongoDB Atlas account ([Setup Guide](https://www.mongodb.com/docs/atlas/getting-started/))
 - **Git:** For version control
+- **Docker:** Optional, for containerized deployment
 
 **Check your versions:**
 
 ```bash
 node --version  # Should be v24.x or v25.x
 npm --version   # Should be v11.x or higher
+docker --version  # Optional
 ```
 
 ---
@@ -64,7 +67,7 @@ Then edit `.env` with your actual values (see [Environment Variables](#environme
 npm test
 ```
 
-You should see 18 tests passing.
+You should see 70 tests passing across 5 test suites.
 
 ---
 
@@ -92,6 +95,12 @@ npm test
 
 ```bash
 npm run test:watch
+```
+
+**Run with Docker Compose:**
+
+```bash
+docker-compose up
 ```
 
 The server will start on `http://localhost:3000` (or the PORT specified in your `.env` file).
@@ -160,7 +169,7 @@ All environment variables are defined in `.env.example`. Copy this file to `.env
 
 ---
 
-## 🧪 Testing
+## Testing
 
 ### Running Tests
 
@@ -176,6 +185,10 @@ Tests are located in the `__tests__/` directory:
 - `health.test.js` - Health endpoint tests (7 tests)
 - `appError.test.js` - Error utility tests (6 tests)
 - `catchAsync.test.js` - Async wrapper tests (5 tests)
+- `tourModel.test.js` - Tour model validation tests (26 tests)
+- `tourDatabase.integration.test.js` - Database integration tests (26 tests)
+
+**Total:** 70 tests across 5 test suites
 
 ### Writing Tests
 
@@ -195,26 +208,34 @@ describe("My Feature", () => {
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 Natours/
-├── __tests__/              # Test files
+├── __tests__/              # Test files (70 tests, 5 suites)
 ├── controllers/            # Route controllers
 ├── models/                 # Mongoose models
 ├── routes/                 # Express routes
-├── utils/                  # Utility functions
+├── utils/                  # Utility functions (logger, error handling)
 ├── views/                  # Pug templates
 ├── public/                 # Static files
-├── .github/workflows/      # CI/CD pipeline
-├── app.js                  # Express app configuration
-├── server.js               # Server entry point
-└── package.json            # Dependencies
+├── .github/workflows/      # CI/CD pipeline (GitHub Actions)
+├── doc/                    # Project documentation
+│   ├── FINAL_PROJECT_DOCUMENTATION.md
+│   ├── FINAL_DELIVERABLES.md
+│   └── SprintDocs/         # Sprint reviews and retrospectives
+├── dev-data/              # Development data and screenshots
+├── coverage/              # Test coverage reports
+├── app.js                 # Express app configuration
+├── server.js              # Server entry point
+├── Dockerfile             # Docker configuration
+├── docker-compose.yml     # Docker Compose configuration
+└── package.json           # Dependencies
 ```
 
 ---
 
-## 🔍 API Endpoints
+## API Endpoints
 
 Base URL: `http://localhost:3000/api/v1`
 
@@ -1099,7 +1120,7 @@ All errors follow this format:
 
 ---
 
-## 🚨 Troubleshooting
+## Troubleshooting
 
 ### Issue: `npm install` fails
 
@@ -1135,7 +1156,7 @@ npm install dotenv
 ### Issue: Tests failing with "file-type" error
 
 **Solution:**
-This is an ES module compatibility issue. Already fixed in the codebase with dynamic imports which did not quite work. The solution is to down.
+This is an ES module compatibility issue. The solution is to downgrade to a compatible version of file-type package.
 
 ### Issue: CI/CD pipeline failing
 
@@ -1167,7 +1188,7 @@ PORT=3001
 
 ---
 
-## 🔐 Security Notes
+## Security Notes
 
 **Important:**
 
@@ -1178,16 +1199,18 @@ PORT=3001
 
 ---
 
-## 📚 Additional Resources
+## Additional Resources
 
 - [Express Documentation](https://expressjs.com/)
 - [Mongoose Documentation](https://mongoosejs.com/)
 - [Jest Testing Guide](https://jestjs.io/docs/getting-started)
 - [GitHub Actions Docs](https://docs.github.com/en/actions)
+- [Docker Documentation](https://docs.docker.com/)
+- [AWS ECR Documentation](https://docs.aws.amazon.com/ecr/)
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This is a learning project for Agile/DevOps lab completion.
 
@@ -1201,19 +1224,42 @@ This is a learning project for Agile/DevOps lab completion.
 
 ---
 
-## 📝 License
+## License
 
 ISC
 
 ---
 
-## 👤 Author
+## Author
 
 **Gideon Dakore**
 
 ---
 
-## 🎯 Agile Lab Progress
+## Acknowledgments
+
+This project is based on the Natours application from the Udemy course **"Node.js, Express, MongoDB & More: The Complete Bootcamp"** by **[Jonas Schmedtmann](https://github.com/jonasschmedtmann)**.
+
+As one of Jonas's students, this implementation extends the original course project with additional Agile and DevOps practices for a comprehensive learning experience.
+
+- **Original Project:** [https://github.com/jonasschmedtmann/complete-node-bootcamp](https://github.com/jonasschmedtmann/complete-node-bootcamp)
+- **Course Link:** [Node.js, Express, MongoDB & More: The Complete Bootcamp](https://www.udemy.com/course/nodejs-express-mongodb-bootcamp/?srsltid=AfmBOorRkrzzc0XJ5TEktDuxIu08C3ftc9y0zX1vgHI3-PdaYPSPUxKC)
+
+**Fun Fact:** The programming journey started with Jonas's **"The Complete JavaScript Course 2025: From Zero to Expert!"** but ended up diving into this Node.js bootcamp, and here we are building full-stack applications with professional DevOps practices!
+
+This implementation extends the original project with additional Agile and DevOps practices including:
+
+- Comprehensive testing suite (70 tests)
+- CI/CD pipeline with GitHub Actions
+- Docker containerization
+- AWS ECR integration
+- Production-grade logging with Winston
+- Agile development methodology
+- Project dependencies packages upgrade and bug fixes
+
+---
+
+## Agile Lab Progress
 
 - ✅ Sprint 0: Planning Complete
 - ✅ Sprint 1: DevOps Foundation (Health endpoint, Tests, CI/CD)
@@ -1224,18 +1270,18 @@ ISC
 
 ### Final Deliverables
 
-**Complete Project Deliverable:** [FINAL_DELIVERABLES.md](./FINAL_DELIVERABLES.md)
+**Complete Project Deliverable:** [FINAL_DELIVERABLES.md](./doc/FINAL_DELIVERABLES.md)
 
 This document includes all required artifacts:
 
-- Backlog & Sprint Plans
+- Backlog and Sprint Plans
 - Codebase link and commit history
 - CI/CD Evidence (configuration, screenshots, logs)
 - Testing Evidence (test files, screenshots, videos)
 - Sprint Review Documents (all 3 sprints)
 - Retrospectives (all 3 sprints)
 
-### Evidence & Assets
+### Evidence and Assets
 
 **Screenshots:** [dev-data/img/screenshots/](./dev-data/img/screenshots/)
 
@@ -1251,14 +1297,14 @@ This document includes all required artifacts:
 
 **Documentation:**
 
-- [Sprint 1 Review](./SPRINT1_REVIEW.md)
-- [Sprint 1 Retrospective](./SPRINT1_RETROSPECTIVE.md)
-- [Sprint 2 Review](./SPRINT2_REVIEW.md)
-- [Sprint 2 Retrospective](./SPRINT2_RETROSPECTIVE.md)
-- [Sprint 3 Review](./SPRINT3_REVIEW.md)
-- [Sprint 3 Retrospective](./SPRINT3_RETROSPECTIVE.md)
-- [Agile Documentation](./AGILE_DOCUMENTATION.md)
+- [Sprint 1 Review](./doc/SprintDocs/SPRINT1_REVIEW.md)
+- [Sprint 1 Retrospective](./doc/SprintDocs/SPRINT1_RETROSPECTIVE.md)
+- [Sprint 2 Review](./doc/SprintDocs/SPRINT2_REVIEW.md)
+- [Sprint 2 Retrospective](./doc/SprintDocs/SPRINT2_RETROSPECTIVE.md)
+- [Sprint 3 Review](./doc/SprintDocs/SPRINT3_REVIEW.md)
+- [Sprint 3 Retrospective](./doc/SprintDocs/SPRINT3_RETROSPECTIVE.md)
+- [Agile Documentation](./doc/SprintDocs/AGILE_PLANNING_DOCUMENTATION.md)
 
 ---
 
-_Last Updated: February 17, 2026_
+_Last Updated: February 21, 2026_

@@ -4,8 +4,8 @@
 
 ### Personal Context & Starting Point
 
-**Date Started:** December 03, 2026
-**Expected Completion:** February 18, 2026
+**Date Started:** December 03, 2025
+**Expected Completion:** February 21, 2026
 
 **My Background with This Project:**
 
@@ -18,8 +18,9 @@
 
 1. How to write tests that actually catch bugs (not just dummy tests)
 2. How to set up automated pipelines without following a tutorial step-by-step
-3. How to structure a project so it's actually maintainable
+3. How to structure a project so it is actually maintainable
 4. What "monitoring" really means for a small project
+5. How to use Docker for containerization and deployment
 
 ---
 
